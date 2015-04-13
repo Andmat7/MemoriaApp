@@ -11,14 +11,11 @@
   <link rel="stylesheet" href="styles/app.css"/>
 
   <script src="lib/onsen/js/angular/angular.js"></script>    
-  <script src="lib/onsen/js/onsenui.js"></script>    
+  <script src="lib/onsen/js/onsenui.js"></script>
 
   <script src="cordova.js"></script>
 
-  <script>
-    var module = angular.module('app', ['onsen']);
-  </script>
-
+<script src="js/app.js"></script> 
   <style>
     .page--menu-page__background {
       background-color: #333;
@@ -83,15 +80,11 @@
   
 </head>
 
-<body>    
+<body ng-app="app">    
   
   <ons-sliding-menu
-    menu-page="menu.html" main-page="page1.html" side="left"
+    menu-page="menu.html" main-page="main.html" side="left"
     var="menu"  max-slide-distance="260px" swipable="true" type="overlay">
   </ons-sliding-menu>
-
-  
-
- 
 </body>
 </html>
