@@ -5,7 +5,7 @@
 
           <ons-toolbar-button ng-click="menu.toggle()">
             <ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
-            <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo">
+            <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
             
             <span ng-class="titulomemoria" class="titulo_memoria">
               MEMORIAPP
@@ -20,7 +20,7 @@
           <ons-toolbar-button ng-click="showinputsearch()" var="right">
           
             <ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
-            <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value="">
+            <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
             
           </ons-toolbar-button>
         </div>
@@ -38,7 +38,7 @@
         <div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">
           <p>{{book.description}}</p>
           <div>
-            <button class="button-bar__button">COMIENZA A LEER</button>
+            <button class="button-bar__button" onclick="viewBook();">COMIENZA A LEER</button>
           </div>
           
         </div>

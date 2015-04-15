@@ -1,90 +1,171 @@
 <!doctype html>
 <html lang="en" ng-app="app">
 <head>
-  <meta charset="utf-8">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <title>My App</title>  
-  
-  <link rel="stylesheet" href="lib/onsen/css/onsenui.css">  
-  <link rel="stylesheet" href="styles/onsen-css-components-memoria-theme.css">  
-  <link rel="stylesheet" href="styles/app.css"/>
+	<meta charset="utf-8" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<title>My App</title>  
+	
+	<link rel="stylesheet" href="lib/onsen/css/onsenui.css" />  
+	<link rel="stylesheet" href="styles/onsen-css-components-memoria-theme.css" />  
+<!-- 	<link rel="stylesheet" href="styles/app.css"/> -->
+	
+<!-- 	<script src="lib/onsen/js/angular/angular.js"></script>     -->
+<!-- 	<script src="lib/onsen/js/onsenui.js"></script> -->
+	
+<!-- 	<link rel="stylesheet" href="lib/onsen/css/onsenui.css" /> -->
+	<link rel="stylesheet" href="styles/app.css"/>
+<!-- 	<link rel="stylesheet" href="styles/onsen-css-components-blue-basic-theme.css" /> -->
+	
+	<script src="lib/onsen/js/angular/angular.js"></script>
+	<script src="lib/jquery.min.js"></script>
+	<script src="lib/epub.min.js"></script>
+	<script src="lib/onsen/js/onsenui.js"></script>
+	<script src="lib/TweenMax.min.js"></script>
+	<script src="lib/app.js"></script>
+	
+	
+	<!-- RANGY -->
+	<script type="text/javascript" src="lib/rangy/external/log4javascript.js"></script>
+	<script type="text/javascript" src="lib/rangy/src/core/core.js"></script>
+	<script type="text/javascript" src="lib/rangy/src/core/dom.js"></script>
+	<script type="text/javascript" src="lib/rangy/src/core/domrange.js"></script>
+	<script type="text/javascript" src="lib/rangy/src/core/wrappedrange.js"></script>
+	<script type="text/javascript" src="lib/rangy/src/core/wrappedselection.js"></script>
+	<script type="text/javascript" src="lib/rangy/src/modules/inactive/rangy-position.js"></script>
+	
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="main.js"></script>
+	
+	
+<!-- 	<script src="cordova.js"></script> -->
+	
+<!--	<script src="js/app.js"></script> -->
+	<style>
+		.page--menu-page__background {
+		background-color: #333;
+		}
+		
+		.page--menu-page__content {
+		color: white;
+		}
+		
+		.menu-close,
+		.menu-close > .toolbar-button {
+			color: #999;
+			}
+			
+			.menu-list,
+			.menu-item:first-child,
+			.menu-item:last-child,
+			.menu-item {
+			background-color: transparent;
+			background-image: none !important;
+			border-color: transparent;
+			color: #fff;
+			}
+			
+			.menu-item {
+			padding: 0 0 0 20px;
+			line-height: 52px;
+			height: 52px;
+			text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0px;
+			}
+			
+			.menu-item:active {
+			background-color: rgba(255, 255, 255, 0.1);
+			}
+			
+			.menu-notification {
+			display: inline-block;
+			margin-top: 12px;
+			font-size: 14px;
+			height: 16px;
+			line-height: 16px;
+			min-width: 16px;
+			font-weight: 600;
+			}
+			
+			.bottom-menu-list,
+			.bottom-menu-item:first-child,
+			.bottom-menu-item:last-child,
+			.bottom-menu-item {
+			border-color: #393939;
+			background-color: transparent;
+			background-image: none !important;
+			color: #ccc;
+			}
+			
+			.bottom-menu-item:active {
+			background-color: rgba(255, 255, 255, 0.1);
+			}
+			
+		/* EPUBJS */	
+		#area {
+		position: absolute;
+		width:100%;
+		height:100%;
+		}
+		
+		iframe {
+		position: absolute;
+		/*	      left: 10%;
+		top: 10%;*/
+		border: none;
+		width: 80%;
+		height: 80%;
+		margin: 10% 10%;
+		z-index: -1;  
+		/* 	      max-width: 650px; */
+		}
 
-  <script src="lib/onsen/js/angular/angular.js"></script>    
-  <script src="lib/onsen/js/onsenui.js"></script>
+		/* INDICADORES DE SELECCION */
+		.wholeSelection {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		background: #0000ff;
+		/*            border: dotted red 2px;*/
+		opacity: 0.2
+		}
+		
+		#wholeSelectionInner {
+		margin: -2px;
+		}
+		
+		#startSelection, #endSelection {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		background-color: yellow;
+		font-weight: bold;
+		font-size: 0.5in;
+		}
+		.popover{
+		min-height: 10px;
+		}
+		.popover__content{
+		min-height: 10px;
+		}
 
-  <script src="cordova.js"></script>
+	</style>
+	</head>
+	
+	<body ng-app="app">    
+	
+	<ons-sliding-menu
+		menu-page="menu.html" main-page="main.html" side="left"
+		var="menu"  max-slide-distance="260px" swipable="true" type="overlay">
+		</ons-sliding-menu>
 
-<script src="js/app.js"></script> 
-  <style>
-    .page--menu-page__background {
-      background-color: #333;
-    }
-    
-    .page--menu-page__content {
-      color: white;
-    }
-
-    .menu-close,
-    .menu-close > .toolbar-button {
-      color: #999;
-    }
-
-    .menu-list,
-    .menu-item:first-child,
-    .menu-item:last-child,
-    .menu-item {
-      background-color: transparent;
-      background-image: none !important;
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .menu-item {
-      padding: 0 0 0 20px;
-      line-height: 52px;
-      height: 52px;
-      text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0px;
-    }
-
-    .menu-item:active {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .menu-notification {
-      display: inline-block;
-      margin-top: 12px;
-      font-size: 14px;
-      height: 16px;
-      line-height: 16px;
-      min-width: 16px;
-      font-weight: 600;
-    }
-
-    .bottom-menu-list,
-    .bottom-menu-item:first-child,
-    .bottom-menu-item:last-child,
-    .bottom-menu-item {
-      border-color: #393939;
-      background-color: transparent;
-      background-image: none !important;
-      color: #ccc;
-    }
-
-    .bottom-menu-item:active {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-
-  </style>
-  
-</head>
-
-<body ng-app="app">    
-  
-  <ons-sliding-menu
-    menu-page="menu.html" main-page="main.html" side="left"
-    var="menu"  max-slide-distance="260px" swipable="true" type="overlay">
-  </ons-sliding-menu>
-</body>
+		
+		<script type="text/ons-template" id="popover.html">
+			<ons-popover var="sharePopover" direction="up" cancelable mask-color="rgba(0, 0, 0, 0.0)">
+			<div style="text-align: center; opacity: 1;">
+			<button class="button--quiet" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
+			<button class="button--quiet" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
+			</div>
+			</ons-popover>
+		</script>
+		</body>
 </html>

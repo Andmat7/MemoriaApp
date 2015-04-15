@@ -1,20 +1,37 @@
 <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button ng-click="menu.toggle()">
-            <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-        <div class="center">Page 2</div>
-      </ons-toolbar>
+	
+	<ons-toolbar>
+		<div class="left">
+			
+			<ons-toolbar-button ng-click="menu.toggle()">
+				<ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
+				<img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
+				
+				<span ng-class="titulomemoria" class="titulo_memoria">
+					MEMORIAPP
+				</span>
+				
+			</ons-toolbar-button>
+			
+			
+		</div>
+		<div ng-class="center_toolbar" class="center"></div>
+		<div class="right" var="right" ng-class="right_toolbar"  >
+			<ons-toolbar-button ng-click="showinputsearch()" var="right">
+				
+				<ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
+				<input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
+				
+			</ons-toolbar-button>
+		</div>
+	</ons-toolbar>
+	<ons-carousel swipeable  auto-scroll animation: 'none' fullscreen var="carousel">
+		<ons-carousel-item id="carousel-1" style="background-color: white;">
+			<div id="area">
+			</div>
+		</ons-carousel-item>
+	</ons-carousel>
+</ons-page>
 
 
-      <ons-row style="margin-top: 100px; text-align: center;">
-        <ons-col>
-          <ons-button modifier="light" ng-click="menu.toggleMenu()">
-            Toggle Menu
-          </ons-button>
-        </ons-col>
-      </ons-row>
 
-    </ons-page>

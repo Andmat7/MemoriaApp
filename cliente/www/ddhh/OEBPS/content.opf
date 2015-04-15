@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId" version="2.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:identifier id="BookId" opf:scheme="UUID">urn:uuid:35bd12ae-f6a5-48e2-8b05-03af9bc4c143</dc:identifier>
+    <dc:date opf:event="modification">2015-03-27</dc:date>
+    <meta content="0.8.4" name="Sigil version" />
+  </metadata>
+  <manifest>
+    <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml" />
+    <item href="Text/Caratula.xhtml" id="Caratula.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Epigrafo.xhtml" id="Epigrafo.xhtml" media-type="application/xhtml+xml" />
+    <item href="Images/VIOLACIONES%20A%20DDHH.jpg" id="VIOLACIONES_A_DDHH.jpg" media-type="image/jpeg" />
+    <item href="Text/Reconocimientos.xhtml" id="Reconocimientos.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/notas.xhtml" id="notas.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Copyright.xhtml" id="Copyright.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Glosario.xhtml" id="Glosario.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Contenido.xhtml" id="Contenido.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Introduccion.xhtml" id="Introduccion.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Presentacion.xhtml" id="Presentacion.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Capitulo1.xhtml" id="Capitulo1.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Capitulo2.xhtml" id="Capitulo2.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Capitulo3.xhtml" id="Capitulo3.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/capitulo4.xhtml" id="capitulo4.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Capitulo5.xhtml" id="Capitulo5.xhtml" media-type="application/xhtml+xml" />
+    <item href="Images/figura2capitulo6.jpg" id="figura2capitulo6.jpg" media-type="image/jpeg" />
+    <item href="Text/Captulo6.xhtml" id="Captulo6.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Bibliografia.xhtml" id="Bibliografia.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Colofon.xhtml" id="Colofon.xhtml" media-type="application/xhtml+xml" />
+    <item href="Images/contraportada1.jpg" id="contraportada1.jpg" media-type="image/jpeg" />
+    <item href="Text/Portada.xhtml" id="Portada.xhtml" media-type="application/xhtml+xml" />
+    <item href="Text/Indice.xhtml" id="Indice.xhtml" media-type="application/xhtml+xml" />
+    <item href="Images/Captura%20de%20pantalla%20%2810%29.png" id="Captura_de_pantalla__10_.png" media-type="image/png" />
+    <item href="Images/tabla2.jpg" id="tabla2.jpg" media-type="image/jpeg" />
+    <item href="Images/Captura%20de%20pantalla%20%2814%29.png" id="Captura_de_pantalla__14_.png" media-type="image/png" />
+    <item href="Images/tabla2capitulo5.jpg" id="tabla2capitulo5.jpg" media-type="image/jpeg" />
+    <item href="Images/Captura%20de%20pantalla%20%2816%29.png" id="Captura_de_pantalla__16_.png" media-type="image/png" />
+    <item href="Images/figura1%20capitulo6.jpg" id="figura1_capitulo6.jpg" media-type="image/jpeg" />
+    <item href="Images/tabla1.jpg" id="tabla1.jpg" media-type="image/jpeg" />
+    <item href="Images/FIGURA3VIOLACIONES%20DD.HH..jpg" id="FIGURA3VIOLACIONES_DD.HH..jpg" media-type="image/jpeg" />
+    <item href="Text/CONTRAPORTADA.xhtml" id="CONTRAPORTADA.xhtml" media-type="application/xhtml+xml" />
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="Caratula.xhtml" />
+    <itemref idref="Portada.xhtml" />
+    <itemref idref="Contenido.xhtml" />
+    <itemref idref="Indice.xhtml" />
+    <itemref idref="Glosario.xhtml" />
+    <itemref idref="Reconocimientos.xhtml" />
+    <itemref idref="Copyright.xhtml" />
+    <itemref idref="Presentacion.xhtml" />
+    <itemref idref="Introduccion.xhtml" />
+    <itemref idref="Capitulo1.xhtml" />
+    <itemref idref="Capitulo2.xhtml" />
+    <itemref idref="Capitulo3.xhtml" />
+    <itemref idref="capitulo4.xhtml" />
+    <itemref idref="Capitulo5.xhtml" />
+    <itemref idref="Captulo6.xhtml" />
+    <itemref idref="notas.xhtml" />
+    <itemref idref="Bibliografia.xhtml" />
+    <itemref idref="Colofon.xhtml" />
+    <itemref idref="Epigrafo.xhtml" />
+    <itemref idref="CONTRAPORTADA.xhtml" />
+  </spine>
+  <guide>
+    <reference href="Text/Portada.xhtml" title="Página de título" type="title-page" />
+    <reference href="Text/Copyright.xhtml" title="Página de copyright" type="copyright-page" />
+    <reference href="Text/Contenido.xhtml" title="Índice de contenido" type="toc" />
+    <reference href="Text/notas.xhtml" title="Notas" type="notes" />
+    <reference href="Text/Bibliografia.xhtml" title="Bibliography" type="bibliography" />
+    <reference href="Text/Colofon.xhtml" title="Colophon" type="colophon" />
+    <reference href="Text/Introduccion.xhtml" title="Foreword" type="foreword" />
+    <reference href="Text/Presentacion.xhtml" title="Dedication" type="dedication" />
+  </guide>
+</package>
