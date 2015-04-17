@@ -67,11 +67,11 @@ gulp.task('serve', ['build', 'browser-sync'], function() {
     ['jshint']
   );
 
-  gulp.watch(
-    [__dirname + '/www/**/*.*'],
-    {debounceDelay: 400},
-    ['prepare-cordova']
-  );
+  // gulp.watch(
+  //   [__dirname + '/www/**/*.*'],
+  //   {debounceDelay: 400},
+  //   ['prepare-cordova']
+  // );
 });
 
 ////////////////////

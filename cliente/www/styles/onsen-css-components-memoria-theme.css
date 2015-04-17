@@ -1856,7 +1856,7 @@ h6 {
   height: 19px;
   -webkit-border-radius: 19px;
           border-radius: 19px;
-  background-color: #dc5236;
+  background-color: #fec62e;
   color: #fff;
   text-align: center;
   font-size: 16px;
@@ -4001,6 +4001,56 @@ input[type="search"].search-input::-webkit-search-cancel-button {
   color: #9b6700;
   font-size: 1.5rem;
 }
+.dialog {
+  min-width: 200px;
+  min-height: 120px;
+}
+.dialog .navigation-bar {
+  background-color: #fec62e;
+  color: #000;
+}
+h3 {
+  font-size: 20px;
+  margin: 9px 12px;
+  font-family: 'TitilliumWeb-Regular';
+  color: #04bfa9;
+  border-bottom: 1px solid;
+  width: 70%;
+  padding-bottom: 6px;
+}
+h3 .ons-icon--ion {
+  line-height: 11px;
+}
+.bookmark-header {
+  margin: 5px 8px;
+}
+.bookmark-header .notification {
+  float: right;
+  background-color: #04bfa9;
+  color: #000;
+  top: 3px;
+  margin-right: 5px;
+}
+.card-bookmark {
+  font-family: 'TitilliumWeb-Regular';
+  padding: 9px;
+}
+.card-bookmark .smallfont {
+  font-size: 0.8rem;
+  line-height: 2rem;
+  height: 2rem;
+  min-height: 0;
+}
+.card-bookmark p {
+  line-height: 1.3rem;
+  margin: 11px;
+  text-align: justify;
+}
+.trash {
+  float: right;
+  top: 8px;
+  position: relative;
+}
 .card_image {
   width: 100%;
 }
@@ -4038,6 +4088,7 @@ height-bar-share .text_bar_share,
   float: right;
   margin-right: 1rem;
   margin-bottom: -2rem;
+  font-family: 'TitilliumWeb-Light';
 }
 .descripcion {
   padding: 0rem;
@@ -4048,6 +4099,8 @@ height-bar-share .text_bar_share,
           transition: height 0.3s;
   height: 0rem;
   overflow: auto;
+  font-family: 'TitilliumWeb-Light';
+  line-height: 1.3rem;
 }
 .change {
   height: 16rem;
@@ -4068,9 +4121,13 @@ height-bar-share .text_bar_share,
       -ms-transform: rotate(180deg);
        -o-transform: rotate(180deg);
           transform: rotate(180deg);
+  font-family: 'TitilliumWeb-Regular';
 }
 .button-bar__button {
   border-left-width: 1px;
+  font-size: 1rem;
+  padding: 1px;
+  height: 2.2rem;
 }
 @font-face {
   font-family: TitilliumWeb-SemiBold;
@@ -4152,11 +4209,12 @@ height-bar-share .text_bar_share,
   color: #fff;
 }
 .menu-item {
-  line-height: 52px;
-  height: 52px;
+  line-height: 44px;
+  height: 44px;
   text-shadow: rgba(0,0,0,0.4) 0px 1px 0px;
   margin: 0 17px;
   padding: 0 !important;
+  min-height: 0;
 }
 .menu-item:active {
   background-color: rgba(255,255,255,0.1);
@@ -4165,10 +4223,12 @@ height-bar-share .text_bar_share,
   display: inline-block;
   margin-top: 12px;
   font-size: 14px;
-  height: 16px;
-  line-height: 16px;
-  min-width: 16px;
+  height: 20px;
+  line-height: 20px;
+  min-width: 20px;
   font-weight: 600;
+  float: right;
+  color: #000;
 }
 .bottom-menu-list,
 .bottom-menu-item:first-child,
@@ -4258,7 +4318,7 @@ height-bar-share .text_bar_share,
 }
 .right.large {
   width: 73%;
-  max-width: 60%;
+  max-width: 50%;
 }
 .text-input--underbar::-webkit-input-placeholder {
   color: #fff;

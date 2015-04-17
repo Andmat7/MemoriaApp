@@ -26,16 +26,18 @@
   </ons-toolbar>
 
   <h3>
-    <ons-icon icon="fa-tag" style="opacity:0.2"></ons-icon>
+    <ons-icon icon="ion-star"></ons-icon>
     Favoritos
   </h3>
 
-      <ons-list-header>Fragmentos de libros
-      <div class="notification">3</div>
+      <ons-list-header class="bookmark-header">
+        Fragmentos de libros
+        <div class="notification">3</div>
       </ons-list-header>
-      <ons-list modifier="inset" style="margin-top: 10px">
+      
+      <ons-list modifier="inset" class="card-bookmark"style="margin-top: 10px">
 
-        <ons-list-item class="to-wrapper">
+        <ons-list-item class="to-wrapper smallfont ">
          Agregado el 26 de marzo 2015 
         </ons-list-item>
         <P>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -45,9 +47,9 @@
           cillum dolore eu fugiat nulla pariatur.</P>
         
 
-        <ons-list-item class="to-wrapper">
+        <ons-list-item class="to-wrapper smallfont">
           Tomado de libro El Salado. Esa guerra no era nuestra
-          <ons-icon icon="fa-tag" style="opacity:0.2"></ons-icon>
+          <ons-icon icon="ion-trash-a" style="float:right" class="trash"></ons-icon>
         </ons-list-item>
       </ons-list>
     </ons-page>
