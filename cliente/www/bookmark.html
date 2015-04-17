@@ -1,0 +1,54 @@
+<ons-page>
+  <ons-toolbar>
+    <div class="left">
+      
+      <ons-toolbar-button ng-click="menu.toggle()">
+        <ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
+        <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
+        
+        <span ng-class="titulomemoria" class="titulo_memoria">
+          MEMORIAPP
+        </span>
+        
+      </ons-toolbar-button>
+      
+      
+    </div>
+    <div ng-class="center_toolbar" class="center"></div>
+    <div class="right" var="right" ng-class="right_toolbar"  >
+      <ons-toolbar-button ng-click="showinputsearch()" var="right">
+        
+        <ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
+        <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
+        
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <h3>
+    <ons-icon icon="fa-tag" style="opacity:0.2"></ons-icon>
+    Favoritos
+  </h3>
+
+      <ons-list-header>Fragmentos de libros
+      <div class="notification">3</div>
+      </ons-list-header>
+      <ons-list modifier="inset" style="margin-top: 10px">
+
+        <ons-list-item class="to-wrapper">
+         Agregado el 26 de marzo 2015 
+        </ons-list-item>
+        <P>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur.</P>
+        
+
+        <ons-list-item class="to-wrapper">
+          Tomado de libro El Salado. Esa guerra no era nuestra
+          <ons-icon icon="fa-tag" style="opacity:0.2"></ons-icon>
+        </ons-list-item>
+      </ons-list>
+    </ons-page>
+ 

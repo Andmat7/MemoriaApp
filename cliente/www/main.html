@@ -5,7 +5,7 @@
 
           <ons-toolbar-button ng-click="menu.toggle()">
             <ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
-            <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
+            <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo">
             
             <span ng-class="titulomemoria" class="titulo_memoria">
               MEMORIAPP
@@ -20,7 +20,7 @@
           <ons-toolbar-button ng-click="showinputsearch()" var="right">
           
             <ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
-            <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
+            <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value="">
             
           </ons-toolbar-button>
         </div>
@@ -29,22 +29,27 @@
       <ons-list modifier="inset" style="margin-top: 10px" ng-repeat="book in node.books">
         <ons-list-header>{{book.title}}</ons-list-header>
         <img ng-src="{{book.img}}" class="card_image">
-        <div class="bar_share"> 
+        <div class="bar_share">
+        <span class="left">
           <button class="button_share"><img src="lib/onsen/css/memoria/imgs/enlace.png"/></button>
           <button class="button_share"><img src="lib/onsen/css/memoria/imgs/estrella.png"/></button>
+
+
+        </span>
+         
           <span class="text_bar_share">Lorem ipsum dolor </span>
 
         </div>
         <div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">
           <p>{{book.description}}</p>
-          <div>
-            <button class="button-bar__button" onclick="viewBook();">COMIENZA A LEER</button>
+          <div onclick="viewBook();">
+            <button class="button-bar__button">COMIENZA A LEER</button>
           </div>
           
         </div>
         
-     <div class="more" ng-click="showdescripcion(book)">
-     more 
+     <div class="more"  ng-click="showdescripcion(book)">
+     <img ng-class="rotate" src="lib/onsen/css/memoria/imgs/flecha.png"/>
      </div>
   </ons-list>     
 </ons-page>

@@ -3980,32 +3980,64 @@ input[type="search"].search-input::-webkit-search-cancel-button {
   color: #fff;
   white-space: normal;
 }
+.book-bar {
+  background-color: #fec62e;
+  height: 2rem;
+  color: #000;
+  font-family: TitilliumWeb-Regular;
+}
+.book-bar .navigation-bar__left {
+  height: 2rem;
+  font-size: 1rem;
+  margin-left: 15px;
+}
+.book-bar .navigation-bar--android__right {
+  height: 2rem;
+}
+.book-bar .navigation-bar__line-height {
+  line-height: inherit;
+}
+.book-bar .toolbar-button--quiet {
+  color: #9b6700;
+  font-size: 1.5rem;
+}
 .card_image {
   width: 100%;
 }
 .list__header {
   padding: 2px 0 4px 13px;
 }
+height-bar-share,
 .bar_share {
   position: relative;
-  top: -2.5rem;
-  margin-bottom: -2.5rem;
-  line-height: 2.5rem;
-  height: 2.5rem;
+  top: -2rem;
+  margin-bottom: -2rem;
+  line-height: 2rem;
+  height: 2rem;
   color: #04bfa9;
   background-color: rgba(13,22,36,0.75);
 }
-.bar_share button {
-  line-height: 2rem;
-  float: left;
-  height: 2rem;
-  width: 2rem;
-  margin-bottom: -2.5rem;
+height-bar-share .button_share,
+.bar_share .button_share {
+  padding: 0;
+  line-height: 20px;
+  vertical-align: middle;
+  width: 20px;
+  margin-bottom: -2rem;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  margin-left: 10px;
 }
+height-bar-share .button_share img,
+.bar_share .button_share img {
+  width: inherit;
+}
+height-bar-share .text_bar_share,
 .bar_share .text_bar_share {
   float: right;
-  margin-right: 0.3rem;
-  margin-bottom: -2.5rem;
+  margin-right: 1rem;
+  margin-bottom: -2rem;
 }
 .descripcion {
   padding: 0rem;
@@ -4023,8 +4055,19 @@ input[type="search"].search-input::-webkit-search-cancel-button {
 }
 .more {
   border-top: 1px solid #d6d6d6;
-  line-height: 2rem;
   text-align: center;
+  padding: 4px;
+  padding-buttom: 9;
+}
+.more img {
+  height: 1rem;
+}
+.more .rotate {
+  -webkit-transform: rotate(180deg);
+     -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+       -o-transform: rotate(180deg);
+          transform: rotate(180deg);
 }
 .button-bar__button {
   border-left-width: 1px;
@@ -4092,6 +4135,79 @@ input[type="search"].search-input::-webkit-search-cancel-button {
 .page {
   font-family: 'TitilliumWeb-SemiBold';
 }
+.page--menu-page__content {
+  color: #fff;
+}
+.menu-close,
+.menu-close > .toolbar-button {
+  color: #999;
+}
+.menu-list,
+.menu-item:first-child,
+.menu-item:last-child,
+.menu-item {
+  background-color: transparent;
+  background-image: none !important;
+  border-color: transparent;
+  color: #fff;
+}
+.menu-item {
+  line-height: 52px;
+  height: 52px;
+  text-shadow: rgba(0,0,0,0.4) 0px 1px 0px;
+  margin: 0 17px;
+  padding: 0 !important;
+}
+.menu-item:active {
+  background-color: rgba(255,255,255,0.1);
+}
+.menu-notification {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 14px;
+  height: 16px;
+  line-height: 16px;
+  min-width: 16px;
+  font-weight: 600;
+}
+.bottom-menu-list,
+.bottom-menu-item:first-child,
+.bottom-menu-item:last-child,
+.bottom-menu-item {
+  border-color: #393939;
+  background-color: transparent;
+  background-image: none !important;
+  color: #ccc;
+}
+.bottom-menu-item:active {
+  background-color: rgba(255,255,255,0.1);
+}
+.onsen-sliding-menu__menu.ons-sliding-menu-inner {
+  -webkit-box-shadow: rgba(0,0,0,0) 0px 0px 10px 0px !important;
+          box-shadow: rgba(0,0,0,0) 0px 0px 10px 0px !important;
+}
+.page--menu-page__background {
+  opacity: 0.95;
+  background-color: #0d1626;
+  position: absolute;
+  top: 44px;
+}
+.title-menu {
+  color: #04bfa9 !important;
+  border-bottom: 1px solid #04bfa9 !important;
+  padding: 0;
+}
+.page--menu-title {
+  border-left-color: #fec62e !important;
+  border-left-style: solid;
+  border-left-width: 4px;
+  padding-left: 13px !important;
+  line-height: 40px !important;
+  height: 37px !important;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
 .toolbar-button {
   font-family: 'TitilliumWeb-SemiBold';
 }
@@ -4115,9 +4231,10 @@ input[type="search"].search-input::-webkit-search-cancel-button {
   display: inline-block;
 }
 .logo {
-  height: 60%;
-  vertical-align: -30%;
+  height: 28px;
+  vertical-align: middle;
   margin: 0 3px;
+  line-height: 44px;
 }
 .text-input--underbar {
   width: 0;

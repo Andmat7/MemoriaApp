@@ -1,0 +1,78 @@
+<ons-page ng-controller="BookController">
+  
+  <ons-toolbar>
+    <div class="left">
+      
+      <ons-toolbar-button ng-click="menu.toggle()">
+        <ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
+        <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
+        
+        <span ng-class="titulomemoria" class="titulo_memoria">
+          MEMORIAPP
+        </span>
+        
+      </ons-toolbar-button>
+      
+      
+    </div>
+    <div ng-class="center_toolbar" class="center"></div>
+    <div class="right" var="right" ng-class="right_toolbar"  >
+      <ons-toolbar-button ng-click="showinputsearch()" var="right">
+        
+        <ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
+        <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
+        
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <ons-carousel swipeable  auto-scroll animation: 'none' fullscreen var="carousel">
+
+    <ons-carousel-item id="carousel-1" style="background-color: white;">
+        <div class="navigation-bar book-bar">
+        <div class="navigation-bar__left">
+          El Placer. mujeres, coca y guerra en el Bajo Putumayo
+        </div>
+
+ 
+
+      <div class=" navigation-bar--android__right">
+       
+
+      
+        <span id="top-right" class="toolbar-button--quiet navigation-bar__line-height" ng-click="show('#top-right')">
+          <i class="ion-android-more-vertical" style=""></i>
+        </span>
+      </div>
+    </div>
+      <div id="area">
+      </div>
+    </ons-carousel-item>
+  </ons-carousel>
+  <ons-dialog style="height: 160px;" var="naviDialog" cancelable>
+
+    <ons-navigator var="myNav">
+      <ons-toolbar inline>
+        <div class="center">
+          compartir libro en redes
+        </div>
+      </ons-toolbar>
+    
+      <div style="text-align: center">
+        <p>
+
+      <div style="text-align: center; opacity: 1;">
+      <button class="button--quiet" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
+      <button class="button--quiet" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
+      </div>
+    
+        </p>
+      </div>
+    </ons-navigator>
+  </ons-dialog>  
+</ons-page>
+<ons-modal var="modal">
+  <ons-icon icon="ion-load-c" spin="true"></ons-icon>
+  <br><br>
+  Please wait.<br>Closing in 2 seconds.
+</ons-modal>
