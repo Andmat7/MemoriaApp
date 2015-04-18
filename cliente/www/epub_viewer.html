@@ -1,0 +1,58 @@
+<ons-page>
+	
+	<ons-toolbar>
+		<div class="left">
+			
+			<ons-toolbar-button ng-click="menu.toggle()">
+				<ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
+				<img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
+				
+				<span ng-class="titulomemoria" class="titulo_memoria">
+					MEMORIAPP
+				</span>
+				
+			</ons-toolbar-button>
+<!--			<div class="navigation-bar book-bar">
+				<div class="navigation-bar__left">
+					El Placer. mujeres, coca y guerra en el Bajo Putumayo
+				</div>
+				<div class=" navigation-bar--android__right">
+					<span id="top-right" class="toolbar-button--quiet navigation-bar__line-height" ng-click="show('#top-right')">
+						<i class="ion-android-more-vertical" style=""></i>
+					</span>
+				</div>
+			</div>	-->		
+		</div>
+
+		<div ng-class="center_toolbar" class="center"></div>
+		<div class="right" var="right" ng-class="right_toolbar"  >
+			<ons-toolbar-button ng-click="showinputsearch()" var="right">
+				
+				<ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
+				<input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
+				
+			</ons-toolbar-button>
+		</div>
+	</ons-toolbar>
+	<ons-toolbar>
+		<div class="navigation-bar book-bar">
+			<div class="left">
+				El Placer. mujeres, coca y guerra en el Bajo Putumayo
+			</div>
+			<div class="right">
+				<span id="top-right" class="toolbar-button--quiet navigation-bar__line-height" ng-click="show('#top-right')">
+					<i class="ion-android-more-vertical" style=""></i>
+				</span>
+			</div>
+		</div>
+	</ons-toolbar>
+	<ons-carousel swipeable  auto-scroll animation: 'none' fullscreen var="carousel">
+		<ons-carousel-item id="carousel-1" style="background-color: white;">
+			<div id="area">
+			</div>
+		</ons-carousel-item>
+	</ons-carousel>
+</ons-page>
+
+
+

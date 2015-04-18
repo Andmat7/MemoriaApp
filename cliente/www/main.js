@@ -2,140 +2,333 @@ var wholeSelRectEl_g = null;
 var startSelEl_g, endSelEl_g;
 var workingDirEntry_g;
 var sWorkingDir_g = ".MemoriAPP/";
-var Book_g = ePub(
-	"ddhh/",
-	{	style: 'img { width: 100px;}',	spreads: false	}
-);
-
-var alertDebug = 0;
-
-function viewBook(){
-	menu.setMainPage('book.html', {closeMenu: true, callback: starting})
-}
-function starting(){
-	rangy.init();
-	carousel.on('overscroll',	function(event){
-		if (handleMoving_g === 0 && startSelect_g === 0) {
-			if (event.direction == "right"){
-				nextPage();
-			}
-			if (event.direction == "left"){
-				prevPage();
-			}
-		}
-	});
-	Book_g.renderTo('area');
-	// declaracion de handle de comienzo de seleccion
-	startSelEl_g = document.createElement("div");
-	startSelEl_g.id = "startSelection";
-	startSelEl_g.innerHTML = "&nbsp;^&nbsp;";
-	$(document).on('touch', '#startSelection', beginHandleMove);
-	$(document).on('touchmove', '#startSelection', handleMove);
-	$(document).on('release', '#startSelection', handleRelease);
-	
-	//declaracion de handle de final de seleccion
-	endSelEl_g = document.createElement("div");
-	endSelEl_g.id = "endSelection";
-	endSelEl_g.innerHTML = "&nbsp;^&nbsp;";
-	$(document).on('touch', '#endSelection', beginHandleMove);
-	$(document).on('touchmove', '#endSelection', handleMove);
-	$(document).on('release', '#endSelection', handleRelease);
-	
-	
-	ons.createPopover('popover.html').then(function(){
-		sharePopover.on("postshow", function(e){
-			$(".popover-mask")[0].style.zIndex = -1;
-		});
-	});
-	
-	$(document).on('hold', '#area', function(e) {
-		startSelect_g = 1;
-		e.preventDefault();
-		var xSelectStart = e.originalEvent.gesture.center.clientX;
-		var ySelectStart = e.originalEvent.gesture.center.clientY;
-		wordSelectionFromPoint(xSelectStart, ySelectStart);    
-	});
-	
-	$(document).on('release', '#area', function(e) {
-		if ( startSelect_g === 0){
-			handleMoving_g = 0;
-			sharePopover.hide();
-		}
-	});
-};
-
-//** Inicialización para manejo del sistema de archivos en phonegap
-/*$( document ).ready(function() {
-	document.addEventListener("deviceready", onDeviceReady, false);
-});
-function onDeviceReady() {
-	var audioDirEntry = cordova.file.externalRootDirectory;
-	window.resolveLocalFileSystemURL(
-		audioDirEntry, 
-		function(dirEntry){
-			if (alertDebug == 1) {
-				alert(dirEntry.toURL());
-			}
-			dirEntry.getDirectory(
-				"Android/",
-				{create: true},
-				function(dirEntry){
-					if (alertDebug == 1) {
-						alert(dirEntry.toURL());
-					}
-					dirEntry.getDirectory(
-						"data/",
-						{create: true},
-						function(dirEntry){
-							if (alertDebug == 1) {
-								alert(dirEntry.toURL());
-							}
-							dirEntry.getDirectory(
-								sWorkingDir_g,
-								{create: true},
-								function(dirEntry){
-									if (alertDebug == 1) 
-										alert(dirEntry.toURL());
-									workingDirEntry_g = dirEntry;
-									dirEntry.getDirectory(
-										"rec/",
-										{create: true},
-										function(dirEntry){
-											if (alertDebug == 1) 
-												alert(dirEntry.toURL());
-											recDirEntryPath = dirEntry.toURL();
-										},
-										onError
-									);
-									
-								},
-								onError
-							);
-						},
-						
-						onError
-					);
-					
-				},
-				onError
-			);
-		},
-		onError
-	);
-	
-}*/
-
-function onError(e){
-	alert(e);
-	console.log(e);
-}
-
-//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
+var epubDirEntryPath_g;
+var tempDirEntry_g;
 var event_global ;
 var range_g;
 var startSelect_g = 0;
 var selectionString_g;
+var Book_g;
+var firstRun_g = true;
 
+var alertDebug = 0;
+
+function viewBook(){
+	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
+}
+function starting(){
+	if (firstRun_g){ //evitar amarrar el mismo evento varias veces
+		firstRun_g = false;
+		rangy.init();
+		carousel.on('overscroll',	function(event){
+			if (handleMoving_g === 0 && startSelect_g === 0) {
+				if (event.direction == "right"){
+					nextPage();
+				}
+				if (event.direction == "left"){
+					prevPage();
+				}
+			}
+		});
+
+		// declaracion de handle de comienzo de seleccion
+		startSelEl_g = document.createElement("img");
+		startSelEl_g.id = "startSelection";
+		startSelEl_g.src = "img/select_handle_left.png";
+// 		startSelEl_g = document.createElement("div");
+// 		startSelEl_g.id = "startSelection";
+// 		startSelEl_g.innerHTML = "&nbsp;^&nbsp;";
+		$(document).on('touch', '#startSelection', beginHandleMove);
+		$(document).on('touchmove', '#startSelection', handleMove);
+		$(document).on('release', '#startSelection', handleRelease);
+		//declaracion de handle de final de seleccion
+		endSelEl_g = document.createElement("img");
+		endSelEl_g.id = "endSelection";
+		endSelEl_g.src = "img/select_handle_right.png";
+// 		endSelEl_g = document.createElement("div");
+// 		endSelEl_g.id = "endSelection";
+// 		endSelEl_g.innerHTML = "&nbsp;^&nbsp;";
+		$(document).on('touch', '#endSelection', beginHandleMove);
+		$(document).on('touchmove', '#endSelection', handleMove);
+		$(document).on('release', '#endSelection', handleRelease);	
+		//popover para redes sociales
+		ons.createPopover('popover.html').then(function(){
+			sharePopover.on("postshow", function(e){
+				$(".popover-mask")[0].style.zIndex = -1;
+			});
+		});
+		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
+		$(document).on('hold', '#area', function(e) {
+			startSelect_g = 1;
+			e.preventDefault();
+			var xSelectStart = e.originalEvent.gesture.center.clientX;
+			var ySelectStart = e.originalEvent.gesture.center.clientY;
+			wordSelectionFromPoint(xSelectStart, ySelectStart);    
+		});
+		$(document).on('release', '#area', function(e) {
+			if ( startSelect_g === 0){
+				handleMoving_g = 0;
+				sharePopover.hide();
+			}
+		});
+		ons.orientation.on('change', alignEPUBRotation_f);
+	}
+	downloadEPUB_f("http://xpace.hostzi.com/epub.epub");
+// 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
+}
+
+function alignEPUBRotation_f ( e ){
+	var iframe = $('iframe')[0];
+	if (e.isPortrait){
+		if (document.body.clientWidth > document.body.clientHeight){
+			iframe.style.width = document.body.clientHeight*0.8 + "px";
+		}else{
+			iframe.style.width = document.body.clientWidth*0.8 + "px";
+		}
+	}else{
+		if (document.body.clientWidth > document.body.clientHeight){
+			iframe.style.width = document.body.clientWidth*0.8 + "px";
+		}else{
+			iframe.style.width = document.body.clientHeight*0.8 + "px";
+		}
+	}
+	removeSelectionIndicators();
+	console.log("is portrait " + e.isPortrait);
+}
+
+function downloadEPUB_f(URI){
+	var ft = new FileTransfer();
+	//   if (alertDebug == 1) alert ("begining download");
+	ft.download(
+		URI,
+		workingDirEntry_g.toURL()+"download.epub",
+		function (entry) {//success download
+			console.log("download complete: " + entry.fullPath);
+			openEPUB_f (workingDirEntry_g.toURL()+"download.epub");
+		},
+		function(error) {//error download
+			// 		switch(error.code){
+			// 		  default:
+			console.log('Error downloading file ' + ': ' + error.code);
+			console.log("download error source " + error.source);
+			console.log("download error target " + error.target);
+			console.log("download error code" + error.code);
+			// 		}
+			// 		  onError_f(error);
+		},
+		false,
+		{ headers: {"Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="} }
+	);
+}	
+
+function openEPUB_f( epubFile ){
+	var tempdir;
+	if ( device.platform == "Android" ){
+		tempdir = workingDirEntry_g.toURL() + "tempepub/" ;
+	}else{
+		tempdir = epubDirEntryPath_g + "tempepub/" ;
+	}
+	window.resolveLocalFileSystemURL(
+		tempdir,
+		function(dirEntry){
+			dirEntry.removeRecursively(
+				function(){//success remove
+					unzip_f(epubFile, tempdir);
+				},
+				function(){//fail remove
+					unzip_f(epubFile, tempdir);
+				}
+			);
+		},
+		function(){//fail resolveLocalFileSystemURL
+			unzip_f(epubFile, tempdir);
+		}
+	);
+}
+
+function unzip_f(epubFile, destDir){
+	zip.unzip(
+		epubFile,
+		destDir, 
+		function ( ret ){//zip callback
+			if (ret === 0){
+				Book_g = ePub(
+					destDir,
+					{	style: 'img { width: 100px;}',	spreads: false	}
+				);
+				Book_g.renderTo('area').then(function (){
+					var iframe = $("iframe")[0];
+					var cssLink = document.createElement("link") 
+					cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
+					cssLink.rel = "stylesheet"; 
+					cssLink.type = "text/css";
+					iframe.contentDocument.body.appendChild(cssLink);
+					alignEPUBRotation_f( { isPortrait :  ons.orientation.isPortrait() } );
+				});
+			}else{
+				alert("Error al abrir el EPUB.");
+			}
+		},
+		null //progress callback
+	);
+}
+//***********************************************
+//** Inicialización para manejo del sistema de archivos en phonegap
+//**********************************************
+$( document ).ready(function() {
+	document.addEventListener("deviceready", onDeviceReady, false);
+});
+function onDeviceReady() {
+//	window.plugins.insomnia.keepAwake();
+	
+// 	var db = window.openDatabase("memoriappDB", "1.0", "citas", DBSize);
+	
+	//db.transaction(eraseAllPeliculasDB, onError_f);
+	
+// 	document.addEventListener("backbutton", backButtonHandler, false);
+	// CREAR ESTRUCTURA DE DIRECTORIOS
+	var epubDirEntry;
+	if (device.platform == "Android"){
+		epubDirEntry = cordova.file.externalRootDirectory;
+		window.resolveLocalFileSystemURL(
+			epubDirEntry,
+			function(dirEntry){
+				if (alertDebug == 1){
+					alert(dirEntry.toURL());
+				}
+				dirEntry.getDirectory(
+					"Android/",
+					{create: true},
+					function(dirEntry){
+						if (alertDebug == 1){
+							alert(dirEntry.toURL());	  
+						}
+						dirEntry.getDirectory(
+							"data/",
+							{create: true},
+							function(dirEntry){
+								if (alertDebug == 1){
+									alert(dirEntry.toURL());
+								}
+								dirEntry.getDirectory(
+									sWorkingDir_g,
+									{create: true},
+									function(dirEntry){
+										if (alertDebug == 1){
+											alert(dirEntry.toURL());
+										}
+										workingDirEntry_g = dirEntry;
+										dirEntry.getDirectory(
+											"epub/",
+											{create: true},
+											function(dirEntry){
+												if (alertDebug == 1){
+													alert(dirEntry.toURL());
+												}
+												epubDirEntryPath_g = dirEntry.toURL();
+											},
+											onError_f
+										);
+									},
+									onError_f
+								);
+							},
+							onError_f
+						);
+					},
+					onError_f
+				);
+			},
+			onError_f
+		);
+	}else{
+// 		window.plugin.statusbarOverlay.hide();
+		epubDirEntry = cordova.file.dataDirectory ;
+		window.resolveLocalFileSystemURL(
+			epubDirEntry, 
+			function(dirEntry){
+				dirEntry.getDirectory(
+					sWorkingDir_g,
+					{create: true},
+					function(dirEntry){
+						window.resolveLocalFileSystemURL(
+							epubDirEntry+sWorkingDir_g, 
+							function(dirEntry){
+								if (alertDebug == 1) 
+									alert(dirEntry.toURL());
+								workingDirEntry_g = dirEntry;
+								dirEntry.getDirectory(
+									"epub/",
+									{create: true},
+									function(dirEntry){
+										if (alertDebug == 1) 
+											alert(dirEntry.toURL());
+										epubDirEntryPath_g = cordova.file.documentsDirectory+"/";
+									},
+									onError_f
+								);
+							},
+							onError_f);
+					},
+					onError_f
+				);
+			},
+			onError_f
+		);
+// 		window.resolveLocalFileSystemURL(
+// 			workingDirEntry_g.toURL() + "tempepub",
+// 			function(dirEntry){
+// 				dirEntry.removeRecursively;
+// 				window.resolveLocalFileSystemURL(
+// 					dirEntry.toURL(),
+// 					function(dirEntry){
+// 						zip.unzip(
+// 							epubFile,
+// 							workingDirEntry_g.toURL() + "tempepub", 
+// 							function ( fail ){//zip callback
+// 								if (!fail){
+// 									Book_g = ePub(
+// 										workingDirEntry_g.toURL() + "tempepub/",
+// 																{	style: 'img { width: 100px;}',	spreads: false	}
+// 									);
+// 									Book_g.renderTo('area');
+// 								}else{
+// 									alert("Error al abrir el EPUB.");
+// 								}
+// 							},
+// 							null //progress callback
+// 						);
+// 						tempDirEntry_g = dirEntry;
+// 					},
+// 					onError_f
+// 				);
+// 				
+// 			},
+// 			onError_f
+// 		);
+		//borrar y crear de nuevo el folder temporal
+// 		window.resolveLocalFileSystemURL(
+// 			cordova.file.tempDirectory,
+// 			function(dirEntry){
+// 				tempDirEntry_g.removeRecursively;
+// 				window.resolveLocalFileSystemURL(
+// 					cordova.file.tempDirectory,
+// 					function(dirEntry){
+// 						tempDirEntry_g = dirEntry;
+// 					},
+// 					onError_f
+// 				);
+// 				
+// 			},
+// 			onError_f
+// 		);
+	}
+}
+
+function onError_f(e){
+	alert(e);
+	console.log(e);
+}
 
 // ********************** EPUB NAVIGATION ***********************
 
@@ -156,16 +349,32 @@ function prevPage(){
 		ePage, 
 		0.3, 
 		{x: -winWidth , force3D:true}, 
-		{x: 0 , force3D:true ,onStart:function(){ Book_g.prevPage(); } }
+		{x: 0 , force3D:true ,onStart:function(){ epubPrevPage(); } }
 	);
 	
 }
-// Arreglo de problema del tamaño de la pagina en IOS ?
 function epubNextPage(){
 	Book_g.nextPage().then(
 		function (){
-			var iframe = $('iframe');
-			iframe[0].style.width = document.body.clientWidth*0.8 + "px";
+			var iframe = $('iframe')[0];
+			var cssLink = document.createElement("link") 
+			cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
+			cssLink.rel = "stylesheet"; 
+			cssLink.type = "text/css"; 
+			iframe.contentDocument.body.appendChild(cssLink);
+		}
+	);
+}
+function epubPrevPage(){
+	Book_g.prevPage().then(
+		function (){
+			var iframe = $('iframe')[0];
+			iframe.style.width = document.body.clientWidth*0.8 + "px";
+			var cssLink = document.createElement("link") 
+			cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
+			cssLink.rel = "stylesheet"; 
+			cssLink.type = "text/css"; 
+			iframe.contentDocument.body.appendChild(cssLink);
 		}
 	);
 }
@@ -357,18 +566,14 @@ function showSelectionPosition() {
 		y : $(".wholeSelection")[0].offsetTop+ $(".wholeSelection")[0].offsetHeight,
 	};
 	carousel1.appendChild(startSelEl_g);
-	startSelEl_g.style.left = startPos.x - (startSelEl_g.offsetWidth/2) + "px";
+	startSelEl_g.style.left = startPos.x - ((startSelEl_g.offsetWidth*3)/4) + "px";
 	//   startSelEl_g.style.left = startPos.x+iframeX - (startSelEl_g.offsetWidth/2) + "px";
 	//   startSelEl_g.style.top = startPos.y+iframeY - startSelEl_g.offsetHeight + "px";
-	startSelEl_g.style.top = startPos.y+ "px";
-	
+	startSelEl_g.style.top = startPos.y - 3 + "px";
 	var endPos = rangy.getSelection(iframe).getEndDocumentPos();
-	console.log(endPos);
-	console.log(startPos);
-	
 	carousel1.appendChild(endSelEl_g);
-	endSelEl_g.style.left = (endPos.x+iframeX )- (endSelEl_g.offsetWidth/2) + "px";
-	endSelEl_g.style.top = (endPos.y+iframeY )  + "px";
+	endSelEl_g.style.left = (endPos.x+iframeX ) - (endSelEl_g.offsetWidth/4) + "px";
+	endSelEl_g.style.top = (endPos.y+iframeY ) - 3 + "px";
 	
 	sharePopover.show('.wholeSelection');
 	$(document).on('touch', '#area', removeSelectionIndicators);
@@ -384,7 +589,6 @@ function showSelectionRects(selRects, element){
 	var rect;
 	wholeSelRectEl_g = document.createElement("div");
 	wholeSelRectEl_g.id = "wholeselection";
-	
 	for ( i = 0; i< selRects.length; i++){
 		rect = document.createElement("div");
 		rect.className = "wholeSelection";
@@ -409,11 +613,11 @@ function handleMove(e) {
 		var iframe = $("iframe")[0];
 		iframePos = getPosition(iframe);
 		if (e.target.id == "startSelection"){
-			e.target.style.left = ( e.originalEvent.targetTouches[0].clientX - (e.target.offsetWidth/2))  + "px";
-			e.target.style.top = ( e.originalEvent.targetTouches[0].clientY - (e.target.offsetHeight*2)) + "px";
+			e.target.style.left = ( e.originalEvent.targetTouches[0].clientX - ((e.target.offsetWidth)/4))  + "px";
+			e.target.style.top = ( e.originalEvent.targetTouches[0].clientY - (e.target.offsetHeight * 1.5)) + "px";
 		}else{
-			e.target.style.left = ( e.originalEvent.targetTouches[0].clientX - (e.target.offsetWidth/2))  + "px";
-			e.target.style.top = ( e.originalEvent.targetTouches[0].clientY - (e.target.offsetHeight*2))  + "px";
+			e.target.style.left = ( e.originalEvent.targetTouches[0].clientX - ((e.target.offsetWidth * 3)/4))  + "px";
+			e.target.style.top = ( e.originalEvent.targetTouches[0].clientY - (e.target.offsetHeight * 1.5))  + "px";
 		}
 	}
 	return false;
@@ -422,9 +626,9 @@ function handleMove(e) {
 function handleRelease(e) { 
 	
 	var iframe = document.getElementsByTagName('iframe')[0];
-	var endX = endSelEl_g.offsetLeft - iframe.offsetLeft + (endSelEl_g.offsetWidth/2);
+	var endX = endSelEl_g.offsetLeft - iframe.offsetLeft + (endSelEl_g.offsetWidth/4);
 	var endY = endSelEl_g.offsetTop - iframe.offsetTop -2;
-	var startX = startSelEl_g.offsetLeft - iframe.offsetLeft + (startSelEl_g.offsetWidth/2);
+	var startX = startSelEl_g.offsetLeft - iframe.offsetLeft + ((startSelEl_g.offsetWidth*3)/4);
 	var startY = startSelEl_g.offsetTop - iframe.offsetTop -2;//   + (startSelEl_g.offsetHeight) ;
 	
 	//   endX -= iframe.offsetLeft;
@@ -577,36 +781,36 @@ function downloadURI(URI){
 	ft.download(
 		URI,
 		workingDirEntry_g.toURL()+"asd.png",
-							function (entry) {//success download
-								console.log("download complete: " + entry.fullPath);
-								facebookConnectPlugin.showDialog(
-									{ method: "feed" ,
-										name: '"'+selectionString_g+'"',
-										link: "http://example.com",
-										caption: "Such caption, very feed.",
-										// 		  picture: workingDirEntry_g.toURL() + "asd.png",
-										// 		  description: selectionString_g
-									}, 
-									function (response) {
-										alert(JSON.stringify(response)); 
-									},
-									function (response) {
-										alert(JSON.stringify(response));
-									}
-								);
-							},
-						 function(error) {//error download
-							 // 		switch(error.code){
-							 // 		  default:
-							 console.log('Error downloading file ' + ': ' + error.code);
-							 console.log("download error source " + error.source);
-							 console.log("download error target " + error.target);
-							 console.log("download error code" + error.code);
-							 // 		}
-							 // 		  onError(error);
-						 },
-						 false,
-						 { headers: {"Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="} }
+		function (entry) {//success download
+			console.log("download complete: " + entry.fullPath);
+			facebookConnectPlugin.showDialog(
+				{ method: "feed" ,
+					name: '"'+selectionString_g+'"',
+					link: "http://example.com",
+					caption: "Such caption, very feed.",
+					// 		  picture: workingDirEntry_g.toURL() + "asd.png",
+					// 		  description: selectionString_g
+				}, 
+				function (response) {
+					alert(JSON.stringify(response)); 
+				},
+				function (response) {
+					alert(JSON.stringify(response));
+				}
+			);
+		},
+		function(error) {//error download
+			// 		switch(error.code){
+			// 		  default:
+			console.log('Error downloading file ' + ': ' + error.code);
+			console.log("download error source " + error.source);
+			console.log("download error target " + error.target);
+			console.log("download error code" + error.code);
+			// 		}
+			// 		  onError_f(error);
+		},
+		false,
+		{ headers: {"Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="} }
 	);
 }	
 

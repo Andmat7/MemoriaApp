@@ -1,3 +1,4 @@
+(function(){
 var module = angular.module('app', ['onsen']);
 module.controller('BookController', function($scope, $window) {
   ons.createPopover('popoverbook.html').then(function(popover) {
@@ -64,4 +65,5 @@ module.controller("HelloController", function($scope) {
         
         
 
- },function(){} );
+ });
+})();
