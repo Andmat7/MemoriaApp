@@ -17,20 +17,19 @@ function viewBook(){
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
 }
 function starting(){
+	rangy.init();
+	carousel.on('overscroll',	function(event){
+		if (handleMoving_g === 0 && startSelect_g === 0) {
+			if (event.direction == "right"){
+				nextPage();
+			}
+			if (event.direction == "left"){
+				prevPage();
+			}
+		}
+	});
 	if (firstRun_g){ //evitar amarrar el mismo evento varias veces
 		firstRun_g = false;
-		rangy.init();
-		carousel.on('overscroll',	function(event){
-			if (handleMoving_g === 0 && startSelect_g === 0) {
-				if (event.direction == "right"){
-					nextPage();
-				}
-				if (event.direction == "left"){
-					prevPage();
-				}
-			}
-		});
-
 		// declaracion de handle de comienzo de seleccion
 		startSelEl_g = document.createElement("img");
 		startSelEl_g.id = "startSelection";
@@ -82,14 +81,18 @@ function alignEPUBRotation_f ( e ){
 	if (e.isPortrait){
 		if (document.body.clientWidth > document.body.clientHeight){
 			iframe.style.width = document.body.clientHeight*0.8 + "px";
+			iframe.style.height = document.body.clientWidth*0.8 + "px";
 		}else{
 			iframe.style.width = document.body.clientWidth*0.8 + "px";
+			iframe.style.height = document.body.clientHeight*0.8 + "px";
 		}
 	}else{
 		if (document.body.clientWidth > document.body.clientHeight){
 			iframe.style.width = document.body.clientWidth*0.8 + "px";
+			iframe.style.height = document.body.clientHeight*0.8 + "px";
 		}else{
 			iframe.style.width = document.body.clientHeight*0.8 + "px";
+			iframe.style.height = document.body.clientWidth*0.8 + "px";
 		}
 	}
 	removeSelectionIndicators();
