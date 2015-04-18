@@ -10,7 +10,7 @@ var Book_g = ePub(
 var alertDebug = 0;
 
 function viewBook(){
-	menu.setMainPage('page2.html', {closeMenu: true, callback: starting})
+	menu.setMainPage('book.html', {closeMenu: true, callback: starting})
 }
 function starting(){
 	rangy.init();

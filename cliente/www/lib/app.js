@@ -56,11 +56,6 @@ module.controller("HelloController", function($scope) {
                 book.toggled=false;
                 
             }
-            if (book.toggled) {
-                $scope.rotate='';
-            }else{
-                $scope.rotate='rotate';
-            }
 
             book.toggled = !book.toggled;
             console.log(2)

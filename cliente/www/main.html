@@ -49,7 +49,7 @@
         </div>
         
      <div class="more"  ng-click="showdescripcion(book)">
-     <img ng-class="rotate" src="lib/onsen/css/memoria/imgs/flecha.png"/>
+     <img ng-class="{'rotate' : book.toggled, '' : !book.toggled}"  src="lib/onsen/css/memoria/imgs/flecha.png"/>
      </div>
   </ons-list>     
 </ons-page>
