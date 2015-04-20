@@ -1,3 +1,4 @@
+var DBSize = 200000;//bytes
 var wholeSelRectEl_g = null;
 var startSelEl_g, endSelEl_g;
 var workingDirEntry_g;
@@ -75,7 +76,9 @@ function starting(){
 	downloadEPUB_f("http://xpace.hostzi.com/epub.epub");
 // 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
 }
-
+//*******************************************
+//** Descarga y lectura de EPUBs
+//*******************************************
 function alignEPUBRotation_f ( e ){
 	var iframe = $('iframe')[0];
 	if (e.isPortrait){
@@ -333,7 +336,9 @@ function onError_f(e){
 	console.log(e);
 }
 
-// ********************** EPUB NAVIGATION ***********************
+// ********************** 
+// ** EPUB NAVIGATION 
+// ***********************
 
 function nextPage(){
 	var ePage = document.getElementsByTagName("iframe")[0];
@@ -381,96 +386,10 @@ function epubPrevPage(){
 		}
 	);
 }
-// *****************************************************************
-// ******* FUNCIONES DE PRUEBA PARA SELECCION (BASURA ?) ***********
-// ****************************************************************
-/*
- * ****************** SELECCIONAR CON COORDENADAS *********************	      
- f u*nction createSelectionFromPoint(startX, startY, endX, endY) {
- var iframe = document.getElementsByTagName('iframe')[0];
- startX -= iframe.offsetLeft;
- startY -= iframe.offsetTop;
- endX -= iframe.offsetLeft;
- endY -= iframe.offsetTop;
- 
- var doc = iframe.contentDocument || iframe.contentWindow.document;
- 
- var start, end, range_g = null;
- if (typeof doc.caretPositionFromPoint != "undefined") {
-	 start = doc.caretPositionFromPoint(startX, startY);
-	 end = doc.caretPositionFromPoint(endX, endY);
-	 range_g = doc.createRange();
-	 range_g.setStart(start.offsetNode, start.offset);
-	 range_g.setEnd(end.offsetNode, end.offset);
-	 } else if (typeof doc.caretRangeFromPoint != "undefined") {
-		 start = doc.caretRangeFromPoint(startX, startY);
-		 end = doc.caretRangeFromPoint(endX, endY);
-		 range_g = doc.createRange();
-		 range_g.setStart(start.startContainer, start.startOffset);
-		 range_g.setEnd(end.startContainer, end.startOffset);
-		 }
-		 if (range_g !== null && typeof iframe.contentWindow.getSelection != "undefined") {
-			 var sel = iframe.contentWindow.getSelection();
-			 sel.removeAllRanges();
-			 sel.addRange(range_g);
-			 } else if (typeof doc.body.createTextRange != "undefined") {
-				 range_g = doc.body.createTextRange();
-				 range_g.moveToPoint(startX, startY);
-				 var endRange = range_g.duplicate();
-				 endRange.moveToPoint(endX, endY);
-				 range_g.setEndPoint("EndToEnd", endRange);
-				 range_g.select();
-				 }
-				 }
-				 var el;
-				 function ipadSelection(){
-				 var iframe = document.getElementsByTagName('iframe')[0];
-				 var doc = iframe.contentDocument || iframe.contentWindow.document;
-				 var win = iframe.contentWindow;
-				 //seleccionar el primer tag p
-				 var p = doc.getElementsByTagName("p");
-				 el = p[0];
-				 console.log (el);
-				 
-				 var sel = win.getSelection();
-				 // create a range_g:  
-				 // https://developer.mozilla.org/en-US/docs/Web/API/document.createRange
-				 var range_g = doc.createRange();
-				 // use firstChild as range_g expects a textNode, not an elementNode
-				 range_g.setStart(el.firstChild, 0);
-				 range_g.setEnd(el.firstChild, el.innerHTML.length);
-				 //    sel.removeAllRanges();
-				 sel.addRange(range_g);
-				 
-				 }
-				 
-				 function setEndSelectionFromPoint( endX, endY) {
-				 var iframe = document.getElementsByTagName('iframe')[0];
-				 endX -= iframe.offsetLeft;
-				 endY -= iframe.offsetTop;
-				 var doc = iframe.contentDocument || iframe.contentWindow.document;
-				 
-				 var end;
-				 if (typeof doc.caretPositionFromPoint != "undefined") {
-					 end = doc.caretPositionFromPoint(endX, endY);
-					 range_g.setEnd(end.offsetNode, end.offset);
-					 }
-					 if (range_g !== null && typeof iframe.contentWindow.getSelection != "undefined") {
-						 var sel = iframe.contentWindow.getSelection();
-						 sel.removeAllRanges();
-						 sel.addRange(range_g);
-						 } else if (typeof doc.body.createTextRange != "undefined") {
-							 var endRange = range_g.duplicate();
-							 endRange.moveToPoint(endX, endY);
-							 range_g.setEndPoint("EndToEnd", endRange);
-							 range_g.select();
-							 }
-							 
-							 }*/
-// *****************************************************************
-// *****************************************************************
-// *****************************************************************
 
+//********************************
+//*********** RANGY *****************
+//******************************
 function wordSelectionFromPoint(startX, startY) {
 	var iframe = document.getElementsByTagName('iframe')[0];
 	var iframePos = getPosition(iframe);
@@ -520,11 +439,6 @@ function wordSelectionFromPoint(startX, startY) {
 	// seleccionar el rango
 	selectRange(startX,startY,0,0,iframe,doc);
 }
-
-//********************************
-//*********** RANGY *****************
-//******************************
-
 //coordenadas del elemento con respecto al documento (absolutas)
 function getPosition(element) {
 	var xPosition = 0;
@@ -581,7 +495,6 @@ function showSelectionPosition() {
 	sharePopover.show('.wholeSelection');
 	$(document).on('touch', '#area', removeSelectionIndicators);
 }
-
 //Sombreado de texto seleccionado (solucion para problema IOS)
 function showSelectionRects(selRects, element){
 	var iframe = $("iframe")[0];
@@ -677,7 +590,9 @@ function selectRange(startX,startY,endX,endY,iframe,doc){
 	//   selectionString_g = iframe.contentWindow.getSelection().toString();
 }
 
-//********** REDES SOCIALES  *********
+//************************
+//** REDES SOCIALES  
+//************************
 function shareFacebook() {
 	if ( device.platform == "Android" ){ //FacebookConnectPlugin
 		//   if (!window.cordova) {
@@ -860,3 +775,38 @@ var drawText = function (canvas, textString, font, x, y, maxWidth){
 	var URI = canvas.toDataURL();
 	return URI;
 };
+//**********************************
+//** Guardado de fragmentos y libros
+//**********************************
+function saveFragment_f(){
+	var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize);
+	
+	db.transaction(saveCurrentPeliculaDB, onError, function(){ //success
+		if (!forceStop){
+			playAudio();
+		}
+	});
+}
+
+function saveCurrentPeliculaDB(tx) {
+	var aArray=[];
+	if (typeof aCartelera !== 'undefined') {
+		aArray=aCartelera;
+	}else{
+		if (typeof aBusqueda !== 'undefined') {
+			aArray=aBusqueda;
+		}
+		
+	}
+	aArray.forEach(function (element){
+		
+		if (element.File == currentPelicula){
+			tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
+			tx.executeSql('SELECT * FROM fragmentos WHERE id=?', [currentPelicula],function(tx, results){
+				if (results.rows.length===0) {
+					tx.executeSql("INSERT INTO fragmentos (Nombre, Descripcion, File) VALUES ('"+element.Nombre+"','"+element.Descripcion +"','"+ currentPelicula+"')");
+				};
+			});
+		}
+	});
+}
