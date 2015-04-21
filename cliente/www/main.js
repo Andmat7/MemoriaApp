@@ -8,6 +8,7 @@ var tempDirEntry_g;
 var event_global ;
 var range_g;
 var startSelect_g = 0;
+var handleMoving_g = 0;
 var selectionString_g;
 var Book_g;
 var firstRun_g = true;
@@ -15,9 +16,27 @@ var bookTitle_g = "Violacion de los DDHH";
 
 var alertDebug = 0;
 
+function viewMain_f(){
+	menu.setMainPage('main.html', {closeMenu: true});
+	document.removeEventListener("touchmove",preventDefaultScroll);
+}
 function viewBook(){
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
+	document.addEventListener("touchmove",preventDefaultScroll);
 }
+function viewBookmark_f(){
+	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
+		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+		db.transaction(listFragmentosDB_f, onError_f);
+	}});
+	document.removeEventListener("touchmove",preventDefaultScroll);
+}
+/* This code prevents users from dragging the page (IOS fix) */
+var preventDefaultScroll_f = function(event) {
+	event.preventDefault();
+	window.scroll(0,0);
+	return false;
+};
 function starting(){
 	rangy.init();
 	carousel.on('overscroll',	function(event){
@@ -75,6 +94,7 @@ function starting(){
 		ons.orientation.on('change', alignEPUBRotation_f);
 	}
 	downloadEPUB_f("http://xpace.hostzi.com/epub.epub");
+	console.log("starting complete");
 // 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
 }
 //*******************************************
@@ -330,6 +350,8 @@ function onDeviceReady() {
 // 			onError_f
 // 		);
 	}
+	console.log("onDeviceReady complete");
+	
 }
 
 function onError_f(e){
@@ -517,7 +539,7 @@ function showSelectionRects(selRects, element){
 	}
 	element.appendChild(wholeSelRectEl_g);
 }
-var handleMoving_g = 0;
+
 function beginHandleMove(e){
 	handleMoving_g = 1;
 }
@@ -747,21 +769,27 @@ function saveFragment_f(){
 }
 
 function saveFragmentDB_f(tx) {
-	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
+	createTableFragmentDB_f(tx);
 	var date = new Date();
 	//getMonth: el mes es un numero entre 0-11
 	var sDate = date.getDate()+"/" + (parseInt(date.getMonth())+1) + "/"+date.getFullYear();
 	tx.executeSql("INSERT INTO fragmentos (Libro, Fragmento, Fecha) VALUES ('"+bookTitle_g+"','"+selectionString_g+"','"+ sDate +"')");
 }
+//******************************************
+//** Despliegue de fragmentos
+//******************************************
 function viewBookmark_f(){
 	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
 		db.transaction(listFragmentosDB_f, onError_f);
 	}});
 }
+function createTableFragmentDB_f(tx){
+	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id integer primary key, Libro, Fragmento, Fecha)');
+}
 
 function listFragmentosDB_f(tx){
-	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
+	createTableFragmentDB_f(tx);
 	tx.executeSql('SELECT * FROM fragmentos', [],function(tx, results){//success
 		var div = document.getElementById("fragment_list");
 		var container = document.getElementById("container_fragmentos");
@@ -770,10 +798,14 @@ function listFragmentosDB_f(tx){
 		container.id = "container_fragmentos";
 		
 		for (var i=0; i<results.rows.length; i++){
+			console.log(results.rows.item(i));
+			
+			var id = results.rows.item(i).id;
 			var libro = results.rows.item(i).Libro;
 			var date = results.rows.item(i).Fecha;
 			var fragmento = results.rows.item(i).Fragmento;
 			var item = document.createElement("div");
+			item.id = "fragmento_"+id;
 // 			var ons_list = document.createElement("ons-list");
 // 			ons_list.modifier="inset";
 // 			ons_list.class="card-bookmark";
@@ -805,7 +837,9 @@ function listFragmentosDB_f(tx){
 			'<P>'+ fragmento +'</P>'+
 			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
 			'Tomado de libro '+ libro +
-			'<ons-icon icon="ion-trash-a" style="float:right" class="trash ons-icon ons-icon--ion ion-trash-a fa-lg"></ons-icon>'+
+			'<span ontouchend="alert(1); deleteFragmento_f('+ id +');">'+
+			'&nbsp;&nbsp;&nbsp;<ons-icon icon="ion-trash-a" style="float:right" class="trash ons-icon ons-icon--ion ion-trash-a fa-lg""></ons-icon>'+
+			'</span>'+
 			'</ons-list-item>'+
 			'</ons-list>';
 			container.appendChild(item);
@@ -816,10 +850,10 @@ function listFragmentosDB_f(tx){
 
 var dateToString_f = function (date){
 	var splitDate = date.split("/");
-	return splitDate[0] + " de " + monthToString(splitDate[1]) + " de " + splitDate[2];
+	return splitDate[0] + " de " + monthToString_f(splitDate[1]) + " de " + splitDate[2];
 };
 
-var monthToString = function (nMonth){
+var monthToString_f = function (nMonth){
 	switch(parseInt(nMonth)){
 		case 1:
 			return "Enero";
@@ -848,9 +882,24 @@ var monthToString = function (nMonth){
 		default:
 			return "-1";
 	}
+};
+var idFragmentoDB_g;
+function deleteFragmento_f(idFragmento){
+	idFragmentoDB_g = idFragmento;
+	var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+	db.transaction(
+		deleteFragmentoDB_f,
+		onError_f, 
+		function(){ //success
+			console.log("borrado");
+			var item = document.getElementById("fragmento_"+idFragmento);
+			var container = document.getElementById("container_fragmentos");
+			container.removeChild(item);
+		}
+	);
 }
 
-function deleteFragmentoDB(tx, idFragmento) {
-	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
-	tx.executeSql("DELETE FROM fragmentos WHERE id='"+idFragmento+"'");
+function deleteFragmentoDB_f(tx) {
+	createTableFragmentDB_f(tx);
+	tx.executeSql("DELETE FROM fragmentos WHERE id='"+idFragmentoDB_g+"'");
 }
