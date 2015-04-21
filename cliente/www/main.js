@@ -1,4 +1,4 @@
-var DBSize = 200000;//bytes
+var DBSize_g = 200000;//bytes
 var wholeSelRectEl_g = null;
 var startSelEl_g, endSelEl_g;
 var workingDirEntry_g;
@@ -11,6 +11,7 @@ var startSelect_g = 0;
 var selectionString_g;
 var Book_g;
 var firstRun_g = true;
+var bookTitle_g = "Violacion de los DDHH";
 
 var alertDebug = 0;
 
@@ -693,45 +694,6 @@ function showDialogFacebookConnect () {
 	
 }
 
-function downloadURI(URI){
-	var ft = new FileTransfer();
-	//   if (alertDebug == 1) alert ("begining download");
-	ft.download(
-		URI,
-		workingDirEntry_g.toURL()+"asd.png",
-		function (entry) {//success download
-			console.log("download complete: " + entry.fullPath);
-			facebookConnectPlugin.showDialog(
-				{ method: "feed" ,
-					name: '"'+selectionString_g+'"',
-					link: "http://example.com",
-					caption: "Such caption, very feed.",
-					// 		  picture: workingDirEntry_g.toURL() + "asd.png",
-					// 		  description: selectionString_g
-				}, 
-				function (response) {
-					alert(JSON.stringify(response)); 
-				},
-				function (response) {
-					alert(JSON.stringify(response));
-				}
-			);
-		},
-		function(error) {//error download
-			// 		switch(error.code){
-			// 		  default:
-			console.log('Error downloading file ' + ': ' + error.code);
-			console.log("download error source " + error.source);
-			console.log("download error target " + error.target);
-			console.log("download error code" + error.code);
-			// 		}
-			// 		  onError_f(error);
-		},
-		false,
-		{ headers: {"Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="} }
-	);
-}	
-
 var drawText = function (canvas, textString, font, x, y, maxWidth){
 	var canvasTemp = document.createElement("canvas");
 	canvasTemp.width = canvas.width;
@@ -779,34 +741,116 @@ var drawText = function (canvas, textString, font, x, y, maxWidth){
 //** Guardado de fragmentos y libros
 //**********************************
 function saveFragment_f(){
-	var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize);
-	
-	db.transaction(saveCurrentPeliculaDB, onError, function(){ //success
-		if (!forceStop){
-			playAudio();
-		}
+	var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+	db.transaction(saveFragmentDB_f, onError_f, function(){ //success
 	});
 }
 
-function saveCurrentPeliculaDB(tx) {
-	var aArray=[];
-	if (typeof aCartelera !== 'undefined') {
-		aArray=aCartelera;
-	}else{
-		if (typeof aBusqueda !== 'undefined') {
-			aArray=aBusqueda;
-		}
+function saveFragmentDB_f(tx) {
+	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
+	var date = new Date();
+	//getMonth: el mes es un numero entre 0-11
+	var sDate = date.getDate()+"/" + (parseInt(date.getMonth())+1) + "/"+date.getFullYear();
+	tx.executeSql("INSERT INTO fragmentos (Libro, Fragmento, Fecha) VALUES ('"+bookTitle_g+"','"+selectionString_g+"','"+ sDate +"')");
+}
+function viewBookmark_f(){
+	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
+		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+		db.transaction(listFragmentosDB_f, onError_f);
+	}});
+}
+
+function listFragmentosDB_f(tx){
+	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
+	tx.executeSql('SELECT * FROM fragmentos', [],function(tx, results){//success
+		var div = document.getElementById("fragment_list");
+		var container = document.getElementById("container_fragmentos");
+		div.removeChild(container);
+		container = document.createElement("div");
+		container.id = "container_fragmentos";
 		
+		for (var i=0; i<results.rows.length; i++){
+			var libro = results.rows.item(i).Libro;
+			var date = results.rows.item(i).Fecha;
+			var fragmento = results.rows.item(i).Fragmento;
+			var item = document.createElement("div");
+// 			var ons_list = document.createElement("ons-list");
+// 			ons_list.modifier="inset";
+// 			ons_list.class="card-bookmark";
+// 			ons_list.style="margin-top: 10px";
+// 			var ons_list_item1 = document.createElement("ons-list_item");
+// 			ons_list_item1.class="to-wrapper smallfont";
+// 			ons_list_item1.innerHTML = 'Agregado el '+ dateToString_f(date);
+// 			var p = document.createElement("p");
+// 			p.innerHTML = fragmento;
+// 			var ons_list_item2 = document.createElement("ons-list_item");
+// 			ons_list_item2.class="to-wrapper smallfont";
+// 			ons_list_item2.innerHTML = 'Tomado de libro '+ libro;
+// 			var ons_icon = document.createElement("ons-icon");
+// 			ons_icon.icon="ion-trash-a";
+// 			ons_icon.class="trash";
+// 			ons_icon.style="float:right";
+// 			ons_list_item2.appendChild(ons_icon);
+// 			
+// 			ons_list.appendChild(ons_list_item1);
+// 			ons_list.appendChild(p);
+// 			ons_list.appendChild(ons_list_item2);
+// 			item.appendChild(ons_list);
+			
+			item.innerHTML = 
+			'<ons-list class="card-bookmark list ons-list-inner list--inset" style="margin-top: 10px">'+
+			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
+			'Agregado el '+ dateToString_f(date) +
+			'</ons-list-item>'+
+			'<P>'+ fragmento +'</P>'+
+			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
+			'Tomado de libro '+ libro +
+			'<ons-icon icon="ion-trash-a" style="float:right" class="trash ons-icon ons-icon--ion ion-trash-a fa-lg"></ons-icon>'+
+			'</ons-list-item>'+
+			'</ons-list>';
+			container.appendChild(item);
+		}
+		div.appendChild(container);
+	}, onError_f);
+}
+
+var dateToString_f = function (date){
+	var splitDate = date.split("/");
+	return splitDate[0] + " de " + monthToString(splitDate[1]) + " de " + splitDate[2];
+};
+
+var monthToString = function (nMonth){
+	switch(parseInt(nMonth)){
+		case 1:
+			return "Enero";
+		case 2:
+			return "Febrero";
+		case 3:
+			return "Marzo";
+		case 4:
+			return "Abril";
+		case 5:
+			return "Mayo";
+		case 6:
+			return "Junio";
+		case 7:
+			return "Julio";
+		case 8:
+			return "Agosto";
+		case 9:
+			return "Septiembre";
+		case 10:
+			return "Octubre";
+		case 11:
+			return "Noviembre";
+		case 12:
+			return "Diciembre";
+		default:
+			return "-1";
 	}
-	aArray.forEach(function (element){
-		
-		if (element.File == currentPelicula){
-			tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
-			tx.executeSql('SELECT * FROM fragmentos WHERE id=?', [currentPelicula],function(tx, results){
-				if (results.rows.length===0) {
-					tx.executeSql("INSERT INTO fragmentos (Nombre, Descripcion, File) VALUES ('"+element.Nombre+"','"+element.Descripcion +"','"+ currentPelicula+"')");
-				};
-			});
-		}
-	});
+}
+
+function deleteFragmentoDB(tx, idFragmento) {
+	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id auto_increment, Libro, Fragmento, Fecha)');
+	tx.executeSql("DELETE FROM fragmentos WHERE id='"+idFragmento+"'");
 }
