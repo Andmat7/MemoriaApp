@@ -33,6 +33,8 @@
         <span class="left">
           <button class="button_share"><img src="lib/onsen/css/memoria/imgs/enlace.png"/></button>
           <button class="button_share"><img src="lib/onsen/css/memoria/imgs/estrella.png"/></button>
+
+
         </span>
          
           <span class="text_bar_share">Lorem ipsum dolor </span>
@@ -41,13 +43,13 @@
         <div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">
           <p>{{book.description}}</p>
           <div onclick="viewBook();">
-            <button class="button-bar__button">COMIENZA A LEER</button>
+            <button class="button-bar__button">DESCARGAR</button>
           </div>
           
         </div>
         
      <div class="more"  ng-click="showdescripcion(book)">
-     <img ng-class="{'rotate' : book.toggled, '' : !book.toggled}" src="lib/onsen/css/memoria/imgs/flecha.png"/>
+     <img ng-class="{'rotate' : book.toggled, '' : !book.toggled}"  src="lib/onsen/css/memoria/imgs/flecha.png"/>
      </div>
   </ons-list>     
 </ons-page>

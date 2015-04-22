@@ -213,6 +213,10 @@ function onDeviceReady() {
 	//db.transaction(eraseAllPeliculasDB, onError_f);
 	
 // 	document.addEventListener("backbutton", backButtonHandler, false);
+	yepnope({
+    	test : window.device.platform === 'iOS' && parseFloat(window.device.version) === 7.0,
+    	yep  : 'styles/ios7.css',         
+  	});
 	// CREAR ESTRUCTURA DE DIRECTORIOS
 	var epubDirEntry;
 	if (device.platform == "Android"){
