@@ -19,7 +19,10 @@ class VerifyLogin extends CI_Controller {
    if($this->form_validation->run() == FALSE)
    {
      //Field validation failed.  User redirected to login page
-     $this->load->view('login_view');
+   $this->load->helper(array('form'));
+   $this->load->view('header');
+   $this->load->view('login_view');
+   $this->load->view('footer');
    }
    else
    {
@@ -52,7 +55,7 @@ class VerifyLogin extends CI_Controller {
    }
    else
    {
-     $this->form_validation->set_message('check_database', 'Invalid username or password');
+     $this->form_validation->set_message('check_database', 'Usuario o contraseña incorrecta.');
      return false;
    }
  }

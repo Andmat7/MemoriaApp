@@ -18,20 +18,12 @@
         <li <?=echoActiveClassIfRequestMatches("home")?>>
           <a href="<?php echo site_url('home'); ?>">Inicio</a>
         </li>
-        <li <?=echoActiveClassIfRequestMatches("tables")?>>
-          <a href="<?php echo site_url('peliculas/tables'); ?>">Listado de películas</a>
+        <li <?=echoActiveClassIfRequestMatches("lista")?>>
+          <a href="<?php echo site_url('epubs/lista'); ?>">Listado de eBooks</a>
         </li>
         <li <?=echoActiveClassIfRequestMatches("agregar")?>>
-            <a href="<?php echo site_url('peliculas/agregar'); ?>">Agregar película</a>
+            <a href="<?php echo site_url('epubs/agregar'); ?>">Agregar eBook</a>
         </li>
-        <li <?=echoActiveClassIfRequestMatches("listadosalas")?>>
-          <a href="<?php echo site_url('salas/listadosalas'); ?>">Listado de Salas</a>
-        </li>
-        <li <?=echoActiveClassIfRequestMatches("agregarsala")?>>
-            <a href="<?php echo site_url('salas/agregarsala'); ?>">Agregar Sala</a>
-        </li>
-        <!-- <li><a href="#">Cines</a></li> -->
-        
       </ul>
    
       <ul class="nav navbar-nav navbar-right">
