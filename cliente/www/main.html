@@ -1,61 +1,60 @@
 <ons-page   ng-controller="MainController">
-        <div ng-init="">
-        <ons-toolbar>
-        <div class="left">
-
-          <ons-toolbar-button ng-click="menu.toggle()">
-            <ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
-            <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo">
-            
-            <span ng-class="titulomemoria" class="titulo_memoria">
-              MEMORIAPP
-            </span>
-            
-          </ons-toolbar-button>
-
-          
-        </div>
-        <div ng-class="center_toolbar" class="center"></div>
-        <div class="right" var="right" ng-class="right_toolbar"  >
-          <ons-toolbar-button ng-click="showinputsearch()" var="right">
-          
-            <ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
-            <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value="">
-            
-          </ons-toolbar-button>
-        </div>
-      </ons-toolbar>
-
-      <ons-list modifier="inset" style="margin-top: 10px" ng-repeat="book in node.books">
-        <ons-list-header>{{book.title}}</ons-list-header>
-        <img ng-src="{{book.img}}" class="card_image">
-        <div class="bar_share">
-        <span class="left">
-          <button class="button_share"><img src="lib/onsen/css/memoria/imgs/enlace.png"/></button>
-          <button class="button_share"><img src="lib/onsen/css/memoria/imgs/estrella.png"/></button>
-
-
-        </span>
-         
-          <span class="text_bar_share">Lorem ipsum dolor </span>
-
-        </div>
-        <div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">
-          <p>{{book.description}}</p>
-          <div onclick="viewBook();">
-            <button class="button-bar__button">DESCARGAR</button>
-          </div>
-          
-        </div>
-        
-     <div class="more"  ng-click="showdescripcion(book)">
-     <img ng-class="{'rotate' : book.toggled, '' : !book.toggled}"  src="lib/onsen/css/memoria/imgs/flecha.png"/>
-     </div>
-  </ons-list>
-
-  <ons-modal var="modal">
-    <ons-icon icon="ion-load-c" spin="true"></ons-icon>
-    <br><br>
-    Please wait.<br>Closing in 2 seconds.
-  </ons-modal>     
+	<div ng-init="">
+		<ons-toolbar>
+			<div class="left">
+				
+				<ons-toolbar-button ng-click="menu.toggle()">
+					<ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
+					<img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo" />
+					
+					<span ng-class="titulomemoria" class="titulo_memoria">
+						MEMORIAPP
+					</span>
+					
+				</ons-toolbar-button>
+				
+				
+			</div>
+			<div ng-class="center_toolbar" class="center"></div>
+			<div class="right" var="right" ng-class="right_toolbar"  >
+				<ons-toolbar-button ng-click="showinputsearch()" var="right">
+					
+					<ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
+					<input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value="" />
+					
+				</ons-toolbar-button>
+			</div>
+		</ons-toolbar>
+		
+		<ons-list modifier="inset" style="margin-top: 10px" ng-repeat="book in node.books">
+			<ons-list-header>{{book.title}}</ons-list-header>
+			<img ng-src="{{book.img}}" class="card_image" />
+			<div class="bar_share">
+				<span class="left">
+					<button class="button_share"><img src="lib/onsen/css/memoria/imgs/enlace.png"/></button>
+					<button class="button_share"><img src="lib/onsen/css/memoria/imgs/estrella.png"/></button>
+				</span>
+				
+				<span class="text_bar_share">Lorem ipsum dolor </span>
+				
+			</div>
+			<div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">
+				<p>{{book.description}}</p>
+				<div onclick="viewBook();">
+					<button id="{{book.id}}" class="button-bar__button" onclick="viewBook_f(this)">DESCARGAR</button>
+				</div>
+				
+			</div>
+			
+			<div class="more"  ng-click="showdescripcion(book)">
+				<img ng-class="{'rotate' : book.toggled, '' : !book.toggled}"  src="lib/onsen/css/memoria/imgs/flecha.png"/>
+			</div>
+		</ons-list>
+		
+		<ons-modal var="modal">
+			<ons-icon icon="ion-load-c" spin="true"></ons-icon>
+			<br/><br/>
+			Please wait.<br/>Closing in 2 seconds.
+		</ons-modal>
+	</div>
 </ons-page>

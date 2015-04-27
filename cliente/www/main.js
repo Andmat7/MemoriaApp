@@ -8,28 +8,37 @@ var tempDirEntry_g;
 var event_global ;
 var range_g;
 var startSelect_g = 0;
-var handleMoving_g = 0;
 var selectionString_g;
 var Book_g;
 var firstRun_g = true;
 var bookTitle_g = "Violacion de los DDHH";
-
+var downloadEpubUrl_g = "http://xpace.hostzi.com/epub.epub";
 var alertDebug = 0;
 
 function viewMain_f(){
 	menu.setMainPage('main.html', {closeMenu: true});
-	document.removeEventListener("touchmove",preventDefaultScroll);
+	document.removeEventListener("touchmove",preventDefaultScroll_f);
 }
-function viewBook(){
+function viewBook_f( element ){
+	if       (element.id == "book0"){
+		downloadEpubUrl_g = "http://xpace.hostzi.com/epub.epub";
+		bookTitle_g = 'Archivos de graves violaciones a los DDHH. Infracciones al DIH, Memoria Historica y conflicto Armado. Elementos para una Política Pública';
+	}else if (element.id == "book1"){
+		downloadEpubUrl_g = "http://xpace.hostzi.com/APORTESTEORICOS.epub";
+		bookTitle_g = 'El Placer. mujeres, coca y guerra en el Bajo Putumayo';
+	}else if (element.id == "book2"){
+		downloadEpubUrl_g = "http://xpace.hostzi.com/bojaya.epub";
+		bookTitle_g = 'Aportes teóricos y metodológicos para la valoración de los daños causados por la violencia';
+	}
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
-	document.addEventListener("touchmove",preventDefaultScroll);
+	document.addEventListener("touchmove",preventDefaultScroll_f);
 }
 function viewBookmark_f(){
 	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
 		db.transaction(listFragmentosDB_f, onError_f);
 	}});
-	document.removeEventListener("touchmove",preventDefaultScroll);
+	document.removeEventListener("touchmove",preventDefaultScroll_f);
 }
 /* This code prevents users from dragging the page (IOS fix) */
 var preventDefaultScroll_f = function(event) {
@@ -49,6 +58,7 @@ function starting(){
 			}
 		}
 	});
+	modalEpub.show();
 	if (firstRun_g){ //evitar amarrar el mismo evento varias veces
 		firstRun_g = false;
 		// declaracion de handle de comienzo de seleccion
@@ -72,12 +82,11 @@ function starting(){
 		$(document).on('touchmove', '#endSelection', handleMove);
 		$(document).on('release', '#endSelection', handleRelease);	
 		//popover para redes sociales
-		ons.createPopover('popover.html').then(function(){
+		ons.createPopover('share-popover.html').then(function(){
 			sharePopover.on("postshow", function(e){
 				//$(".popover-mask")[0].style.zIndex = -1;
 				var pop = $('#share-popover')[0];
 				var mask = pop.children[0];
-
 				mask.style.zIndex = -1;
 				//alert('prueba');
 				//console.log('prueba');
@@ -90,44 +99,47 @@ function starting(){
 			e.preventDefault();
 			var xSelectStart = e.originalEvent.gesture.center.clientX;
 			var ySelectStart = e.originalEvent.gesture.center.clientY;
-			wordSelectionFromPoint(xSelectStart, ySelectStart);    
+			wordSelectionFromPoint(xSelectStart, ySelectStart);
 		});
 		$(document).on('release', '#area', function(e) {
-			if ( startSelect_g === 0){
+			if ( startSelect_g === 0 ){
 				handleMoving_g = 0;
-				sharePopover.hide();
+ 				sharePopover.hide();
 				console.log('hide');
 			}else{
 				console.log('no hide');
 			}
-
 		});
-		ons.orientation.on('change', alignEPUBRotation_f);
+		ons.orientation.on('change', function( e ){
+			setTimeout('alignEPUBRotation_f()', 1000);
+		});
 	}
-	downloadEPUB_f("http://xpace.hostzi.com/epub.epub");
+	downloadEPUB_f(downloadEpubUrl_g);
 	console.log("starting complete");
 // 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
 }
 //*******************************************
 //** Descarga y lectura de EPUBs
 //*******************************************
-function alignEPUBRotation_f ( e ){
+function alignEPUBRotation_f (){
+	var isPortrait = ons.orientation.isPortrait();
 	var iframe = $('iframe')[0];
-	if (e.isPortrait){
+	var area = $('#area')[0];
+	if (isPortrait){
 		if (document.body.clientWidth > document.body.clientHeight){
-			iframe.style.width = document.body.clientHeight*0.8 + "px";
-			iframe.style.height = document.body.clientWidth*0.8 + "px";
-		}else{
-			iframe.style.width = document.body.clientWidth*0.8 + "px";
-			iframe.style.height = document.body.clientHeight*0.8 + "px";
+			iframe.style.width = document.body.clientHeight* 0.94 + "px";
+			iframe.style.height = area.clientWidth*          0.94 + "px";
+		}else{                                                
+			iframe.style.width =  document.body.clientWidth* 0.94 + "px";
+			iframe.style.height = area.clientHeight*         0.94 + "px";
 		}
 	}else{
 		if (document.body.clientWidth > document.body.clientHeight){
-			iframe.style.width = document.body.clientWidth*0.8 + "px";
-			iframe.style.height = document.body.clientHeight*0.8 + "px";
-		}else{
-			iframe.style.width = document.body.clientHeight*0.8 + "px";
-			iframe.style.height = document.body.clientWidth*0.8 + "px";
+			iframe.style.width = document.body.clientWidth*  0.94 + "px";
+			iframe.style.height = area.clientHeight*         0.94 + "px";
+		}else{                                                
+			iframe.style.width = document.body.clientHeight* 0.94 + "px";
+			iframe.style.height = area.clientWidth*          0.94 + "px";
 		}
 	}
 	removeSelectionIndicators();
@@ -196,12 +208,13 @@ function unzip_f(epubFile, destDir){
 				);
 				Book_g.renderTo('area').then(function (){
 					var iframe = $("iframe")[0];
-					var cssLink = document.createElement("link") 
+					var cssLink = document.createElement("link");
 					cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
 					cssLink.rel = "stylesheet"; 
 					cssLink.type = "text/css";
 					iframe.contentDocument.body.appendChild(cssLink);
-					alignEPUBRotation_f( { isPortrait :  ons.orientation.isPortrait() } );
+					modalEpub.hide();
+					alignEPUBRotation_f();
 				});
 			}else{
 				alert("Error al abrir el EPUB.");
@@ -403,7 +416,7 @@ function epubNextPage(){
 	Book_g.nextPage().then(
 		function (){
 			var iframe = $('iframe')[0];
-			var cssLink = document.createElement("link") 
+			var cssLink = document.createElement("link");
 			cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
 			cssLink.rel = "stylesheet"; 
 			cssLink.type = "text/css"; 
@@ -415,8 +428,7 @@ function epubPrevPage(){
 	Book_g.prevPage().then(
 		function (){
 			var iframe = $('iframe')[0];
-			iframe.style.width = document.body.clientWidth*0.8 + "px";
-			var cssLink = document.createElement("link") 
+			var cssLink = document.createElement("link");
 			cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
 			cssLink.rel = "stylesheet"; 
 			cssLink.type = "text/css"; 
@@ -654,7 +666,7 @@ function shareFacebook() {
 			[ "email" ],
 			function( response ) {
 				showDialogFacebookConnect(); 
-				alert( JSON.stringify( response ) );
+// 				alert( JSON.stringify( response ) );
 			},
 			function ( response ) {
 				alert( JSON.stringify( response ) );
@@ -668,7 +680,7 @@ function shareFacebook() {
 			null /* img */, 
 			null /*url*/, 
 			function() {
-				alert( 'share ok' );	  
+// 				alert( 'share ok' );	  
 			}, 
 			function( errormsg ){
 				alert( errormsg );
@@ -738,7 +750,7 @@ function showDialogFacebookConnect () {
 			alert(JSON.stringify(response)) ;
 		},
 		function (response) { 
-			alert(JSON.stringify(response)) 
+			alert(JSON.stringify(response));
 		}
 	);
 	

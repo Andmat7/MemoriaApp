@@ -10,9 +10,9 @@ iframe {
 	/*	      left: 10%;
 	 *			 t*op: 10%;*/
 	border: none;
-	width: 80%;
-	height: 80%;
-	margin: 10% 10%;
+	width: 94%;
+	height: 94%;
+	margin: 3% 3%;
 	z-index: -1;  
 	/* 	      max-width: 650px; */
 }
@@ -43,4 +43,7 @@ font-size: 0.5in;
 }
 .popover__content{
 	min-height: 10px;
+}
+#share-popover .popover-mask{
+  z-index : -1;
 }

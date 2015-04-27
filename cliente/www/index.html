@@ -10,10 +10,10 @@
 	<link rel="stylesheet" href="styles/app.css"/>
 	<link rel="stylesheet" href="styles/epub.css"/>
 	
-	<script src="lib/onsen/js/angular/angular.js"></script>
+	<script src="lib/onsen/js/angular/angular.min.js"></script>
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/epub.min.js"></script>
-	<script src="lib/onsen/js/onsenui.js"></script>
+	<script src="lib/onsen/js/onsenui.min.js"></script>
 	<script src="lib/TweenMax.min.js"></script>
 	<script src="lib/app.js"></script>
 	<!-- RANGY -->
@@ -32,8 +32,8 @@
 		</ons-sliding-menu>
 
 		
-		<script type="text/ons-template" id="popover.html">
-			<ons-popover id="share-popover" var="sharePopover" direction="up" cancelable mask-color="rgba(0, 0, 0, 0.0)">
+		<script type="text/ons-template" id="share-popover.html">
+			<ons-popover id="share-popover" var="sharePopover" direction="up" mask-color="rgba(0, 0, 0, 0.0)">
 			<div style="text-align: center; opacity: 1;">
 			<button class="button--quiet" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
 			<button class="button--quiet" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
@@ -62,5 +62,5 @@
 
 
 		<!-- WEINRE -->
-	 <script src="http://192.168.0.4:8080/target/target-script-min.js#anonymous"></script>
+		 <script src="http://192.168.0.2:8080/target/target-script-min.js#anonymous"></script> 
 </html>
