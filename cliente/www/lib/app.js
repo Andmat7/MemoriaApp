@@ -1,6 +1,7 @@
 (function(){
 var module = angular.module('app', ['onsen']);
 module.controller('BookController', function($scope, $window) {
+
   ons.createPopover('popoverbook.html').then(function(popover) {
     $scope.popoverbook = popover;
   });
@@ -38,19 +39,33 @@ module.controller('BookController', function($scope, $window) {
  },function(){} );
 
 
-module.controller("HelloController", function($scope,$http) {
+module.controller("MainController", function($scope,$http,$timeout) {
+  ons.ready(function() {
+      // Actually myNavigator object sits in the root scope
+     
+
+  });
   $scope.node = {};
     // $http.get('http://localhost/servidor/index.php/books/lista').success(function(data) {
     //   $scope.node.books = data;
     // });
-        $scope.node = {
+    //    setTimeout('Modal.hide()', 2000);x  
+    Modal.show();
+      
+        $timeout(function() {
+          $scope.node = {
                 books :[
-              {description:'Este informe no es una narrativa sobre un pasado remoto, sino sobre una realidad anclada en nuestro presente. Es un relato que se aparta explícitamente, por convicción y por mandato legal, de la idea de una memoria oficial del conflicto armado. Lejos de pretender erigirse en un corpus de verdades cerradas, quiere ser elemento de reflexión para un debate social y político abierto.', title:'Bojayá. La guerra sin límites',img:'lib/onsen/css/memoria/imgs/bojayamagen1.png'},
-              {description:'Este informe no es una narrativa sobre un pasado remoto, sino sobre una realidad anclada en nuestro presente. Es un relato que se aparta explícitamente, por convicción y por mandato legal, de la idea de una memoria oficial del conflicto armado. Lejos de pretender erigirse en un corpus de verdades cerradas, quiere ser elemento de reflexión para un debate social y político abierto..', title:'Bojayá. La guerra sin límites',img:'lib/onsen/css/memoria/imgs/bojayamagen1.png'}
+                {description:'Este informe no es una narrativa sobre un pasado remoto, sino sobre una realidad anclada en nuestro presente. Es un relato que se aparta explícitamente, por convicción y por mandato legal, de la idea de una memoria oficial del conflicto armado. Lejos de pretender erigirse en un corpus de verdades cerradas, quiere ser elemento de reflexión para un debate social y político abierto..', title:'Archivos de graves violaciones a los DDHH. Infracciones al DIH, Memoria Historica y conflicto Armado. Elementos para una Política Pública',img:'lib/onsen/css/memoria/imgs/violaciones.jpg'},
+                {description:'Este informe no es una narrativa sobre un pasado remoto, sino sobre una realidad anclada en nuestro presente. Es un relato que se aparta explícitamente, por convicción y por mandato legal, de la idea de una memoria oficial del conflicto armado. Lejos de pretender erigirse en un corpus de verdades cerradas, quiere ser elemento de reflexión para un debate social y político abierto.', title:'El Placer. mujeres, coca y guerra en el Bajo Putumayo',img:'lib/onsen/css/memoria/imgs/bojayamagen1.png'}
+              
             ]};
+             Modal.hide();
+             // alert('asdfasd');
+        
+           
+          }, 2000);
         $scope.showinputsearch=function() {
             
-
             if ($scope.inputcontrol === ''||$scope.inputcontrol===undefined)
             {
                 $scope.inputcontrol='open';
@@ -66,20 +81,15 @@ module.controller("HelloController", function($scope,$http) {
 
         };
         $scope.showdescripcion=function(book) {
-            console.log(1)
-            
-
+         
             if(book.toggled===undefined){
-                book.toggled=false;
-                
+                book.toggled=false;       
             }
 
             book.toggled = !book.toggled;
-            console.log(2)
            
         };
-        
-        
 
+        
  });
 })();

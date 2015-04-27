@@ -74,7 +74,14 @@ function starting(){
 		//popover para redes sociales
 		ons.createPopover('popover.html').then(function(){
 			sharePopover.on("postshow", function(e){
-				$(".popover-mask")[0].style.zIndex = -1;
+				//$(".popover-mask")[0].style.zIndex = -1;
+				var pop = $('#share-popover')[0];
+				var mask = pop.children[0];
+
+				mask.style.zIndex = -1;
+				//alert('prueba');
+				//console.log('prueba');
+				//$(".popover-mask").hide();
 			});
 		});
 		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
@@ -89,7 +96,11 @@ function starting(){
 			if ( startSelect_g === 0){
 				handleMoving_g = 0;
 				sharePopover.hide();
+				console.log('hide');
+			}else{
+				console.log('no hide');
 			}
+
 		});
 		ons.orientation.on('change', alignEPUBRotation_f);
 	}
@@ -418,6 +429,7 @@ function epubPrevPage(){
 //*********** RANGY *****************
 //******************************
 function wordSelectionFromPoint(startX, startY) {
+	console.log('wordSelectionFromPoint');
 	var iframe = document.getElementsByTagName('iframe')[0];
 	var iframePos = getPosition(iframe);
 	startX -= iframePos.x;
@@ -480,6 +492,8 @@ function getPosition(element) {
 }
 
 function removeSelectionIndicators() {
+	console.log('removeSelectionIndicators');
+	
 	$(document).off('touch', '#area', removeSelectionIndicators);
 	if (wholeSelRectEl_g !== null) {
 		wholeSelRectEl_g.parentNode.removeChild(wholeSelRectEl_g);
@@ -488,9 +502,13 @@ function removeSelectionIndicators() {
 		wholeSelRectEl_g = null;
 		startSelect_g = 0;
 	}
+
+	console.log("importanteeeeeeeeeee");
+	console.log(startSelect_g);
 }
 //Mostrar todos los indicadores de la seleccion (sombreado y handles)
 function showSelectionPosition() {
+	console.log('showSelectionPosition');
 	// carousel1 es el elemento del DOM que va contener los indicadores de seleccion
 	var carousel1 = $("#carousel-1")[0];
 	var iframe = $("iframe")[0];
@@ -524,6 +542,7 @@ function showSelectionPosition() {
 }
 //Sombreado de texto seleccionado (solucion para problema IOS)
 function showSelectionRects(selRects, element){
+	console.log('showSelectionRects')
 	var iframe = $("iframe")[0];
 	var iframePos = getPosition(iframe);
 	var iframeX = iframe.offsetLeft;
@@ -545,11 +564,13 @@ function showSelectionRects(selRects, element){
 }
 
 function beginHandleMove(e){
+
 	handleMoving_g = 1;
 }
 
 function handleMove(e) { 
 	event_global = e;   // solo para debug
+	
 	var iframePos;
 	e.preventDefault();
 	if (handleMoving_g == 1){
@@ -564,10 +585,11 @@ function handleMove(e) {
 		}
 	}
 	return false;
+
 }
 
 function handleRelease(e) { 
-	
+
 	var iframe = document.getElementsByTagName('iframe')[0];
 	var endX = endSelEl_g.offsetLeft - iframe.offsetLeft + (endSelEl_g.offsetWidth/4);
 	var endY = endSelEl_g.offsetTop - iframe.offsetTop -2;
@@ -594,8 +616,10 @@ function handleRelease(e) {
 }
 
 function selectRange(startX,startY,endX,endY,iframe,doc){
+	console.log('selectRange');
 	var sel;
 	if (range_g !== null && typeof iframe.contentWindow.getSelection != "undefined") {
+
 		sel = iframe.contentWindow.getSelection();
 		sel.removeAllRanges();
 		sel.addRange(range_g);
@@ -801,9 +825,7 @@ function listFragmentosDB_f(tx){
 		container = document.createElement("div");
 		container.id = "container_fragmentos";
 		
-		for (var i=0; i<results.rows.length; i++){
-			console.log(results.rows.item(i));
-			
+		for (var i=0; i<results.rows.length; i++){			
 			var id = results.rows.item(i).id;
 			var libro = results.rows.item(i).Libro;
 			var date = results.rows.item(i).Fecha;

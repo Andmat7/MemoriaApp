@@ -1,6 +1,6 @@
-<ons-page>
+<ons-page ng-controller="BookController">
 	
-	<ons-toolbar>
+<!-- 	<ons-toolbar>
 		<div class="left">
 			
 			<ons-toolbar-button ng-click="menu.toggle()">
@@ -12,7 +12,7 @@
 				</span>
 				
 			</ons-toolbar-button>
-<!--			<div class="navigation-bar book-bar">
+			<div class="navigation-bar book-bar">
 				<div class="navigation-bar__left">
 					El Placer. mujeres, coca y guerra en el Bajo Putumayo
 				</div>
@@ -21,31 +21,39 @@
 						<i class="ion-android-more-vertical" style=""></i>
 					</span>
 				</div>
-			</div>	-->		
+			</div>			
 		</div>
 
 		<div ng-class="center_toolbar" class="center"></div>
 		<div class="right" var="right" ng-class="right_toolbar"  >
 			<ons-toolbar-button ng-click="showinputsearch()" var="right">
-				
+				x
 				<ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
 				<input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
 				
 			</ons-toolbar-button>
 		</div>
-	</ons-toolbar>
-	<ons-toolbar style="background: #FEC62E; color: black;">
-		<div class="navigation-bar book-bar">
+	</ons-toolbar> -->
+	<ons-toolbar style="background: #FEC62E; color: black;" class="epub-bar">
+		<div class="navigation-bar book-bar ">
+
 			<div class="left">
-				<span  class="navigation-bar__line-height" style="vertical-align: middle">
-					El Placer. mujeres, coca y guerra en el Bajo Putumayo
-				</span>
+				  <ons-icon icon="ion-ios-arrow-thin-left" size="28px" fixed-width="false" ng-click="menu.setMainPage('main.html', {closeMenu: true});"></ons-icon>
+
 			</div>
-			<div class="right">
-				<span id="top-right" class="toolbar-button--quiet navigation-bar__line-height" ng-click="show('#top-right')">
-					<i class="ion-android-more-vertical" style="color: black"></i>
-				</span>
-			</div>
+							<div class="center" class="navigation-bar__line-height" style="vertical-align: middle">
+								<span>El Placer. mujeres, coca y guerra en el Bajo Putumayo</span>
+					
+				</div>
+				      <div class="right navigation-bar--android__right">
+       
+
+      
+        <span id="top-right" class="toolbar-button--quiet navigation-bar__line-height" ng-click="show('#top-right')">
+          <i class="ion-android-more-vertical" style=""></i>
+        </span>
+      </div> 
+	
 		</div>
 	</ons-toolbar>
 	<ons-carousel swipeable  auto-scroll animation: 'none' fullscreen var="carousel">
@@ -55,6 +63,7 @@
 		</ons-carousel-item>
 	</ons-carousel>
 </ons-page>
+
 
 
 

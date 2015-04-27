@@ -20,8 +20,6 @@
 	<script type="text/javascript" src="lib/rangy/log4javascript.js"></script>
 	<script type="text/javascript" src="lib/rangy/rangy-core.js"></script>
 	<script type="text/javascript" src="lib/rangy/rangy-position.js"></script>
-		<!-- WEINRE DEBUG -->
-	<script src="http://192.168.0.2:8080/target/target-script-min.js#anonymous"></script>
 	<script type="text/javascript" src="cordova.js"></script>
 	<script src="main.js"></script>
 	</head>
@@ -35,7 +33,7 @@
 
 		
 		<script type="text/ons-template" id="popover.html">
-			<ons-popover var="sharePopover" direction="up" cancelable mask-color="rgba(0, 0, 0, 0.0)">
+			<ons-popover id="share-popover" var="sharePopover" direction="up" cancelable mask-color="rgba(0, 0, 0, 0.0)">
 			<div style="text-align: center; opacity: 1;">
 			<button class="button--quiet" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
 			<button class="button--quiet" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
@@ -55,5 +53,14 @@
 		    </div>
 		  </ons-popover>
 		</ons-template>
+		  <ons-modal var="Modal">
+    <ons-icon icon="ion-load-c" spin="true"></ons-icon>
+    <br><br>
+    Listando epubs
+  </ons-modal> 
 		</body>
+
+
+		<!-- WEINRE -->
+	 <script src="http://192.168.0.4:8080/target/target-script-min.js#anonymous"></script>
 </html>

@@ -3980,26 +3980,31 @@ input[type="search"].search-input::-webkit-search-cancel-button {
   color: #fff;
   white-space: normal;
 }
-.book-bar {
-  background-color: #fec62e;
-  height: 2rem;
+.epub-bar .navigation-bar__left {
+  width: 10% !important;
+  max-width: 10% !important;
+}
+.epub-bar .navigation-bar__center {
+  max-width: 80% !important;
+  width: 80% !important;
+}
+.epub-bar .navigation-bar__right {
+  max-width: 10% !important;
+  width: 10% !important;
+}
+.epub-bar .navigation-bar__center {
   color: #000;
-  font-family: TitilliumWeb-Regular;
+  overflow: hidden;
+  max-width: 70%;
+  width: 70%;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+  height: 100%;
 }
-.book-bar .navigation-bar__left {
-  height: 2rem;
-  font-size: 1rem;
-  margin-left: 15px;
-}
-.book-bar .navigation-bar--android__right {
-  height: 2rem;
-}
-.book-bar .navigation-bar__line-height {
-  line-height: inherit;
-}
-.book-bar .toolbar-button--quiet {
-  color: #9b6700;
-  font-size: 1.5rem;
+.epub-bar .ons-icon--ion {
+  line-height: 44px;
+  margin: 0 10px;
+  color: #000;
 }
 .dialog {
   min-width: 200px;
@@ -4007,6 +4012,9 @@ input[type="search"].search-input::-webkit-search-cancel-button {
 }
 .dialog .navigation-bar {
   background-color: #fec62e;
+  color: #000;
+}
+.ion-android-more-vertical {
   color: #000;
 }
 h3 {
@@ -4315,6 +4323,9 @@ height-bar-share .text_bar_share,
 }
 .center.hide {
   width: 0%;
+}
+.left {
+  max-width: 30%;
 }
 .right.large {
   width: 73%;

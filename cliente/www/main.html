@@ -1,4 +1,4 @@
-<ons-page   ng-controller="HelloController">
+<ons-page   ng-controller="MainController">
         <div ng-init="">
         <ons-toolbar>
         <div class="left">
@@ -51,5 +51,11 @@
      <div class="more"  ng-click="showdescripcion(book)">
      <img ng-class="{'rotate' : book.toggled, '' : !book.toggled}"  src="lib/onsen/css/memoria/imgs/flecha.png"/>
      </div>
-  </ons-list>     
+  </ons-list>
+
+  <ons-modal var="modal">
+    <ons-icon icon="ion-load-c" spin="true"></ons-icon>
+    <br><br>
+    Please wait.<br>Closing in 2 seconds.
+  </ons-modal>     
 </ons-page>
