@@ -268,7 +268,7 @@ class EPubs extends CI_Controller {
 		}
 	}
 	public function getTags($isbn){
-		$config['hostname'] = 'localhost';
+		$config['hostname'] = 'localhost';//192.168.0.80
 		$config['username'] = 'app_cmh';
 		$config['password'] = 'S34rch%CMH$#';
 		$config['database'] = 'koha_biblio';
@@ -294,8 +294,12 @@ class EPubs extends CI_Controller {
 				$tags = "";
 				foreach($bookInfo as $datafield){
 					if ($datafield['tag'] == 650){
-						$tags .= (string)$datafield->subfield . " ; ";
-						$i ++;
+						foreach($datafield as $subfield){
+							if($subfield['code'] == 'a'){
+								$tags .= (string)$subfield . " ; ";
+								$i ++;
+							}
+						}
 					}
 				}
 				return $tags;

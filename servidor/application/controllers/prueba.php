@@ -35,14 +35,19 @@ class Prueba extends CI_Controller {
 // 			print_r($bookInfo);
 			if ($bookInfo !== false){
 				$i= 0;
+				$tag= '';
 				foreach($bookInfo as $datafield){
 					if ($datafield['tag'] == 650){
-						$i++;
-						echo $datafield->subfield;
-						echo "<br/>";
-						$tag .= (string)$datafield->subfield;
-						print_r($tag);
-						print_r("<br/>");
+						foreach($datafield as $subfield){
+							if($subfield['code'] == 'a'){
+								$i++;
+								echo $subfield;
+								echo "<br/>";
+								$tag .= (string)$subfield;
+								print_r($tag);
+								print_r("<br/>");
+							}
+						}
 					}
 				}
 			}

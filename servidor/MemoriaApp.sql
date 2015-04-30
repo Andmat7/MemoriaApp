@@ -28,14 +28,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `books` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
-  `ISBN` varchar(15) COLLATE utf8_bin NOT NULL,
+  `ISBN` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `title` varchar(200) COLLATE utf8_bin NOT NULL,
   `description` varchar(400) COLLATE utf8_bin NOT NULL,
-  `img` varchar(200) COLLATE utf8_bin NOT NULL,
-  `epub` varchar(200) COLLATE utf8_bin NOT NULL,
+  `img` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `epub` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `tags` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ISBN_UNIQUE` (`ISBN`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
