@@ -41,7 +41,7 @@
 			<div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">
 				<p>{{book.description}}</p>
 				<div onclick="viewBook();">
-					<button id="{{book.id}}" class="button-bar__button" onclick="viewBook_f(this)">DESCARGAR</button>
+					<button id="{{book.id}}" class="button-bar__button" epub="{{book.epub}}" onclick="viewBook_f(this)" title="{{book.title}}">DESCARGAR</button>
 				</div>
 				
 			</div>

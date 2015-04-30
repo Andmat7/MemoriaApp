@@ -268,7 +268,7 @@ class EPubs extends CI_Controller {
 		}
 	}
 	public function getTags($isbn){
-		$config['hostname'] = 'localhost';//192.168.0.80
+		$config['hostname'] = '192.168.0.85';//192.168.0.85
 		$config['username'] = 'app_cmh';
 		$config['password'] = 'S34rch%CMH$#';
 		$config['database'] = 'koha_biblio';

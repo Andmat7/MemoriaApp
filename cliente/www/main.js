@@ -1,3 +1,4 @@
+var urlServer_g = "http://xpace.hostzi.com/servidor/";
 var DBSize_g = 200000;//bytes
 var wholeSelRectEl_g = null;
 var startSelEl_g, endSelEl_g;
@@ -20,16 +21,9 @@ function viewMain_f(){
 	document.removeEventListener("touchmove",preventDefaultScroll_f);
 }
 function viewBook_f( element ){
-	if       (element.id == "book0"){
-		downloadEpubUrl_g = "http://xpace.hostzi.com/epub.epub";
-		bookTitle_g = 'Archivos de graves violaciones a los DDHH. Infracciones al DIH, Memoria Historica y conflicto Armado. Elementos para una Política Pública';
-	}else if (element.id == "book1"){
-		downloadEpubUrl_g = "http://xpace.hostzi.com/APORTESTEORICOS.epub";
-		bookTitle_g = 'El Placer. mujeres, coca y guerra en el Bajo Putumayo';
-	}else if (element.id == "book2"){
-		downloadEpubUrl_g = "http://xpace.hostzi.com/bojaya.epub";
-		bookTitle_g = 'Aportes teóricos y metodológicos para la valoración de los daños causados por la violencia';
-	}
+	event_global = element;
+	downloadEpubUrl_g = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
+	bookTitle_g = element.getAttribute("title");
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
 	document.addEventListener("touchmove",preventDefaultScroll_f);
 }

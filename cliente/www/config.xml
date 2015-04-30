@@ -10,7 +10,7 @@
 	<description>
 	</description>
 	
-	<preference name="phonegap-version" value="3.5.0" /> 
+	<preference name="phonegap-version" value="3.7.0" /> 
 	<!--     <preference name="ios-statusbarstyle"         value="black-opaque" /> -->
 	
 	<access origin="*.apache.org"/>
@@ -38,11 +38,11 @@
 	<access origin="*" subdomains="true"/>
 	
 	<feature name="http://api.phonegap.com/1.0/file"/>
-	<feature name="http://api.phonegap.com/1.0/media"/>
+<!-- 	<feature name="http://api.phonegap.com/1.0/media"/> -->
 	<feature name="http://api.phonegap.com/1.0/network"/>
 	<gap:config-file platform="android" parent="/manifest">
 		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-		<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+<!-- 		<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> -->
 		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
 		<uses-permission android:name="android.permission.INTERNET" />
 	</gap:config-file>
