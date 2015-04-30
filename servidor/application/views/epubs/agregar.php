@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group" >
 					<label for="isbn">ISBN</label>
-					<input type="text" class="form-control" id="isbn" name="isbn" value="<?php echo set_value('isbn'); ?>"/>
+					<input type="number" class="form-control" id="isbn" name="isbn" value="<?php echo set_value('isbn'); ?>"/>
 				</div>
 				<div class="form-group">
 					<label for="desc">Descripción</label>

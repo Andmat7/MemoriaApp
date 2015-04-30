@@ -5,7 +5,7 @@ class VerifyLogin extends CI_Controller {
  function __construct()
  {
    parent::__construct();
-   $this->load->model('user','',TRUE);
+   $this->load->model('Usuarios','',TRUE);
  }
 
  function index()
@@ -38,7 +38,7 @@ class VerifyLogin extends CI_Controller {
    $username = $this->input->post('username');
 
    //query the database
-   $result = $this->user->login($username, $password);
+   $result = $this->Usuarios->login($username, $password);
 
    if($result)
    {
