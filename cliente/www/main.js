@@ -16,6 +16,7 @@ var bookTitle_g = "Violacion de los DDHH";
 var downloadEpubUrl_g = "http://xpace.hostzi.com/epub.epub";
 var epubId_g = 0;
 var alertDebug = 0;
+var handleMoving_g = 0;
 
 function viewMain_f(){
 	menu.setMainPage('main.html', {closeMenu: true});
