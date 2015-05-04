@@ -14,6 +14,7 @@ var Book_g;
 var firstRun_g = true;
 var bookTitle_g = "Violacion de los DDHH";
 var downloadEpubUrl_g = "http://xpace.hostzi.com/epub.epub";
+var epubId_g = 0;
 var alertDebug = 0;
 
 function viewMain_f(){
@@ -24,6 +25,7 @@ function viewBook_f( element ){
 	event_global = element;
 	downloadEpubUrl_g = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
 	bookTitle_g = element.getAttribute("title");
+	epubId_g = element.getAttribute("epubId");
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
 	document.addEventListener("touchmove",preventDefaultScroll_f);
 }
@@ -105,10 +107,21 @@ function starting(){
 			}
 		});
 		ons.orientation.on('change', function( e ){
-			setTimeout('alignEPUBRotation_f()', 1000);
+			setTimeout(alignEPUBRotation_f, 1000);
 		});
 	}
-	downloadEPUB_f(downloadEpubUrl_g);
+	//verificar si el EPUB se ha bajado antes
+	var oLibros = JSON.parse( window.localStorage.getItem( "libros" ) );
+	if( oLibros !== null ){
+		var oLibro = oLibros[ epubId_g ];
+		if( oLibro !== undefined ){
+			openEPUB_f( workingDirEntry_g.toURL() + "epub/" + oLibro.id + ".epub" );
+		}else{
+			downloadEPUB_f(epubId_g, downloadEpubUrl_g);
+		}
+	}else{
+		downloadEPUB_f(epubId_g, downloadEpubUrl_g);
+	}
 	console.log("starting complete");
 // 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
 }
@@ -137,18 +150,18 @@ function alignEPUBRotation_f (){
 		}
 	}
 	removeSelectionIndicators();
-	console.log("is portrait " + e.isPortrait);
 }
 
-function downloadEPUB_f(URI){
+function downloadEPUB_f(id, URI){
 	var ft = new FileTransfer();
 	//   if (alertDebug == 1) alert ("begining download");
 	ft.download(
 		URI,
-		workingDirEntry_g.toURL()+"download.epub",
+		workingDirEntry_g.toURL() + "epub/" + id + ".epub",
 		function (entry) {//success download
 			console.log("download complete: " + entry.fullPath);
-			openEPUB_f (workingDirEntry_g.toURL()+"download.epub");
+			saveEPUBinStorage_f( id );
+			openEPUB_f (workingDirEntry_g.toURL() + "epub/" + id + ".epub");
 		},
 		function(error) {//error download
 			// 		switch(error.code){
@@ -934,4 +947,20 @@ function deleteFragmento_f(idFragmento){
 function deleteFragmentoDB_f(tx) {
 	createTableFragmentDB_f(tx);
 	tx.executeSql("DELETE FROM fragmentos WHERE id='"+idFragmentoDB_g+"'");
+}
+
+//******************************************
+//** Guardado de EPUBs
+//******************************************
+function saveEPUBinStorage_f( id ){
+	var oLibros = JSON.parse( window.localStorage.getItem("libros") );
+	if( oLibros === null) {
+		oLibros = {};
+	}
+	var oLibro = {
+		id   : id,
+		file : id + ".epub"
+	};
+	oLibros[ id ] =  oLibro ;
+	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
 }

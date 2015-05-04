@@ -61,20 +61,23 @@
 						title       : element.title,
 						img         : element.img,
 						id          : "book" + i,
-						epub        : element.epub
+						epub        : element.epub,
+						epubId      : element.id
 					});
 				});
 				$scope.node = {	books : books };
-
+				$scope.$apply();
+				Modal.hide();
 			},
 			error: function(e, text){
 				console.log(text);
 			}
 		});
-		$timeout(function(){
-			Modal.hide();
-// 			$route.reload();
-		},2000);
+// 		$timeout(function(){
+// 			$scope.$apply();
+// 			Modal.hide();
+// // 			$route.reload();
+// 		},2000);
 			// 		$timeout(function() {
 // 			$scope.node = {
 // 				books :[
