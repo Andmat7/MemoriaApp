@@ -17,6 +17,7 @@ var downloadEpubUrl_g = "http://xpace.hostzi.com/epub.epub";
 var epubId_g = 0;
 var alertDebug = 0;
 var handleMoving_g = 0;
+var color_background="";
 
 function viewMain_f(){
 	menu.setMainPage('main.html', {closeMenu: true});
@@ -26,7 +27,6 @@ function viewBook_f( element ){
 	event_global = element;
 	downloadEpubUrl_g = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
 	bookTitle_g = element.getAttribute("title");
-	epubId_g = element.getAttribute("epubId");
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
 	document.addEventListener("touchmove",preventDefaultScroll_f);
 }
@@ -96,12 +96,14 @@ function starting(){
 			e.preventDefault();
 			var xSelectStart = e.originalEvent.gesture.center.clientX;
 			var ySelectStart = e.originalEvent.gesture.center.clientY;
+			console.log("hold area");
 			wordSelectionFromPoint(xSelectStart, ySelectStart);
 		});
 		$(document).on('release', '#area', function(e) {
 			if ( startSelect_g === 0 ){
 				handleMoving_g = 0;
  				sharePopover.hide();
+ 				color_background="";
 				console.log('hide');
 			}else{
 				console.log('no hide');
@@ -523,7 +525,6 @@ function removeSelectionIndicators() {
 		startSelect_g = 0;
 	}
 
-	console.log("importanteeeeeeeeeee");
 	console.log(startSelect_g);
 }
 //Mostrar todos los indicadores de la seleccion (sombreado y handles)
@@ -537,6 +538,8 @@ function showSelectionPosition() {
 	var iframeY = iframe.offsetTop;
 	var selRects = rangy.getSelection(iframe).getRangeAt(0).nativeRange.getClientRects();
 	
+	rangy_Andres=rangy.getSelection(iframe).getRangeAt(0);
+	//console.log(rangy.serializeRange(rangy_Andres,null,iframe));
 	removeSelectionIndicators();
 	
 	showSelectionRects(selRects, carousel1);
@@ -573,7 +576,7 @@ function showSelectionRects(selRects, element){
 	wholeSelRectEl_g.id = "wholeselection";
 	for ( i = 0; i< selRects.length; i++){
 		rect = document.createElement("div");
-		rect.className = "wholeSelection";
+		rect.className = "wholeSelection "+color_background;
 		rect.style.left = selRects[i].left+iframeX + "px";
 		rect.style.top =  selRects[i].top+iframeY + "px";
 		rect.style.width = selRects[i].width + "px";
@@ -643,6 +646,7 @@ function selectRange(startX,startY,endX,endY,iframe,doc){
 		sel = iframe.contentWindow.getSelection();
 		sel.removeAllRanges();
 		sel.addRange(range_g);
+		console.log('selectRangea');
 		//     sel.removeAllRanges();
 		
 	} else if (typeof doc.body.createTextRange != "undefined") {
@@ -652,8 +656,10 @@ function selectRange(startX,startY,endX,endY,iframe,doc){
 		endRange.moveToPoint(endX, endY);
 		range_g.setEndPoint("EndToEnd", endRange);
 		range_g.select();
+		console.log('selectRangeb');
 	}
 	selectionString_g = iframe.contentWindow.getSelection().toString();
+	console.log(selectionString_g);
 	
 	removeSelectionIndicators();
 	showSelectionPosition();

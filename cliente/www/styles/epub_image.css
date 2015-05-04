@@ -2,4 +2,42 @@ img {
 	max-width : 100%;
 	max-height: 100%;
 }
-	
+#wholeselection2{
+	position: fixed;
+	top: 0;
+	max-width : 100%;
+	max-height: 100%;
+}
+.wholeSelection2 {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	background: #ffe04a;
+	opacity: 0.2
+}
+
+@font-face {
+  font-family: Lora-Bold;
+  font-style: normal;
+  src: url("../lib/onsen/css/memoria/fonts/Lora-Bold.ttf");
+}
+@font-face {
+  font-family: Lora-BoldItalic;
+  font-style: normal;
+  src: url("../lib/onsen/css/memoria/fonts/Lora-BoldItalic.ttf");
+}
+@font-face {
+  font-family: Lora-Italic;
+  font-style: normal;
+  src: url("../lib/onsen/css/memoria/fonts/Lora-Italic.ttf");
+}
+@font-face {
+  font-family: Lora-Regular;
+  font-style: normal;
+  src: url("../lib/onsen/css/memoria/fonts/Lora-Regular.ttf");
+}
+body{
+  font-family: 'Lora-Regular';
+  padding: 10px;
+  padding-top: 10px;
+}
