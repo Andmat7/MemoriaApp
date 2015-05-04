@@ -30,23 +30,6 @@ class Home extends CI_Controller {
    session_destroy();
    redirect('home', 'refresh');
  }
- public function upload_audiodescription()
- {
-    if($this->session->userdata('logged_in'))
-   {
-     $session_data = $this->session->userdata('logged_in');
-     $data['username'] = $session_data['username'];
-     $this->load->view('header');
-     $this->load->view('navbar');
-     $this->load->view('upload_audiodescription', $data);
-   }
-   else
-   {
-     //If no session, redirect to login page
-     redirect('login', 'refresh');
-   } 
- }
-
 }
 
 ?>

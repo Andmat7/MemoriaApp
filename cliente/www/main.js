@@ -18,14 +18,16 @@ var epubId_g = 0;
 var alertDebug = 0;
 var handleMoving_g = 0;
 var color_background="";
+var bookElement_g;
 
 function viewMain_f(){
 	menu.setMainPage('main.html', {closeMenu: true});
 	document.removeEventListener("touchmove",preventDefaultScroll_f);
 }
 function viewBook_f( element ){
-	event_global = element;
 	downloadEpubUrl_g = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
+	bookElement_g = element;
+	epubId_g = element.getAttribute("epubId");
 	bookTitle_g = element.getAttribute("title");
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
 	document.addEventListener("touchmove",preventDefaultScroll_f);
@@ -400,7 +402,6 @@ function onError_f(e){
 // ********************** 
 // ** EPUB NAVIGATION 
 // ***********************
-
 function nextPage(){
 	var ePage = document.getElementsByTagName("iframe")[0];
 	var winWidth = $(window).width();
@@ -965,8 +966,11 @@ function saveEPUBinStorage_f( id ){
 		oLibros = {};
 	}
 	var oLibro = {
-		id   : id,
-		file : id + ".epub"
+		description : bookElement_g.getAttribute("description"), 
+		title       : bookElement_g.getAttribute("title"),
+		img         : bookElement_g.getAttribute("img"),
+		epub        : bookElement_g.getAttribute("epub"),
+		id          : bookElement_g.getAttribute("epubId")
 	};
 	oLibros[ id ] =  oLibro ;
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));

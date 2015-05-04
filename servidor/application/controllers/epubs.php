@@ -77,6 +77,7 @@ class EPubs extends CI_Controller {
 						'img'          => '', 
 						'epub'         => '',
 						'tags'         => '',
+						'category'     => $cat
 					);
 					$this->db->insert('books', $data);
 					$id = $this->db->insert_id();
