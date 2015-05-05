@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS `books` (
   `img` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `epub` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `tags` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
+  `url` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
+  `category` int(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
 

@@ -24,11 +24,28 @@
 					<label for="desc">Descripción</label>
 					<textarea rows="3" class="form-control" id="desc" name="desc" value=""><?php echo $description; ?></textarea>
 				</div>
+				<div class="form-group" >
+					<label for="url">URL del libro para compartir</label>
+					<input type="text" class="form-control" id="url" name="url" value="<?php echo $url; ?>"></input>
+				</div>
+				<div class="form-group" >
+					<label for="tags">Temas</label>
+					<input type="text" class="form-control" id="tags" name="tags" value="<?php echo $tags; ?>"></input>
+				</div>
+				<div class="form-group">
+					<label for="category">Categoría</label>
+					<select class="form-control" name="category" id="category">
+						<option value="1" <?php if ($category == "1"){ echo "selected='selected'";} ?> >1</option>
+						<option value="2" <?php if ($category == "2"){ echo "selected='selected'";} ?> >2</option>
+						<option value="3" <?php if ($category == "3"){ echo "selected='selected'";} ?> >3</option>
+						<option value="4" <?php if ($category == "4"){ echo "selected='selected'";} ?> >4</option>
+					</select>
+				</div>
 				<div class="form-group">
 					<label for="imagen">Imagen de portada</label>
 					<input id="imagen" name="imagen" type="file" accept=".png,.jpg,.gif"></input>
 					<p class="help-block">Si desea cambiar la imágen de la portada escoja un nuevo archivo.</p>
-					</div>
+				</div>
 				<div class="form-group">
 					<label for="epub">Archivo EPUB</label>
 					<input id="epub" name="epub" type="file" accept=".epub"/>

@@ -42,8 +42,7 @@ class EPubs extends CI_Controller {
 			$this->form_validation->set_rules('titulo', 'Título', 'required');
 			$this->form_validation->set_rules('desc', 'Descripción', 'required');
 			$this->form_validation->set_rules('isbn', 'ISBN', 'is_natural');
-// 			$this->form_validation->set_rules('imagen', 'Imágen de portada', 'required');
-// 			$this->form_validation->set_rules('epub', 'EPUB', 'required');
+			$this->form_validation->set_rules('category', 'Categoría', 'required');
 			if ($this->form_validation->run() == FALSE){
 				$this->load->helper('form');
 				$this->load->view('header');
@@ -66,18 +65,21 @@ class EPubs extends CI_Controller {
 					$this->load->view('footer');
 					return;
 				}else{ // Validacion exitosa
-					$titulo = $this->input->post('titulo');
-					$desc   = $this->input->post('desc');
-					$isbn   = $this->input->post('isbn');
-					$tags   = $this->getTags($isbn);
-					$data   = array( 
+					$titulo   = $this->input->post('titulo');
+					$desc     = $this->input->post('desc');
+					$isbn     = $this->input->post('isbn');
+					$category = $this->input->post('category');
+					$tags     = $this->getTags($isbn);
+					$bookURL  = $this->getBookURL($isbn);
+					$data     = array( 
 						'title'        => $titulo,
 						'description'  => $desc, 
 						'ISBN'         => $isbn, 
 						'img'          => '', 
 						'epub'         => '',
 						'tags'         => '',
-						'category'     => $cat
+						'url'          => '',
+						'category'     => $category
 					);
 					$this->db->insert('books', $data);
 					$id = $this->db->insert_id();
@@ -111,12 +113,14 @@ class EPubs extends CI_Controller {
 						exit();
 					}
 					$data = array( 
-					'title'        => $titulo,
-					'description'  => $desc, 
-					'ISBN'         => $isbn, 
-					'img'          => $imgFileName, 
-					'epub'         => $epubFileName,
-					'tags'         => $tags,
+						'title'        => $titulo,
+						'description'  => $desc, 
+						'ISBN'         => $isbn, 
+						'img'          => $imgFileName, 
+						'epub'         => $epubFileName,
+						'tags'         => $tags,
+						'url'          => $bookURL,
+						'category'     => $category
 					);
 					$this->db->where('id', $id);
 					$this->db->update('books', $data);
@@ -173,6 +177,9 @@ class EPubs extends CI_Controller {
 			$this->form_validation->set_rules('titulo', 'Título', 'required');
 			$this->form_validation->set_rules('desc', 'Descripción', 'required');
 			$this->form_validation->set_rules('isbn', 'ISBN', 'is_natural');
+			$this->form_validation->set_rules('category', 'Categoría', 'required');
+			$this->form_validation->set_rules('url', 'URL del libro', 'prep_url');
+			$this->form_validation->set_rules('tags', 'Temas', 'xss_clean');
 			// 			$this->form_validation->set_rules('imagen', 'Imágen de portada', 'required');
 			// 			$this->form_validation->set_rules('epub', 'EPUB', 'required');
 			if ($this->form_validation->run() == FALSE){
@@ -182,6 +189,9 @@ class EPubs extends CI_Controller {
 					'ISBN'        => set_value('isbn'),
 					'description' => set_value('desc'),
 					'id'          => set_value('id'),
+					'url'         => set_value('url'),
+					'tags'        => set_value('tags'),
+					'category'    => set_value('category'),
 				);
 				$this->load->view('header');
 				$this->load->view('navbar');
@@ -193,12 +203,15 @@ class EPubs extends CI_Controller {
 				$desc          = $this->input->post('desc');
 				$isbn          = $this->input->post('isbn');
 				$id            = $this->input->post('id');
+				$url           = $this->input->post('url');
+				$tags          = $this->input->post('tags');
+				$category      = $this->input->post('category');
 				$this->db->where('id', $id);
 				$query         = $this->db->get('books');
 				$data          = $query->result()['0'];
 				$imgFileName   = $data->img;
 				$epubFileName  = $data->epub;
-				$tags          = $this->getTags($isbn);
+// 				$tags          = $this->getTags($isbn);
 				$this->load->library('filemanager');
 				$this->filemanager->createFolder("./uploads/epub/");
 				$this->filemanager->createFolder("./uploads/img/");
@@ -244,6 +257,8 @@ class EPubs extends CI_Controller {
 					'img'         => $imgFileName,
 					'epub'        => $epubFileName,
 					'tags'        => $tags,
+					'url'         => $url,
+					'category'    => $category
 				);
 				$this->db->where('id', $id);
 				$this->db->update('books', $data); 
@@ -269,18 +284,7 @@ class EPubs extends CI_Controller {
 		}
 	}
 	public function getTags($isbn){
-		$config['hostname'] = '192.168.0.85';//192.168.0.85
-		$config['username'] = 'app_cmh';
-		$config['password'] = 'S34rch%CMH$#';
-		$config['database'] = 'koha_biblio';
-		$config['dbdriver'] = 'mysql';
-		$config['dbprefix'] = '';
-		$config['pconnect'] = TRUE;
-		$config['db_debug'] = TRUE;
-		$config['cache_on'] = FALSE;
-		$config['cachedir'] = '';
-		$config['char_set'] = 'utf8';
-		$config['dbcollat'] = 'utf8_general_ci';
+		$config = $this->kohaDBConfig();
 		$kohaDB = $this->load->database($config, TRUE);
 		$kohaDB->select('marcxml');
 		$kohaDB->where('isbn', $isbn);
@@ -304,6 +308,50 @@ class EPubs extends CI_Controller {
 					}
 				}
 				return $tags;
+			}
+		}
+		return FALSE;
+	}
+	public function kohaDBConfig(){
+		$config['hostname'] = 'localhost';//192.168.0.85
+		$config['username'] = 'app_cmh';
+		$config['password'] = 'S34rch%CMH$#';
+		$config['database'] = 'koha_biblio';
+		$config['dbdriver'] = 'mysql';
+		$config['dbprefix'] = '';
+		$config['pconnect'] = TRUE;
+		$config['db_debug'] = TRUE;
+		$config['cache_on'] = FALSE;
+		$config['cachedir'] = '';
+		$config['char_set'] = 'utf8';
+		$config['dbcollat'] = 'utf8_general_ci';
+		return $config;
+	}
+	public function getBookURL($isbn){
+		$config = $this->kohaDBConfig();
+		$kohaDB = $this->load->database($config, TRUE);
+		$kohaDB->select('marcxml');
+		$kohaDB->where('isbn', $isbn);
+		$query = $kohaDB->get('biblioitems',1);
+		if($query->num_rows() > 0){
+			$data = $query->result()['0'];
+			$xmlData = $data->marcxml;
+			$bookInfo = simplexml_load_string($xmlData);
+			// 			print_r($bookInfo);
+			if ($bookInfo !== false){
+				$i   = 0;
+				$url = "";
+				foreach($bookInfo as $datafield){
+					if ($datafield['tag'] == 856){
+						foreach($datafield as $subfield){
+							if($subfield['code'] == 'u'){
+								$url = (string)$subfield;
+								$i ++;
+							}
+						}
+					}
+				}
+				return $url;
 			}
 		}
 		return FALSE;

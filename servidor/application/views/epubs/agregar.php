@@ -24,6 +24,16 @@
 					<textarea rows="3" class="form-control" id="desc" name="desc" value=""><?php echo set_value('desc'); ?></textarea>
 				</div>
 				<div class="form-group">
+					<label for="category">Categoría</label>
+					<select class="form-control" name="category" id="category">
+					<option value="1" <?php echo set_select('category', '1'); ?> >1</option>
+					<option value="2" <?php echo set_select('category', '2'); ?> >2</option>
+					<option value="3" <?php echo set_select('category', '3'); ?> >3</option>
+					<option value="4" <?php echo set_select('category', '4'); ?> >4</option>
+					</select>
+				</div>
+				<label><?php echo set_value('category'); ?></label>
+				<div class="form-group">
 					<label for="imagen">Imagen de portada</label>
 					<input id="imagen" name="imagen" type="file" accept=".png,.jpg,.gif"/>
 				</div>
