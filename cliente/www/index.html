@@ -35,8 +35,6 @@
 		menu-page="menu.html" main-page="main.html" side="left"
 		var="menu"  max-slide-distance="260px" swipable="true" type="overlay">
 		</ons-sliding-menu>
-
-		
 		<script type="text/ons-template" id="share-popover.html">
 			<ons-popover id="share-popover" var="sharePopover" direction="up" mask-color="rgba(0, 0, 0, 0.0)">
 			<div style="text-align: center; opacity: 1;">
@@ -48,6 +46,20 @@
 			<button class="button--quiet" onclick="change_background('green_background');"><img style="height: 2em;" src="img/circulo verde.png"></button>
 
 			</div>
+			</ons-popover>
+		</script>
+		<script type="text/ons-template" id="meaning-popover.html">
+			<ons-popover id="meaning-popover" var="meaningPopover" direction="up" mask-color="rgba(0, 0, 0, 0.0)">
+				<div style="text-align: center; opacity: 1;">
+					<p onclick="showMeaning();">Buscar significado</p>
+				</div>
+			</ons-popover>
+		</script>
+		<script type="text/ons-template" id="dic-popover.html">
+			<ons-popover id="dic-popover" var="dicPopover" mask-color="rgba(0, 0, 0, 0.0)" modifier="android more">
+				<div style="text-align: center; opacity: 1;">
+					<p>Diccionario: libro donde se buscan el significado de palabras.</p>
+				</div>
 			</ons-popover>
 		</script>
 		 <ons-template id="popoverbook.html">

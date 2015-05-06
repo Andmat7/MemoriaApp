@@ -44,6 +44,20 @@ font-size: 0.5in;
 .popover__content{
 	min-height: 10px;
 }
-#share-popover .popover-mask{
+#share-popover .popover-mask, #meaning-popover .popover-mask{
   z-index : -1;
+}
+#share-popover .popover__content, #meaning-popover .popover__content{
+	border: solid 1px;
+}
+#share-popover .popover__bottom-arrow, #meaning-popover .popover__bottom-arrow{
+	border-left: solid 1px;
+	border-bottom: solid 1px;
+}
+#share-popover .popover__top-arrow, #meaning-popover .popover__top-arrow{
+	border-right: solid 1px;
+	border-top: solid 1px;
+}
+.popover--more .popover__right-arrow, .popover--more .popover__bottom-arrow, .popover--more .popover__left-arrow, .popover--more .popover__top-arrow {
+	display: none;
 }

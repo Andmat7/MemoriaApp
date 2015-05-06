@@ -83,13 +83,46 @@ function starting(){
 		//popover para redes sociales
 		ons.createPopover('share-popover.html').then(function(){
 			sharePopover.on("postshow", function(e){
-				//$(".popover-mask")[0].style.zIndex = -1;
 				var pop = $('#share-popover')[0];
 				var mask = pop.children[0];
 				mask.style.zIndex = -1;
-				//alert('prueba');
-				//console.log('prueba');
-				//$(".popover-mask").hide();
+			});
+		});
+		ons.createPopover('meaning-popover.html').then(function(){
+			meaningPopover.on("postshow", function(e){
+				var pop  = $('#meaning-popover')[0];
+				var mask = pop.children[0];
+				mask.style.zIndex = -1;
+			});
+		});
+		ons.createPopover('dic-popover.html').then(function(){
+			dicPopover.on("postshow", function(e){
+				var pop              = $('#dic-popover')[0];
+				var popover          = pop.children[1];
+				popover.style.bottom = "0px";
+				popover.style.left   = "0px";
+				popover.style.width  = "100%";
+				popover.style.top    = "60%";
+				$.ajax({
+					url: "http://es.wiktionary.org/w/api.php?action=query&titles=l%C3%A1mpara&prop=revisions&rvprop=content&format=json",
+					 dataType: "jsonp",
+					 success: function (aResponse) {
+						 console.log("success");
+						 var p = $('#dic-popover .popover__content div p');
+						 p.innerHTML = "";
+						 var content = aResponse.query.pages[49597].revisions[0]["*"];
+						 console.log(content);
+						 var i=-1;
+						 aResponse.forEach(function(element) {
+							 i++;
+							 console.log(element);
+							 p += element;
+						 });
+					 },
+					 error: function(e, text){
+						 console.log(text);
+					 }
+				});
 			});
 		});
 		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
@@ -105,6 +138,7 @@ function starting(){
 			if ( startSelect_g === 0 ){
 				handleMoving_g = 0;
  				sharePopover.hide();
+				meaningPopover.hide();
  				color_background="";
 				console.log('hide');
 			}else{
@@ -500,6 +534,8 @@ function wordSelectionFromPoint(startX, startY) {
 	}
 	// seleccionar el rango
 	selectRange(startX,startY,0,0,iframe,doc);
+	meaningPopover.show('.wholeSelection');
+	
 }
 //coordenadas del elemento con respecto al documento (absolutas)
 function getPosition(element) {
@@ -561,7 +597,7 @@ function showSelectionPosition() {
 	endSelEl_g.style.left = (endPos.x+iframeX ) - (endSelEl_g.offsetWidth/4) + "px";
 	endSelEl_g.style.top = (endPos.y+iframeY ) - 3 + "px";
 	
-	sharePopover.show('.wholeSelection');
+// 	sharePopover.show('.wholeSelection');
 	$(document).on('touch', '#area', removeSelectionIndicators);
 }
 //Sombreado de texto seleccionado (solucion para problema IOS)
@@ -637,20 +673,19 @@ function handleRelease(e) {
 		range_g.setEnd(end.startContainer, end.startOffset);
 	}
 	selectRange(startX,startY,endX,endY,iframe,doc);
+	sharePopover.show('.wholeSelection');
 }
 
 function selectRange(startX,startY,endX,endY,iframe,doc){
 	console.log('selectRange');
 	var sel;
 	if (range_g !== null && typeof iframe.contentWindow.getSelection != "undefined") {
-
 		sel = iframe.contentWindow.getSelection();
 		sel.removeAllRanges();
 		sel.addRange(range_g);
 		console.log('selectRangea');
 		//     sel.removeAllRanges();
-		
-	} else if (typeof doc.body.createTextRange != "undefined") {
+	}else if(typeof doc.body.createTextRange != "undefined") {
 		var endRange = range_g.duplicate();
 		sel = iframe.contentWindow.getSelection();
 		range_g.moveToPoint(startX, startY);    
@@ -974,4 +1009,11 @@ function saveEPUBinStorage_f( id ){
 	};
 	oLibros[ id ] =  oLibro ;
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
+}
+//******************************************
+//** Diccionario
+//******************************************
+function showMeaning(){
+	dicPopover.show(".navigation-bar");
+	
 }
