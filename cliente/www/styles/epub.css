@@ -58,6 +58,12 @@ font-size: 0.5in;
 	border-right: solid 1px;
 	border-top: solid 1px;
 }
-.popover--more .popover__right-arrow, .popover--more .popover__bottom-arrow, .popover--more .popover__left-arrow, .popover--more .popover__top-arrow {
+.popover--dic .popover__right-arrow, .popover--dic .popover__bottom-arrow, .popover--dic .popover__left-arrow, .popover--dic .popover__top-arrow {
 	display: none;
+}
+.popover--dic .popover__content{
+	background-color: #DDDDDD;
+}
+.popover--dic .popover__content p{
+	text-align: left;
 }

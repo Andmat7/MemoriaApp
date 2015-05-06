@@ -80,6 +80,9 @@ function starting(){
 		$(document).on('touch', '#endSelection', beginHandleMove);
 		$(document).on('touchmove', '#endSelection', handleMove);
 		$(document).on('release', '#endSelection', handleRelease);	
+		//***************************************
+		//** POPOVERs
+		//***************************************
 		//popover para redes sociales
 		ons.createPopover('share-popover.html').then(function(){
 			sharePopover.on("postshow", function(e){
@@ -89,40 +92,17 @@ function starting(){
 			});
 		});
 		ons.createPopover('meaning-popover.html').then(function(){
-			meaningPopover.on("postshow", function(e){
+			meaningPopover.on("preshow", function(e){
 				var pop  = $('#meaning-popover')[0];
 				var mask = pop.children[0];
 				mask.style.zIndex = -1;
 			});
 		});
 		ons.createPopover('dic-popover.html').then(function(){
-			dicPopover.on("postshow", function(e){
-				var pop              = $('#dic-popover')[0];
-				var popover          = pop.children[1];
-				popover.style.bottom = "0px";
-				popover.style.left   = "0px";
-				popover.style.width  = "100%";
-				popover.style.top    = "60%";
-				$.ajax({
-					url: "http://es.wiktionary.org/w/api.php?action=query&titles=l%C3%A1mpara&prop=revisions&rvprop=content&format=json",
-					 dataType: "jsonp",
-					 success: function (aResponse) {
-						 console.log("success");
-						 var p = $('#dic-popover .popover__content div p');
-						 p.innerHTML = "";
-						 var content = aResponse.query.pages[49597].revisions[0]["*"];
-						 console.log(content);
-						 var i=-1;
-						 aResponse.forEach(function(element) {
-							 i++;
-							 console.log(element);
-							 p += element;
-						 });
-					 },
-					 error: function(e, text){
-						 console.log(text);
-					 }
-				});
+			dicPopover.on("postshow", populateDic_f);
+			dicPopover.on("prehide", function(){
+				var p = $('#dic-popover p')[0];
+				p.innerHTML = "Cargando...";
 			});
 		});
 		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
@@ -163,6 +143,54 @@ function starting(){
 	}
 	console.log("starting complete");
 // 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
+}
+//******************************************
+//** POPOVER DEL DICCIONARIO
+//******************************************
+function populateDic_f(e){
+	var URL = "http://es.wiktionary.org/w/api.php?action=query&titles=" + selectionString_g.toLowerCase() + "&prop=revisions&rvprop=content&format=json";
+	$.ajax({
+		url: URL,
+		dataType: "jsonp",
+		success: function (aResponse) {
+			console.log("success");
+
+			console.log(aResponse);
+			var pages = aResponse.query.pages;
+			var page  = getElement( pages );
+			var content;
+			if ( page.missing === undefined ){
+				content = page.revisions[0]["*"];
+			}else{
+				var p = $('#dic-popover p')[0];
+				p.innerHTML = selectionString_g + ":<br/>No encontrado";
+				return;
+			}
+			var textLines = content.split("\n");
+			var sMeaning = "";
+			var i=0;
+			textLines.every(function(line) {
+				if( line.substr(0,1) == ";" && !isNaN( parseInt( line.substr(1,1) ) ) ){
+					i++;
+					sMeaning += "<br/>" + line.substr(1);
+				}
+				return (i < 3); //break if i not < 3
+			});
+			sMeaning = wikiFormat_f(sMeaning.substr(5));
+			var p = $('#dic-popover p')[0];
+			p.innerHTML = selectionString_g + ":<br/>" + sMeaning;
+			console.log(sMeaning);
+// 			var pop              = $('#dic-popover')[0];
+// 			var popover          = pop.children[1];
+// 			popover.style.bottom = "0px";
+// 			popover.style.left   = "0px";
+// 			popover.style.width  = "100%";
+// 			popover.style.top    = "60%";
+		},
+		error: function(e, text){
+			console.log(text);
+		}
+	});
 }
 //*******************************************
 //** Descarga y lectura de EPUBs
@@ -673,6 +701,7 @@ function handleRelease(e) {
 		range_g.setEnd(end.startContainer, end.startOffset);
 	}
 	selectRange(startX,startY,endX,endY,iframe,doc);
+	meaningPopover.hide();
 	sharePopover.show('.wholeSelection');
 }
 
@@ -1015,5 +1044,26 @@ function saveEPUBinStorage_f( id ){
 //******************************************
 function showMeaning(){
 	dicPopover.show(".navigation-bar");
-	
+}
+
+function getElement( data ){
+	if( data !== undefined ){
+		for (var prop in data){
+			return data[prop];
+		}
+	}
+}
+function wikiFormat_f( str ){
+	var result = str;
+	var aMatch = result.match(/(\[{2}[^\[]+\|[^\[]+\]{2})/g);
+	var word = "";
+	if (aMatch !== null){
+		aMatch.forEach(function( match ){
+			word = match.match(/([^\|]*(?=\]\]))/)[0];
+			match = match.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+			result = result.replace(RegExp(match,"g"), word);
+		});
+	}
+	result = result.replace(/([\[\]\{\}]|ucf\|)/g,"");
+	return result;
 }
