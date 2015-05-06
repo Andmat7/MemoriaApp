@@ -62,6 +62,29 @@
 				</div>
 			</ons-popover>
 		</script>
+		<script type="text/ons-template" id="dialog-share.html">
+			<ons-dialog style="height: 94px;  min-height: 50px; color:black" var="Dialogfavorites" cancelable>
+
+		    <ons-navigator var="myNav">
+		      <ons-toolbar inline>
+		        <div class="center" style="color:black">
+		          Compartir libro en redes
+		        </div>
+		      </ons-toolbar>
+		    
+		      <div style="text-align: center">
+
+
+		      <div style="text-align: center; opacity: 1;">
+		      <button class="button--quiet" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
+		      <button class="button--quiet" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
+		      </div>
+		    
+
+		      </div>
+		    </ons-navigator>
+		  </ons-dialog>  
+		</script>
 		 <ons-template id="popoverbook.html">
  
 		  <ons-popover var="Popoverbook" modifier="android" direction="up down" cancelable ng-controller="PopoverbookController">
@@ -79,6 +102,11 @@
     <br><br>
     Listando epubs
   </ons-modal> 
+  	<ons-template id="Dialog_book_save.html">
+  		<ons-dialog id="Dialog_book_save" var="Dialog_book_save" style="min-height: 40px;height: 38px;line-height: 38px;text-align:center; width:250px; background-color:#adadad;font-family: 'TitilliumWeb-Light';font-size: 0.8rem;" cancelable>
+			El libro se ha agregado a tus favoritos
+      	</ons-dialog> 
+	</ons-template>
 		<!-- WEINRE -->
 		<!--	 <script src="http://192.168.0.2:8080/target/target-script-min.js#anonymous"></script> -->
 		</body>

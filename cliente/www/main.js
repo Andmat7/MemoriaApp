@@ -885,6 +885,9 @@ function saveFragment_f(){
 	var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
 	db.transaction(saveFragmentDB_f, onError_f, function(){ //success
 	});
+	Dialog_fragment_save.show();
+	setTimeout('Dialog_fragment_save.hide()', 2000);
+	
 }
 
 function saveFragmentDB_f(tx) {
@@ -954,7 +957,7 @@ function listFragmentosDB_f(tx){
 			'<P>'+ fragmento +'</P>'+
 			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
 			'Tomado de libro '+ libro +
-			'<span ontouchend="alert(1); deleteFragmento_f('+ id +');">'+
+			'<span onclick="deleteFragmento_f('+ id +');">'+
 			'&nbsp;&nbsp;&nbsp;<ons-icon icon="ion-trash-a" style="float:right" class="trash ons-icon ons-icon--ion ion-trash-a fa-lg""></ons-icon>'+
 			'</span>'+
 			'</ons-list-item>'+
@@ -1002,18 +1005,42 @@ var monthToString_f = function (nMonth){
 };
 var idFragmentoDB_g;
 function deleteFragmento_f(idFragmento){
-	idFragmentoDB_g = idFragmento;
-	var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
-	db.transaction(
-		deleteFragmentoDB_f,
-		onError_f, 
-		function(){ //success
-			console.log("borrado");
-			var item = document.getElementById("fragmento_"+idFragmento);
-			var container = document.getElementById("container_fragmentos");
-			container.removeChild(item);
-		}
-	);
+	ons.notification.confirm({
+		  message: '¿Esta seguro que desea eliminar el fragmento favorito?',
+		  // or messageHTML: '<div>Message in HTML</div>',
+		  title: 'Eliminar fragmento',
+		  buttonLabels: ['Aceptar', 'Cancelar'],
+		  animation: 'default', // or 'none'
+		  primaryButtonIndex: 1,
+		  cancelable: true,
+		  callback: function(index) {
+		  	switch(index) {
+		  		case 0:
+		  			idFragmentoDB_g = idFragmento;
+		  			var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+					db.transaction(
+						deleteFragmentoDB_f,
+						onError_f, 
+						function(){ //success
+							console.log("borrado");
+							var item = document.getElementById("fragmento_"+idFragmento);
+							var container = document.getElementById("container_fragmentos");
+							container.removeChild(item);
+						}
+					);
+		            ons.notification.alert({
+		              message: 'Fragmento eliminado'
+		            });
+            		break;
+
+          		case 1:
+		       
+		            break;
+        	}
+		  }
+	});
+	
+	
 }
 
 function deleteFragmentoDB_f(tx) {

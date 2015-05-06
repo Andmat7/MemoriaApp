@@ -4,43 +4,45 @@
 		ons.createPopover('popoverbook.html').then(function(popover) {
 			$scope.popoverbook = popover;
 		});
-		
+		ons.createDialog('dialog-share.html').then(function(dialog) {
+      		$scope.dialog = dialog;
+    	});
 		$scope.show = function(e) {
 			$scope.popoverbook.show(e);
 		};
-	ons.createDialog('dialogfavorites.html').then(function(dialog) {
-			$scope.dialogfavorites = dialogfavorites;
+		ons.createDialog('dialog-share.html').then(function(dialog) {
+			$scope.dialogfavorites = dialog;
 		});
+		ons.createDialog('Dialog_book_save.html').then(function(dialog) {
+			$scope.Dialog_book_save = dialog;
 		
+		});
+		ons.createDialog('Dialog_fragment_save.html').then(function(dialog) {
+			$scope.Dialog_fragment_save = dialog;
+		});		
 		
 	}).controller("PopoverbookController", function($scope, $window) {
 		
 		$scope.share=function() {
-			
 			Popoverbook.hide();
-			naviDialog.show()
+			Dialogfavorites.show()
 			setTimeout('modal.hide()', 2000);
 			
 		};
 		$scope.addfavorites=function() {
 			
 			Popoverbook.hide();
-			dialogfavorites.show()
-			setTimeout('modal.hide()', 2000);
+			Dialog_book_save.show()
+			setTimeout('Dialog_book_save.hide()', 2000);
 			
 		};
 		
-		
-		
-		
-	},function(){} );
+},function(){} );
 	
 	
 	module.controller("MainController", function($scope,$http,$timeout) {
 		ons.ready(function() {
 			// Actually myNavigator object sits in the root scope
-			
-			
 		});
 		$scope.node = {};
 		// $http.get('http://localhost/servidor/index.php/books/lista').success(function(data) {

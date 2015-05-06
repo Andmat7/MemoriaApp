@@ -1,39 +1,5 @@
 <ons-page ng-controller="BookController" id="epub-page">
 	
-<!-- 	<ons-toolbar>
-		<div class="left">
-			
-			<ons-toolbar-button ng-click="menu.toggle()">
-				<ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
-				<img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
-				
-				<span ng-class="titulomemoria" class="titulo_memoria">
-					MEMORIAPP
-				</span>
-				
-			</ons-toolbar-button>
-			<div class="navigation-bar book-bar">
-				<div class="navigation-bar__left">
-					El Placer. mujeres, coca y guerra en el Bajo Putumayo
-				</div>
-				<div class=" navigation-bar--android__right">
-					<span id="top-right" class="toolbar-button--quiet navigation-bar__line-height" ng-click="show('#top-right')">
-						<i class="ion-android-more-vertical" style=""></i>
-					</span>
-				</div>
-			</div>			
-		</div>
-
-		<div ng-class="center_toolbar" class="center"></div>
-		<div class="right" var="right" ng-class="right_toolbar"  >
-			<ons-toolbar-button ng-click="showinputsearch()" var="right">
-				x
-				<ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
-				<input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
-				
-			</ons-toolbar-button>
-		</div>
-	</ons-toolbar> -->
 	<ons-toolbar style="background: #FEC62E; color: black;" class="epub-bar">
 		<div class="navigation-bar book-bar ">
 
@@ -67,6 +33,14 @@
 		<br/><br/>
 		Por favor espere.<br/>Bajando EPUB ...
 	</ons-modal>
+	<ons-template id="Dialog_fragment_save.html">
+  		<ons-dialog id="Dialog_fragment_save" var="Dialog_fragment_save" style="min-height: 40px;height: 38px;line-height: 38px;text-align:center; width:250px; background-color:#adadad;font-family: 'TitilliumWeb-Light';font-size: 0.8rem;" cancelable>
+			El fragmento se ha agregado a tus favoritos
+	      </ons-dialog> 
+	</ons-template>	
+
+
+
 </ons-page>
 
 
