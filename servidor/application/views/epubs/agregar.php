@@ -38,7 +38,6 @@
 						<option value="9" <?php echo set_select('category', '9'); ?> >Resúmenes</option>
 					</select>
 				</div>
-				<label><?php echo set_value('category'); ?></label>
 				<div class="form-group">
 					<label for="imagen">Imagen de portada</label>
 					<input id="imagen" name="imagen" type="file" accept=".png,.jpg,.gif"/>
