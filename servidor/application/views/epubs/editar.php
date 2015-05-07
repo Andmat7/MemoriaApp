@@ -35,11 +35,17 @@
 				<div class="form-group">
 					<label for="category">Categoría</label>
 					<select class="form-control" name="category" id="category">
-						<option value="1" <?php if ($category == "1"){ echo "selected='selected'";} ?> >1</option>
-						<option value="2" <?php if ($category == "2"){ echo "selected='selected'";} ?> >2</option>
-						<option value="3" <?php if ($category == "3"){ echo "selected='selected'";} ?> >3</option>
-						<option value="4" <?php if ($category == "4"){ echo "selected='selected'";} ?> >4</option>
-					</select>
+						<option value="1" <?php if ($category == "1"){ echo "selected='selected'";} ?> >Informe General ¡Basta Ya!</option>
+						<option value="2" <?php if ($category == "2"){ echo "selected='selected'";} ?> >Informes de investigación</option>
+						<option value="3" <?php if ($category == "3"){ echo "selected='selected'";} ?> >Herramientas metodológicas
+						y pedagógicas</option>
+						<option value="4" <?php if ($category == "4"){ echo "selected='selected'";} ?> >Iniciativas de memoria</option>
+						<option value="5" <?php if ($category == "5"){ echo "selected='selected'";} ?> >Acuerdos de la Verdad</option>
+						<option value="6" <?php if ($category == "6"){ echo "selected='selected'";} ?> >Diálogos de la memoria</option>
+						<option value="7" <?php if ($category == "7"){ echo "selected='selected'";} ?> >Cartillas</option>
+						<option value="8" <?php if ($category == "8"){ echo "selected='selected'";} ?> >Revistas</option>
+						<option value="9" <?php if ($category == "9"){ echo "selected='selected'";} ?> >Resúmenes</option>
+						</select>
 				</div>
 				<div class="form-group">
 					<label for="imagen">Imagen de portada</label>

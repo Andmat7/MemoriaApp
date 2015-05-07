@@ -1,27 +1,69 @@
-    <ons-page modifier="menu-page">
-      <ons-toolbar modifier="transparent"></ons-toolbar>
-        <ons-list-item class="menu-item page--menu-title" onclick="viewMain_f()">
-          INICIO
-        </ons-list-item>
-        <ons-list-item class="menu-item title-menu" >
-        <ons-icon icon="ion-star"></ons-icon>
-          Este es un titulo
-          
-        </ons-list-item>
-      <ons-list class="menu-list">
-      
-        <ons-list-item class="menu-item" onclick="viewBook_f();">
-          
-          Libro
-          <div class="notification menu-notification">3</div>
-        </ons-list-item>
+<ons-page modifier="menu-page">
+	<ons-toolbar modifier="transparent"></ons-toolbar>
+	<ons-list-item class="menu-item page--menu-title" onclick="viewMain_f()">
+		INICIO
+	</ons-list-item>
+	<ons-list-item class="menu-item title-menu" >
+		<ons-icon icon="ion-star"></ons-icon>
+		Este es un titulo
+	</ons-list-item>
+	<ons-list class="menu-list">
+		
+		<ons-list-item class="menu-item" onclick="viewBook_f();">
+			
+			Libro
+			<div class="notification menu-notification">3</div>
+		</ons-list-item>
+		
+		<ons-list-item class="menu-item" onclick="viewBookmark_f();">
+			
+			Marcadores
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+		
+	</ons-list>
+	<ons-list-item class="menu-item title-menu" >
+		<ons-icon icon="ion-star"></ons-icon>
+		Colecciones
+	</ons-list-item>
+	<ons-list class="menu-list">
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(1);">
+			Informe General ¡Basta <br/>Ya!
+			<div class="notification menu-notification">3</div>
+		</ons-list-item>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(2);">
+			Informes de investigación
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(3);">
+			Herramientas metodológicas y pedagógicas
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
 
-        <ons-list-item class="menu-item" onclick="viewBookmark_f();">
-          
-          Marcadores
-          <div class="notification menu-notification">13</div>
-        </ons-list-item>
-
-      </ons-list>
-
-    </ons-page>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(4);">
+			Iniciativas de memoria
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(5);">
+			Acuerdos de la Verdad
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(6);">
+			Diálogos de la memoria
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(7);">
+			Cartillas
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(8);">
+			Revistas
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+		<ons-list-item class="menu-item" onclick="viewColeccion_f(9);">
+			Resúmenes
+			<div class="notification menu-notification">13</div>
+		</ons-list-item>
+	</ons-list>
+	
+</ons-page>

@@ -5,9 +5,10 @@ class Books extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form', 'url'));
 	}
-	public function lista(){
+	public function lista($category){
 		//header('Content-type: application/json');
 		header('Content-Type: application/json; charset=utf-8');
+		$this->db->where("category", $category);
 		$query = $this->db->get('books');
 		$result = $query->result();
 		foreach($result as $element){
