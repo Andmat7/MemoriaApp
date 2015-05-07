@@ -96,4 +96,25 @@
 		
 		
 	});
+
+	module.controller("MenuController", function($scope,$http,$timeout) {
+		$scope.node = {};
+		$.ajax({
+			url: urlServer_g+"index.php/books/categorias/",
+			dataType: "jsonp",
+			success: function (aResponse) {
+				var i=-1;
+				var coleccion = [0,0,0,0,0,0,0,0,0,0];
+				aResponse.forEach(function(element) {
+					coleccion[ element.category ] = element['COUNT(*)'];
+					i++;
+				});
+				$scope.node = {	coleccion : coleccion };
+				$scope.$apply();
+			},
+			error: function(e, text){
+				console.log(text);
+			}
+		});
+	});
 })();

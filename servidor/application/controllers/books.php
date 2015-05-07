@@ -22,6 +22,20 @@ class Books extends CI_Controller {
 		? "{$_GET['callback']}($json)"
 		: $json;
 	}
+	public function categorias(){
+		//header('Content-type: application/json');
+		header('Content-Type: application/json; charset=utf-8');
+		$this->db->select("category, COUNT(*)");
+		$this->db->group_by("category");
+		$query = $this->db->get('books');
+		$result = $query->result();
+		$json=json_encode($result);
+		//  	    echo $json;
+		echo isset($_GET['callback'])
+		? "{$_GET['callback']}($json)"
+		: $json;
+	}
+	
 	public function search($search){
 		$this->db->like('LOWER( Nombre )', strtolower($search));
 		$this->db->where("audiodescripcion = 1 AND (subtitulo = 1  OR original = 1)");
