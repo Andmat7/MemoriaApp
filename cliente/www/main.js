@@ -13,14 +13,16 @@ var startSelect_g = 0;
 var selectionString_g;
 var Book_g;
 var firstRun_g = true;
-var bookTitle_g = "Violacion de los DDHH";
-var downloadEpubUrl_g = "http://xpace.hostzi.com/epub.epub";
+var bookTitle_g = "";
+var bookURL_g = "";
+var downloadEpubUrl_g = "";
 var epubId_g = 0;
 var alertDebug = 0;
 var handleMoving_g = 0;
 var color_background="";
 var bookElement_g;
 var coleccion_g = 1;
+var searchString_g = "";
 
 function viewMain_f(){
 	colleccion_g = 1;
@@ -34,9 +36,10 @@ function viewColeccion_f( coleccion ){
 }
 function viewBook_f( element ){
 	downloadEpubUrl_g = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
-	bookElement_g = element;
-	epubId_g = element.getAttribute("epubId");
-	bookTitle_g = element.getAttribute("title");
+	bookElement_g     = element;
+	epubId_g          = element.getAttribute("epubId");
+	bookTitle_g       = element.getAttribute("title");
+	bookURL_g         = element.getAttribute("bookURL");
 	menu.setMainPage('epub_viewer.html', {closeMenu: true, callback: starting});
 	document.addEventListener("touchmove",preventDefaultScroll_f);
 }
@@ -745,32 +748,27 @@ function selectRange(startX,startY,endX,endY,iframe,doc){
 //************************
 function shareFacebook() {
 	if ( device.platform == "Android" ){ //FacebookConnectPlugin
-		//   if (!window.cordova) {
-		//     var appId = prompt("Enter FB Application ID", "");
-		//     facebookConnectPlugin.browserInit(appId);
-		//   }
 		facebookConnectPlugin.login(
 			[ "email" ],
-			function( response ) {
+			function( response ) {//success
 				showDialogFacebookConnect(); 
-// 				alert( JSON.stringify( response ) );
 			},
-			function ( response ) {
-				alert( JSON.stringify( response ) );
+			function ( response ) {//error
+				console.log( JSON.stringify( response ) );
 			}
 		);
 	}else{ //SocialSharing Plugin
 		// Beware: passing a base64 file as 'data:' is not supported on Android 2.x: https://code.google.com/p/android/issues/detail?id=7901#c43
 		// Hint: when sharing a base64 encoded file on Android you can set the filename by passing it as the subject (second param)
 		window.plugins.socialsharing.shareViaFacebook(
-			'"'+selectionString_g+'"\n ―― Nombre del libro. \n http://example.com/', //probar html tags si necesario
+			'"'+selectionString_g+'"\n ―― ' + bookTitle_g + '\n ' + bookURL_g, //probar html tags si necesario
 			null /* img */, 
 			null /*url*/, 
-			function() {
-// 				alert( 'share ok' );	  
+			function() {//success
+ 				console.log( 'share ok' );	  
 			}, 
-			function( errormsg ){
-				alert( errormsg );
+			function( errormsg ){//error
+				console.log( errormsg );
 			}
 		);
 	}
@@ -781,17 +779,20 @@ function shareTwitter() {
 	var canvas = document.createElement("canvas");
 	canvas.style.width = "300px";
 	canvas.style.height = "1000px";
-	
-	var URI = drawText ( canvas, '"'+selectionString_g+'"\n ―― Nombre del libro.', "12px serif", 10, 25, 280);
-	
-	//   console.log(temp);
-	//   window.plugins.socialsharing.share(null, null, 'https://www.google.nl/images/srpr/logo4w.png', null)">image only</button>
+	var URI = drawText ( canvas, '"'+selectionString_g+'"\n ―― ' + bookTitle_g, "12px serif", 10, 25, 280);
 	// Beware: passing a base64 file as 'data:' is not supported on Android 2.x: https://code.google.com/p/android/issues/detail?id=7901#c43
 	// Hint: when sharing a base64 encoded file on Android you can set the filename by passing it as the subject (second param)
-	//  window.plugins.socialsharing.share(null, 'Android filename', URI , null);
-	
-	window.plugins.socialsharing.shareViaTwitter('', URI /* img */, "http://www.google.com" /*url*/, function() {console.log('share ok')}, function(errormsg){alert(errormsg)});
-	//  window.plugins.socialsharing.shareViaFacebook('Message via Facebook', null /* img */, null /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)});
+	window.plugins.socialsharing.shareViaTwitter(
+		'', 
+		URI /* img */, 
+		bookURL_g /*url*/, 
+		function() {//success
+			console.log('share ok');
+		}, 
+		function( errormsg ){ //error
+			console.log(errormsg);
+		}
+	);
 }
 
 function share() {//pruebas
@@ -826,18 +827,19 @@ function share() {//pruebas
 function showDialogFacebookConnect () {
 	
 	facebookConnectPlugin.showDialog(
-		{ method: "feed",
-			name: '"'+selectionString_g+'"',
-			link: "http://example.com",
-			description: "―― Nombre del libro.",
+		{
+			method:      "feed",
+			name:        '"'+selectionString_g+'"',
+			link:        bookURL_g,
+			description: "―― " + bookTitle_g,
 			// 		  picture: workingDirEntry_g.toURL() + "asd.png",
 			//     caption: selectionString_g
 		}, 
 		function (response) { 
-			alert(JSON.stringify(response)) ;
+			console.log(JSON.stringify(response)) ;
 		},
 		function (response) { 
-			alert(JSON.stringify(response));
+			console.log(JSON.stringify(response));
 		}
 	);
 	
@@ -1101,4 +1103,12 @@ function wikiFormat_f( str ){
 	}
 	result = result.replace(/([\[\]\{\}]|ucf\|)/g,"");
 	return result;
+}
+//*******************************************
+//** Busqueda de tags
+//*******************************************
+function search_f( element ){
+	searchString_g = element.value;
+	menu.setMainPage('main.html', {closeMenu: true});
+	document.removeEventListener("touchmove",preventDefaultScroll_f);
 }

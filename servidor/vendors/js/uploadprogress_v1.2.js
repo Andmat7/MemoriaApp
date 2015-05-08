@@ -10,11 +10,14 @@ function uploadFile(uploadURL, nextURL, table_id, fileInput){
 
   _("button_subir").disabled = true;
 //   _("button_subir").disabled ="1";
-  addUploadProgress(table_id, "Subiendo audio al servidor");
+  addUploadProgress(table_id, "Subiendo archivo al servidor");
 	var file = _(fileInput).files[0]; 
   //alert(file.name+" | "+file.size+" | "+file.type); 
   var formdata = new FormData(); 
-	formdata.append(fileInput, file); 
+	var inputFields = document.getElementsByTagName("input");
+	for (var i = 0; i < inputFields.lenght; i++){
+		formdata.append(inputFields[i].id, inputFields[i]); 
+	}
   var ajax = new XMLHttpRequest(); 
   ajax.upload.addEventListener("progress", progressHandler, false); 
   ajax.addEventListener("load", completeHandler, false); 
@@ -31,13 +34,6 @@ function progressHandler(event){
   if ((event.loaded / event.total)  > 0.99){
     $('#' + progressbar_table_id + ' tr td').last().html('<img style="height:30px"src="'+base_url+'/vendors/images/check.png">');
     $('#' + progressbar_table_id + ' tr:last td:last').prev().html('<strong>'+"Hecho"+'</strong>');   
-    
-    if (progressbar_table_id=="tabla_Sub") {
-      addSpinner(progressbar_table_id, "Procesando Subtitulos");
-    }else{
-      addSpinner(progressbar_table_id, "Procesando audio");
-    }
-    
   }
 }
 
@@ -45,7 +41,7 @@ function completeHandler(event){
   
   _("button_subir").disabled = false;
 
-  var response =event.target.responseText;
+  var response = event.target.responseText;
   if (response == "success"){
     $('#' + progressbar_table_id + ' tr td').last().html('<img style="height:30px"src="'+base_url+'/vendors/images/check.png">');
     $('#' + progressbar_table_id + ' tr:last td:last').prev().html('<strong>'+"Hecho"+'</strong>'); 

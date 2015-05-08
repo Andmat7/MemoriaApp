@@ -13,5 +13,6 @@
 	</script>
 	<script src="<?php echo base_url(); ?>vendors/js/jquery-2.1.1.min.js"></script>
 	<script src="<?php echo base_url(); ?>vendors/js/bootstrap.min.js"></script>
+	<script src="<?php echo base_url(); ?>vendors/js/uploadprogress_v1.2.js"></script>
 </head>
 <body>

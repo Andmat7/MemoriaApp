@@ -30,21 +30,24 @@
 			
 		};
 		$scope.addfavorites=function() {
-			
 			Popoverbook.hide();
 			Dialog_book_save.show()
 			setTimeout('Dialog_book_save.hide()', 2000);
-			
 		};
-		
 },function(){} );
-	
 	
 	module.controller("MainController", function($scope,$http,$timeout) {
 		$scope.node = {};
  		Modal.show();
+		var url;
+		if( searchString_g === "" ){
+			url = urlServer_g+"index.php/books/lista/" + coleccion_g;
+		}else{
+			url = urlServer_g+"index.php/books/search/" + searchString_g;
+			searchString_g = "";
+		}
 		$.ajax({
-			url: urlServer_g+"index.php/books/lista/" + coleccion_g,
+			url: url,
 			dataType: "jsonp",
 			success: function (aResponse) {
 				var i=-1;
@@ -57,7 +60,8 @@
 						img         : element.img,
 						id          : "book" + i,
 						epub        : element.epub,
-						epubId      : element.id
+						epubId      : element.id,
+						bookURL     : element.url,
 					});
 				});
 				$scope.node = {	books : books };
@@ -69,7 +73,6 @@
 			}
 		});
 		$scope.showinputsearch=function() {
-			
 			if ($scope.inputcontrol === ''||$scope.inputcontrol===undefined)
 			{
 				$scope.inputcontrol='open';
@@ -82,19 +85,13 @@
 				$scope.center_toolbar='';
 				$scope.right_toolbar='';
 			}   
-			
 		};
 		$scope.showdescripcion=function(book) {
-			
 			if(book.toggled===undefined){
 				book.toggled=false;       
 			}
-			
 			book.toggled = !book.toggled;
-			
 		};
-		
-		
 	});
 
 	module.controller("MenuController", function($scope,$http,$timeout) {
@@ -117,4 +114,5 @@
 			}
 		});
 	});
+	
 })();

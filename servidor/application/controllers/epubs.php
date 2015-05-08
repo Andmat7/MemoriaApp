@@ -55,7 +55,7 @@ class EPubs extends CI_Controller {
 					}
 					if( !( $ratio >2.6 && $ratio < 3.9 ) ){
 						$error = TRUE;
-						$errorMessages[] = 'La proporción de la imagen debe estar entre 2.6 y 3.9';
+						$errorMessages[] = 'La proporción ancho/alto de la imagen debe estar entre 2.6 y 3.9';
 					}
 					if( $width > 1920 ){
 						$error = TRUE;
@@ -184,9 +184,11 @@ class EPubs extends CI_Controller {
 	}
 	public function borrar($id){
 		if( $this->session->userdata('logged_in') ){
-			$query = $this->db->get_where( "books",array('id' => $id) );
-			unlink ("./uploads/img/" . $query->result()['0']->img);
-			unlink ("./uploads/epub/" . $query->result()['0']->epub );
+			$query  = $this->db->get_where( "books",array('id' => $id) );
+			$result = $query->result();
+			$data   = $result['0'];
+			unlink ("./uploads/img/" .  $data->img);
+			unlink ("./uploads/epub/" . $data->epub );
 			$this->db->where('id', $id);
 			$this->db->delete('books');
 			$this->lista();
@@ -197,8 +199,9 @@ class EPubs extends CI_Controller {
 	}
 	public function editar($id){
 		if($this->session->userdata('logged_in')){
-			$query = $this->db->get_where("books",array('id' => $id));
-			$data = $query->result()['0'];
+			$query  = $this->db->get_where("books",array('id' => $id));
+			$result = $query->result();
+			$data   = $result['0'];
 			$this->load->helper('form');
 			$this->load->view('header');
 			$this->load->view('navbar');
@@ -245,7 +248,7 @@ class EPubs extends CI_Controller {
 					}
 					if( !( $ratio >2.6 && $ratio < 3.9 ) ){
 						$error = TRUE;
-						$errorMessages[] = 'La proporción de la imagen debe estar entre 2.6 y 3.9';
+						$errorMessages[] = 'La proporción ancho/alto de la imagen debe estar entre 2.6 y 3.9';
 					}
 					if( $width > 1920 ){
 						$error = TRUE;
@@ -273,7 +276,8 @@ class EPubs extends CI_Controller {
 					$category      = $this->input->post('category');
 					$this->db->where('id', $id);
 					$query         = $this->db->get('books');
-					$data          = $query->result()['0'];
+					$result        = $query->result();
+					$data          = $result['0'];
 					$imgFileName   = $data->img;
 					$epubFileName  = $data->epub;
 	// 				$tags          = $this->getTags($isbn);
@@ -356,8 +360,9 @@ class EPubs extends CI_Controller {
 		$kohaDB->where('isbn', $isbn);
 		$query = $kohaDB->get('biblioitems',1);
 		if($query->num_rows() > 0){
-			$data = $query->result()['0'];
-			$xmlData = $data->marcxml;
+			$result   = $query->result();
+			$data     = $result['0'];
+			$xmlData  = $data->marcxml;
 			$bookInfo = simplexml_load_string($xmlData);
 			// 			print_r($bookInfo);
 			if ($bookInfo !== false){
@@ -400,8 +405,9 @@ class EPubs extends CI_Controller {
 		$kohaDB->where('isbn', $isbn);
 		$query = $kohaDB->get('biblioitems',1);
 		if($query->num_rows() > 0){
-			$data = $query->result()['0'];
-			$xmlData = $data->marcxml;
+			$result   = $query->result();
+			$data     = $result['0'];
+			$xmlData  = $data->marcxml;
 			$bookInfo = simplexml_load_string($xmlData);
 			// 			print_r($bookInfo);
 			if ($bookInfo !== false){
