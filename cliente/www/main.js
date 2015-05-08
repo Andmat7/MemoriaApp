@@ -1,4 +1,4 @@
-var urlServer_g = "http://xpace.hostzi.com/servidor/";
+var urlServer_g = "http://190.60.250.151/MemoriaApp/servidor/";
 // var urlServer_g = "http://localhost/MemoriApp/servidor/";
 var DBSize_g = 200000;//bytes
 var wholeSelRectEl_g = null;

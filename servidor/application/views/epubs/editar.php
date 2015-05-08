@@ -14,23 +14,23 @@
 			<div class="panel-body">
 				<div class="form-group" >
 					<label for="titulo">Título</label>
-					<input type="text" class="form-control" id="titulo" name="titulo" value="<?php echo $title; ?>"></input>
+					<input type="text" class="form-control" id="titulo" name="titulo" value="<?php echo $title; ?>"  maxlength="150"></input>
 				</div>
 				<div class="form-group" >
 					<label for="isbn">ISBN</label>
-					<input type="number" class="form-control" id="isbn" name="isbn" value="<?php echo $ISBN; ?>"></input>
+					<input type="number" class="form-control" id="isbn" name="isbn" value="<?php echo $ISBN; ?>"  maxlength="15"></input>
 				</div>
 				<div class="form-group">
 					<label for="desc">Descripción</label>
-					<textarea rows="3" class="form-control" id="desc" name="desc" value=""><?php echo $description; ?></textarea>
+					<textarea rows="3" class="form-control" id="desc" name="desc" value=""  maxlength="380"><?php echo $description; ?></textarea>
 				</div>
 				<div class="form-group" >
 					<label for="url">URL del libro para compartir</label>
-					<input type="text" class="form-control" id="url" name="url" value="<?php echo $url; ?>"></input>
+					<input type="text" class="form-control" id="url" name="url" value="<?php echo $url; ?>"  maxlength="400"></input>
 				</div>
 				<div class="form-group" >
 					<label for="tags">Temas</label>
-					<input type="text" class="form-control" id="tags" name="tags" value="<?php echo $tags; ?>"></input>
+					<input type="text" class="form-control" id="tags" name="tags" value="<?php echo $tags; ?>"  maxlength="400"></input>
 				</div>
 				<div class="form-group">
 					<label for="category">Categoría</label>

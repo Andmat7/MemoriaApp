@@ -67,3 +67,7 @@ font-size: 0.5in;
 .popover--dic .popover__content p{
 	text-align: left;
 }
+.share-button {
+	margin: 0px 0px;
+	padding: 0px;
+}

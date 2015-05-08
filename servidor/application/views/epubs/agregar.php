@@ -13,15 +13,15 @@
 			<div class="panel-body">
 				<div class="form-group" >
 					<label for="titulo">Título</label>
-					<input type="text" class="form-control" id="titulo" name="titulo" value="<?php echo set_value('titulo'); ?>" />
+					<input type="text" class="form-control" id="titulo" name="titulo" value="<?php echo set_value('titulo'); ?>" maxlength="150"/>
 				</div>
 				<div class="form-group" >
 					<label for="isbn">ISBN</label>
-					<input type="number" class="form-control" id="isbn" name="isbn" value="<?php echo set_value('isbn'); ?>"/>
+					<input type="number" class="form-control" id="isbn" name="isbn" value="<?php echo set_value('isbn'); ?>" maxlength="15"/>
 				</div>
 				<div class="form-group">
 					<label for="desc">Descripción</label>
-					<textarea rows="3" class="form-control" id="desc" name="desc" value=""><?php echo set_value('desc'); ?></textarea>
+					<textarea rows="3" class="form-control" id="desc" name="desc" value="" maxlength="380"><?php echo set_value('desc'); ?></textarea>
 				</div>
 				<div class="form-group">
 					<label for="category">Categoría</label>
