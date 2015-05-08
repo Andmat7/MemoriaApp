@@ -1,6 +1,12 @@
 (function(){
 	var module = angular.module('app', ['onsen']);
-	module.controller('BookController', function($scope, $window) {
+	module.controller('BookController', function($scope,$http,$timeout) {
+		$scope.node = {};
+		var book;
+		book = { title : bookTitle_g };
+		$scope.node = {	book : book };
+		$scope.$apply();
+		
 		ons.createPopover('popoverbook.html').then(function(popover) {
 			$scope.popoverbook = popover;
 		});

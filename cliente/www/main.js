@@ -24,15 +24,21 @@ var bookElement_g;
 var coleccion_g = 1;
 var searchString_g = "";
 
+function resetPage_f(){
+	document.removeEventListener("touchmove",preventDefaultScroll_f);
+	if( typeof( sharePopover )   != "undefined" ) sharePopover.hide();
+	if( typeof( dicPopover )     != "undefined" ) dicPopover.hide();
+	if( typeof( meaningPopover ) != "undefined" ) meaningPopover.hide();
+}
 function viewMain_f(){
 	colleccion_g = 1;
 	menu.setMainPage('main.html', {closeMenu: true});
-	document.removeEventListener("touchmove",preventDefaultScroll_f);
+	resetPage_f();
 }
 function viewColeccion_f( coleccion ){
 	coleccion_g = coleccion;
 	menu.setMainPage('main.html', {closeMenu: true});
-	document.removeEventListener("touchmove",preventDefaultScroll_f);
+	resetPage_f();
 }
 function viewBook_f( element ){
 	downloadEpubUrl_g = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
@@ -48,7 +54,7 @@ function viewBookmark_f(){
 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
 		db.transaction(listFragmentosDB_f, onError_f);
 	}});
-	document.removeEventListener("touchmove",preventDefaultScroll_f);
+	resetPage_f();
 }
 /* This code prevents users from dragging the page (IOS fix) */
 var preventDefaultScroll_f = function(event) {
@@ -751,7 +757,7 @@ function shareFacebook() {
 		facebookConnectPlugin.login(
 			[ "email" ],
 			function( response ) {//success
-				showDialogFacebookConnect(); 
+				showDialogFacebookConnect_f(); 
 			},
 			function ( response ) {//error
 				console.log( JSON.stringify( response ) );
@@ -776,16 +782,20 @@ function shareFacebook() {
 }
 
 function shareTwitter() {
-	var canvas = document.createElement("canvas");
-	canvas.style.width = "300px";
-	canvas.style.height = "1000px";
-	var URI = drawText ( canvas, '"'+selectionString_g+'"\n ―― ' + bookTitle_g, "12px serif", 10, 25, 280);
+	//************************************
+	//** GENERAR IMAGEN CON TEXTO PARA COMPARTIR
+	//************************************
+// 	var canvas = document.createElement("canvas");
+// 	canvas.style.width = "300px";
+// 	canvas.style.height = "1000px";
+// 	var URI = drawText_f ( canvas, '"'+selectionString_g+'"\n ―― ' + bookTitle_g, "12px serif", 10, 25, 280);
+	
 	// Beware: passing a base64 file as 'data:' is not supported on Android 2.x: https://code.google.com/p/android/issues/detail?id=7901#c43
 	// Hint: when sharing a base64 encoded file on Android you can set the filename by passing it as the subject (second param)
 	window.plugins.socialsharing.shareViaTwitter(
-		'', 
-		URI /* img */, 
-		bookURL_g /*url*/, 
+		'"'+selectionString_g.substring(0,82)+'"\n ―― ' + bookTitle_g, /*texto*/
+		null,/* img */
+		bookURL_g, /*url*/
 		function() {//success
 			console.log('share ok');
 		}, 
@@ -824,7 +834,7 @@ function share() {//pruebas
 	//  window.plugins.socialsharing.shareViaFacebook('Message via Facebook', null /* img */, null /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)});
 }
 
-function showDialogFacebookConnect () {
+function showDialogFacebookConnect_f() {
 	
 	facebookConnectPlugin.showDialog(
 		{
@@ -845,7 +855,7 @@ function showDialogFacebookConnect () {
 	
 }
 
-var drawText = function (canvas, textString, font, x, y, maxWidth){
+var drawText_f = function (canvas, textString, font, x, y, maxWidth){
 	var canvasTemp = document.createElement("canvas");
 	canvasTemp.width = canvas.width;
 	canvasTemp.height = canvas.height;
@@ -1084,7 +1094,7 @@ function showMeaning(){
 }
 
 function getElement( data ){
-	if( data !== undefined ){
+	if( typeof(data) != "undefined" ){
 		for (var prop in data){
 			return data[prop];
 		}
