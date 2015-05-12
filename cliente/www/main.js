@@ -23,6 +23,7 @@ var color_background="";
 var bookElement_g;
 var coleccion_g = 1;
 var searchString_g = "";
+var currentChapter_id="";
 
 function resetPage_f(){
 	document.removeEventListener("touchmove",preventDefaultScroll_f);
@@ -125,10 +126,14 @@ function starting(){
 		});
 		$(document).on('release', '#area', function(e) {
 			if ( startSelect_g === 0 ){
+				if (color_background!="") {
+					paint_bookmarks();
+				};
 				handleMoving_g = 0;
  				sharePopover.hide();
 				meaningPopover.hide();
- 				color_background="";
+				
+ 				
 				console.log('hide');
 			}else{
 				console.log('no hide');
@@ -455,6 +460,13 @@ function epubNextPage(){
 			cssLink.rel = "stylesheet"; 
 			cssLink.type = "text/css"; 
 			iframe.contentDocument.body.appendChild(cssLink);
+			//detecta un capitulo nuevo y carga resaltados guardados
+			if (currentChapter_id!==Book_g.currentChapter.id) {
+			
+				load_rects_chapter(epubId_g,Book_g.currentChapter.id );
+				currentChapter_id=Book_g.currentChapter.id;
+			};
+			
 		}
 	);
 }
@@ -467,6 +479,12 @@ function epubPrevPage(){
 			cssLink.rel = "stylesheet"; 
 			cssLink.type = "text/css"; 
 			iframe.contentDocument.body.appendChild(cssLink);
+			//detecta un capitulo nuevo
+			if (currentChapter_id!==Book_g.currentChapter.id) {
+
+				load_rects_chapter(epubId_g,Book_g.currentChapter.id );
+				currentChapter_id=Book_g.currentChapter.id;
+			};
 		}
 	);
 }
