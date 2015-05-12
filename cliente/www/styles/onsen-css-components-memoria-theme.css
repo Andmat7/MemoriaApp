@@ -4230,7 +4230,7 @@ height-bar-share .text_bar_share,
 }
 .menu-item {
   line-height: 44px;
-/*  height: 44px;*/
+  height: 44px;
   text-shadow: rgba(0,0,0,0.4) 0px 1px 0px;
   margin: 0 17px;
   padding: 0 !important;
