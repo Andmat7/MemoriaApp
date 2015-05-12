@@ -12,7 +12,7 @@ iframe {
 	border: none;
 	width: 94%;
 	height: 94%;
-	margin: 3% 3%;
+/* 	margin: 3% 3%; */
 	z-index: -1;  
 	/* 	      max-width: 650px; */
 }
@@ -68,6 +68,6 @@ font-size: 0.5in;
 	text-align: left;
 }
 .share-button {
-	margin: 0px 0px;
-	padding: 0px;
+	margin: 0px;
+	padding: 2px 0px 0px 0px;
 }

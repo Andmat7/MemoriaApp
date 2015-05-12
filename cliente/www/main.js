@@ -27,7 +27,6 @@ var searchString_g = "";
 function resetPage_f(){
 	document.removeEventListener("touchmove",preventDefaultScroll_f);
 	if( typeof( sharePopover )   != "undefined" ) sharePopover.hide();
-	if( typeof( dicPopover )     != "undefined" ) dicPopover.hide();
 	if( typeof( meaningPopover ) != "undefined" ) meaningPopover.hide();
 }
 function viewMain_f(){
@@ -115,13 +114,6 @@ function starting(){
 				mask.style.zIndex = -1;
 			});
 		});
-		ons.createPopover('dic-popover.html').then(function(){
-			dicPopover.on("postshow", populateDic_f);
-			dicPopover.on("prehide", function(){
-				var p = $('#dic-popover p')[0];
-				p.innerHTML = "Cargando...";
-			});
-		});
 		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
 		$(document).on('hold', '#area', function(e) {
 			startSelect_g = 1;
@@ -160,54 +152,6 @@ function starting(){
 	}
 	console.log("starting complete");
 // 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
-}
-//******************************************
-//** POPOVER DEL DICCIONARIO
-//******************************************
-function populateDic_f(e){
-	var URL = "http://es.wiktionary.org/w/api.php?action=query&titles=" + selectionString_g.toLowerCase() + "&prop=revisions&rvprop=content&format=json";
-	$.ajax({
-		url: URL,
-		dataType: "jsonp",
-		success: function (aResponse) {
-			console.log("success");
-
-			console.log(aResponse);
-			var pages = aResponse.query.pages;
-			var page  = getElement( pages );
-			var content;
-			if ( page.missing === undefined ){
-				content = page.revisions[0]["*"];
-			}else{
-				var p = $('#dic-popover p')[0];
-				p.innerHTML = selectionString_g + ":<br/>No encontrado";
-				return;
-			}
-			var textLines = content.split("\n");
-			var sMeaning = "";
-			var i=0;
-			textLines.every(function(line) {
-				if( line.substr(0,1) == ";" && !isNaN( parseInt( line.substr(1,1) ) ) ){
-					i++;
-					sMeaning += "<br/>" + line.substr(1);
-				}
-				return (i < 3); //break if i not < 3
-			});
-			sMeaning = wikiFormat_f(sMeaning.substr(5));
-			var p = $('#dic-popover p')[0];
-			p.innerHTML = selectionString_g + ":<br/>" + sMeaning;
-			console.log(sMeaning);
-// 			var pop              = $('#dic-popover')[0];
-// 			var popover          = pop.children[1];
-// 			popover.style.bottom = "0px";
-// 			popover.style.left   = "0px";
-// 			popover.style.width  = "100%";
-// 			popover.style.top    = "60%";
-		},
-		error: function(e, text){
-			console.log(text);
-		}
-	});
 }
 //*******************************************
 //** Descarga y lectura de EPUBs
@@ -1087,10 +1031,72 @@ function saveEPUBinStorage_f( id ){
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
 }
 //******************************************
-//** Diccionario
+//** POPOVER DEL DICCIONARIO
 //******************************************
-function showMeaning(){
-	dicPopover.show(".navigation-bar");
+function showMeaning_f(){
+	meaningPopover.hide();
+// 	removeSelectionIndicators();
+	var URL = "http://es.wiktionary.org/w/api.php?action=query&titles=" + selectionString_g.toLowerCase() + "&prop=revisions&rvprop=content&format=json";
+	$.ajax({
+		url: URL,
+		dataType: "jsonp",
+		success: function (aResponse) {
+			console.log("success");
+			var maskOverlay = document.createElement("div");
+			document.body.appendChild(maskOverlay);
+			maskOverlay.id = "diccionario_overlay"
+			maskOverlay.style.position  = "absolute";
+			maskOverlay.style.top       = "0px";
+			maskOverlay.style.left      = "0px";
+			maskOverlay.style.width     = "100%";
+			maskOverlay.style.height    = "100%";
+			$(document).on('click', '#diccionario_overlay', function(e) {
+				hideMeaning_f();
+			});
+			var div = document.createElement("div");
+			div.style.position  = "absolute";
+// 			div.innerHTML = "diccionario: Libro donde se busca el significado de las palabras no conocidas.";
+			maskOverlay.appendChild(div);
+			div.style.bottom    = "0px";
+			div.style.left      = "0px";
+			div.style.width     = "100%";
+			div.style.top       = "70%";
+			div.style.padding   = "10px";
+			div.style.backgroundColor = "#DDDDDD";
+			
+			console.log(aResponse);
+			var pages = aResponse.query.pages;
+			var page  = getElement( pages );
+			var content;
+			if ( page.missing === undefined ){
+				content = page.revisions[0]["*"];
+			}else{
+				div.innerHTML = selectionString_g + ":<br/>No encontrado";
+				return;
+			}
+			var textLines = content.split("\n");
+			var sMeaning = "";
+			var i=0;
+			textLines.every(function(line) {
+				if( line.substr(0,1) == ";" && !isNaN( parseInt( line.substr(1,1) ) ) ){
+					i++;
+					sMeaning += "<br/>" + line.substr(1);
+				}
+				return (i < 3); //break if i not < 3
+			});
+			sMeaning = wikiFormat_f(sMeaning.substr(5));
+			div.innerHTML = selectionString_g + ":<br/>" + sMeaning;
+			console.log(sMeaning);
+		},
+		error: function(e, text){
+			console.log(text);
+		}
+	});
+}
+function hideMeaning_f(){
+	var div = document.getElementById("diccionario_overlay");
+	var parent = div.parentNode;
+	parent.removeChild(div);
 }
 
 function getElement( data ){
@@ -1100,6 +1106,7 @@ function getElement( data ){
 		}
 	}
 }
+
 function wikiFormat_f( str ){
 	var result = str;
 	var aMatch = result.match(/(\[{2}[^\[]+\|[^\[]+\]{2})/g);
@@ -1114,6 +1121,7 @@ function wikiFormat_f( str ){
 	result = result.replace(/([\[\]\{\}]|ucf\|)/g,"");
 	return result;
 }
+
 //*******************************************
 //** Busqueda de tags
 //*******************************************
