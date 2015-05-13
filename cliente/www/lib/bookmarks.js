@@ -49,7 +49,6 @@ function showSelectionRectstomarks(selRects, element,color){
 	console.log('showSelectionRectstomarks');
 	var iframe = $("iframe")[0];
 	var iframePos = getPosition(iframe);
-	console.log(iframePos);
 	var iframeX = -10;
 	var iframeY = 0;
 	var i = 0;
@@ -72,8 +71,8 @@ function showSelectionRectstomarks(selRects, element,color){
 		rect.style.zIndex = "-1000";
 		wholeSelRectEl_g.appendChild(rect);
 	}
-	var prueba=element.appendChild(wholeSelRectEl_g);
-	console.log(prueba)
+	element.appendChild(wholeSelRectEl_g);
+	
 }
 
 //cambia los posibles colores de la seleccion para 

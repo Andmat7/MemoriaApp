@@ -5,22 +5,26 @@
 	</ons-list-item>
 	<ons-list-item class="menu-item title-menu" >
 		<ons-icon icon="ion-star"></ons-icon>
-		Este es un titulo
+		Principal
 	</ons-list-item>
 	<ons-list class="menu-list">
 		
-		<ons-list-item class="menu-item" onclick="viewBook_f();">
+		<ons-list-item class="menu-item" onclick="viewLibrary()">
 			
-			Libro
-			<div class="notification menu-notification">3</div>
+			Mi Libreria
+			<div class="notification menu-notification" id="number_library">x</div>
 		</ons-list-item>
 		
 		<ons-list-item class="menu-item" onclick="viewBookmark_f();">
 			
-			Marcadores
-			<div class="notification menu-notification">13</div>
+			Mis Fragmentos
+			<div class="notification menu-notification">0</div>
 		</ons-list-item>
-		
+		<ons-list-item class="menu-item" onclick="viewFavorites();">
+			
+			 Mis Libros Favoritos
+			<div class="notification menu-notification" id="number_favorites">x</div>
+		</ons-list-item>
 	</ons-list>
 	<ons-list-item class="menu-item title-menu" >
 		<ons-icon icon="ion-star"></ons-icon>

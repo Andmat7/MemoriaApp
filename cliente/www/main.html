@@ -31,8 +31,8 @@
 			<img ng-src="{{book.img}}" class="card_image" />
 			<div class="bar_share">
 				<span class="left">
+					<button class="button_share"  id="{{book.id}}" img="{{book.img}}"  epub="{{book.epub}}" onclick="addBookFavorites(this)" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}"><img src="lib/onsen/css/memoria/imgs/estrella.png"/></button>
 					<button class="button_share"><img src="lib/onsen/css/memoria/imgs/enlace.png"/></button>
-					<button class="button_share"><img src="lib/onsen/css/memoria/imgs/estrella.png"/></button>
 				</span>
 				
 				<span style="float:right;">
@@ -45,7 +45,7 @@
 			<div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">
 				<p>{{book.description}}</p>
 				<div>
-					<button id="{{book.id}}" img="{{book.img}}" class="button-bar__button" epub="{{book.epub}}" onclick="viewBook_f(this)" epubId="{{book.epubId}}" title="{{book.title}}" bookURL="{{book.bookURL}}">DESCARGAR</button>
+					<button id="{{book.id}}" img="{{book.img}}"  class="button-bar__button" epub="{{book.epub}}" onclick="viewBook_f(this)" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}">DESCARGAR</button>
 				</div>
 				
 			</div>
