@@ -31,9 +31,7 @@ function resetPage_f(){
 	if( typeof( meaningPopover ) != "undefined" ) meaningPopover.hide();
 }
 function viewMain_f(){
-	colleccion_g = 1;
-	menu.setMainPage('main.html', {closeMenu: true});
-	resetPage_f();
+	viewColeccion_f( 1 ); 
 }
 function viewColeccion_f( coleccion ){
 	coleccion_g = coleccion;
@@ -1047,6 +1045,36 @@ function saveEPUBinStorage_f( id ){
 	};
 	oLibros[ id ] =  oLibro ;
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
+}
+function deleteEPUB_f( element ){
+	var id = element.getAttribute("epubId");
+	window.resolveLocalFileSystemURL(
+		workingDirEntry_g.toURL() + "epub/" + id + ".epub",
+		function(fileEntry){
+			fileEntry.remove(
+				function(){//success remove
+					removeEPUBfromLocalStorage_f( id );
+				},
+				function(){//fail remove
+					console.log("fail remove");
+					removeEPUBfromLocalStorage_f( id );
+				}
+			);
+		},
+		function(){//fail resolveLocalFileSystemURL
+			console.log("fail resolve filesystem");
+			removeEPUBfromLocalStorage_f( id );
+		}
+	);
+}
+function removeEPUBfromLocalStorage_f( id ){
+	var oLibros = JSON.parse( window.localStorage.getItem("libros") );
+	if( oLibros === null) {
+		oLibros = {};
+	}
+	oLibros[ id ] =  undefined ;
+	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
+	viewMain_f();
 }
 //******************************************
 //** POPOVER DEL DICCIONARIO

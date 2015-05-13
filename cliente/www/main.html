@@ -35,7 +35,11 @@
 					<button class="button_share"><img src="lib/onsen/css/memoria/imgs/estrella.png"/></button>
 				</span>
 				
-				<span class="text_bar_share">Lorem ipsum dolor </span>
+				<span style="float:right;">
+					<button class="button_delete" onclick="deleteEPUB_f( this );" epubId="{{book.epubId}}" style="visibility :{{book.trash}}">
+						<ons-icon  icon="ion-trash-a" style="position: static;" class="trash"></ons-icon>
+					</button>
+				</span>
 				
 			</div>
 			<div class="descripcion "ng-class="{'change' : book.toggled, '' : !book.toggled}">

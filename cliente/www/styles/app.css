@@ -1,3 +1,17 @@
 .left {
 	text-align: left;
 }
+.button_delete{
+	padding: 0;
+	line-height: 26px;
+	vertical-align: middle;
+	width: 26px;
+	height: 26px;
+	margin-bottom: -2rem;
+	background-color: transparent;
+	border: 0;
+	margin: 0;
+	padding-right: 10px;
+/* 	margin-right: 10px; */
+	color: #04bfa9
+}

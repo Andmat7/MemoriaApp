@@ -58,8 +58,14 @@
 			success: function (aResponse) {
 				var i=-1;
 				var books = [];
+				var oLibros = JSON.parse( window.localStorage.getItem("libros") );
+				if( oLibros === null) {
+					oLibros = {};
+				}
+				var trash;
 				aResponse.forEach(function(element) {
 					i++;
+					trash = ( oLibros[element.id] === undefined )? "hidden" : "visible";
 					books.push({
 						description : element.description, 
 						title       : element.title,
@@ -68,6 +74,7 @@
 						epub        : element.epub,
 						epubId      : element.id,
 						bookURL     : element.url,
+						trash       : trash,
 					});
 				});
 				$scope.node = {	books : books };
