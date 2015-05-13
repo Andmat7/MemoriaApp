@@ -1109,6 +1109,24 @@ function saveEPUBinStorage_f( id ){
 	oLibros[ id ] =  oLibro ;
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
 }
+
+function removeConfirmDialog_f( element ){
+	ons.notification.confirm({
+		title: '¡Advertencia!',
+		message: '¿Está seguro que desea eliminar el libro? También se perderán los marcadores.',
+		buttonLabels: ['Si', 'No'],
+		callback: function(idx) {
+			switch(idx) {
+				case 0://si
+					deleteEPUB_f( element );
+					break;
+				case 1://no
+					break;
+			}
+		}
+	});
+}
+
 function deleteEPUB_f( element ){
 	var id = element.getAttribute("epubId");
 	window.resolveLocalFileSystemURL(
@@ -1130,6 +1148,7 @@ function deleteEPUB_f( element ){
 		}
 	);
 }
+
 function removeEPUBfromLocalStorage_f( id ){
 	var oLibros = JSON.parse( window.localStorage.getItem("libros") );
 	if( oLibros === null) {
@@ -1202,6 +1221,7 @@ function showMeaning_f(){
 		}
 	});
 }
+
 function hideMeaning_f(){
 	var div = document.getElementById("diccionario_overlay");
 	var parent = div.parentNode;
