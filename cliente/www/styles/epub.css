@@ -2,10 +2,11 @@
 #area {
 	position: absolute;
 	width: 100%;
-	height: calc(100% - 20px);
-	margin-top: 10px;
-	margin-bottom: 10px;
-
+/* 	height: 100%; */
+/*	margin-top: 10px;
+	margin-bottom: 10px;*/
+	top: 10px;
+	bottom: 10px;
 }
 
 iframe {

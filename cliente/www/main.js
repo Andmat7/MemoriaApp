@@ -607,8 +607,8 @@ function showSelectionPosition() {
 	var carousel1 = $("#carousel-1")[0];
 	var iframe = $("iframe")[0];
 	var iframePos = getPosition(iframe);
-	var iframeX = iframe.offsetLeft;
-	var iframeY = iframe.offsetTop;
+	var iframeX = iframe.parentNode.offsetLeft;
+	var iframeY = iframe.parentNode.offsetTop;
 	var selRects = rangy.getSelection(iframe).getRangeAt(0).nativeRange.getClientRects();
 	
 	rangy_Andres=rangy.getSelection(iframe).getRangeAt(0);
@@ -641,8 +641,8 @@ function showSelectionRects(selRects, element){
 	console.log('showSelectionRects')
 	var iframe = $("iframe")[0];
 	var iframePos = getPosition(iframe);
-	var iframeX = iframe.offsetLeft;
-	var iframeY = iframe.offsetTop;
+	var iframeX = iframe.parentNode.offsetLeft;
+	var iframeY = iframe.parentNode.offsetTop;
 	var i = 0;
 	var rect;
 	wholeSelRectEl_g = document.createElement("div");
@@ -688,9 +688,9 @@ function handleRelease(e) {
 
 	var iframe = document.getElementsByTagName('iframe')[0];
 	var endX = endSelEl_g.offsetLeft - iframe.offsetLeft + (endSelEl_g.offsetWidth/4);
-	var endY = endSelEl_g.offsetTop - iframe.offsetTop -2;
+	var endY = endSelEl_g.offsetTop - iframe.offsetTop -iframe.parentNode.offsetTop-2;
 	var startX = startSelEl_g.offsetLeft - iframe.offsetLeft + ((startSelEl_g.offsetWidth*3)/4);
-	var startY = startSelEl_g.offsetTop - iframe.offsetTop -2;//   + (startSelEl_g.offsetHeight) ;
+	var startY = startSelEl_g.offsetTop - iframe.offsetTop -iframe.parentNode.offsetTop -2;//   + (startSelEl_g.offsetHeight) ;
 	
 	//   endX -= iframe.offsetLeft;
 	//   endY -= iframe.offsetTop;
