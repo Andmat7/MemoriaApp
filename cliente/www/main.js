@@ -191,19 +191,19 @@ function alignEPUBRotation_f (){
 	var area = $('#area')[0];
 	if (isPortrait){
 		if (document.body.clientWidth > document.body.clientHeight){
-			iframe.style.width = document.body.clientHeight* 0.94 + "px";
-			iframe.style.height = area.clientWidth*          0.94 + "px";
-		}else{                                                
-			iframe.style.width =  document.body.clientWidth* 0.94 + "px";
-			iframe.style.height = area.clientHeight*         0.94 + "px";
+			iframe.style.width = document.body.clientHeight* 1.0 + "px";
+			iframe.style.height = area.clientWidth*          1.0 + "px";
+		}else{                                             
+			iframe.style.width =  document.body.clientWidth* 1.0 + "px";
+			iframe.style.height = area.clientHeight*         1.0 + "px";
 		}
 	}else{
 		if (document.body.clientWidth > document.body.clientHeight){
-			iframe.style.width = document.body.clientWidth*  0.94 + "px";
-			iframe.style.height = area.clientHeight*         0.94 + "px";
-		}else{                                                
-			iframe.style.width = document.body.clientHeight* 0.94 + "px";
-			iframe.style.height = area.clientWidth*          0.94 + "px";
+			iframe.style.width = document.body.clientWidth*  1.0 + "px";
+			iframe.style.height = area.clientHeight*         1.0 + "px";
+		}else{                                             
+			iframe.style.width = document.body.clientHeight* 1.0 + "px";
+			iframe.style.height = area.clientWidth*          1.0 + "px";
 		}
 	}
 	removeSelectionIndicators();
@@ -278,6 +278,11 @@ function unzip_f(epubFile, destDir){
 					cssLink.type = "text/css";
 					iframe.contentDocument.body.appendChild(cssLink);
 					modalEpub.hide();
+//*************************************
+//*************************************
+//* DESCOMENTAR
+//*************************************
+//*************************************					
 					alignEPUBRotation_f();
 				});
 			}else{
