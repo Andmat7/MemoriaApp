@@ -86,45 +86,56 @@
 					searchString_g = "";
 				}
 				$.ajax({
-				url: url,
-				dataType: "jsonp",
-				success: function (aResponse) {
-					var i=-1;
-					var books = [];
-					var oLibros = JSON.parse( window.localStorage.getItem("libros") );
-					if( oLibros === null) {
-						oLibros = {};
-					}
-
-					var trash;
-					aResponse.forEach(function(element) {
-						i++;
-						trash = ( oLibros[element.id] === undefined )? "hidden" : "visible";
-						books.push({
-							description : element.description, 
-							title       : element.title,
-							img         : element.img,
-							id          : "book" + i,
-							epub        : element.epub,
-							epubId      : element.id,
-							bookURL     : element.url,
-							trash       : trash
-						});
-					});
-					$scope.node = {	books : books };
-					$scope.$apply();
-					Modal.hide();
-				},
-				error: function(e, text){
-					alert(text);
-					Modal.hide();
-				}
-
-				
-			
+					url: url,
+					 dataType: "jsonp",
+					 success: function (aResponse) {
+						 var i=-1;
+						 var books = [];
+						 var oLibros = JSON.parse( window.localStorage.getItem("libros") );
+						 if( oLibros === null) {
+							 oLibros = {};
+						 }
+						 var oFavs = JSON.parse( window.localStorage.getItem("favoritos") );
+						 if( oFavs === null) {
+							 oFavs = {};
+						 }
+						 var trash;
+						 var star_img;
+						 aResponse.forEach(function(element) {
+							 i++;
+							 trash    = ( oLibros[element.id] === undefined )? "hidden" : "visible";
+							 star_img = ( oFavs[element.id]   === undefined )? "img/estrella.png" : "img/estrella2.png";
+							 
+							 books.push({
+								 description : element.description, 
+								 title       : element.title,
+								 img         : element.img,
+								 id          : "book" + i,
+								 epub        : element.epub,
+								 epubId      : element.id,
+								 bookURL     : element.url,
+								 trash       : trash,
+								 star_img    : star_img
+							 });
+						 });
+						 $scope.node = {	books : books };
+						 $scope.$apply();
+						 Modal.hide();
+					 },
+					 error: function(e, text){
+						 alert(text);
+						 Modal.hide();
+					 }
 				});
-
 			}
+			ons.createDialog('dialog-share.html').then(function(dialog) {
+				$scope.dialog = dialog;
+			});
+			$scope.share=function(title, URL) {
+				bookTitle_g =  title;
+				bookURL_g   = URL;
+				Dialogfavorites.show();
+			};
 		}
 		
 		$scope.showinputsearch=function() {

@@ -60,6 +60,7 @@
 			</div>
 			</ons-popover>
 		</script>
+
 		<script type="text/ons-template" id="dialog-share.html">
 			<ons-dialog style="height: 94px;  min-height: 50px; color:black" var="Dialogfavorites" cancelable>
 
@@ -69,20 +70,16 @@
 		          Compartir libro en redes
 		        </div>
 		      </ons-toolbar>
-		    
 		      <div style="text-align: center">
-
-
 		      <div style="text-align: center; opacity: 1;">
-		      <button class="button--quiet" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
-		      <button class="button--quiet" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
+						<button class="button--quiet" onclick="shareBookOnFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
+						<button class="button--quiet" onclick="shareBookOnTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
 		      </div>
-		    
-
 		      </div>
 		    </ons-navigator>
 		  </ons-dialog>  
 		</script>
+		
 		 <ons-template id="popoverbook.html">
  
 		  <ons-popover var="Popoverbook" modifier="android" direction="up down" cancelable ng-controller="PopoverbookController">

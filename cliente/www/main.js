@@ -890,6 +890,69 @@ var drawText_f = function (canvas, textString, font, x, y, maxWidth){
 	return URI;
 };
 //**********************************
+//** Compartir libro
+//**********************************
+function shareBookOnFacebook() {
+	if ( device.platform == "Android" ){ //FacebookConnectPlugin
+		facebookConnectPlugin.login(
+			[ "email" ],
+			function( response ) {//success
+				showDialogBookOnFacebookConnect_f(); 
+			},
+			function ( response ) {//error
+				console.log( JSON.stringify( response ) );
+			}
+		);
+	}else{ //SocialSharing Plugin
+		window.plugins.socialsharing.shareViaFacebook(
+			 bookTitle_g + '\n ' + bookURL_g, //probar html tags si necesario
+			null /* img */, 
+			null /*url*/, 
+			function() {//success
+ 				console.log( 'share ok' );	  
+			}, 
+			function( errormsg ){//error
+				console.log( errormsg );
+			}
+		);
+	}
+	//   showDialog();
+}
+
+function shareBookOnTwitter() {
+	window.plugins.socialsharing.shareViaTwitter(
+		bookTitle_g, /*texto*/
+		null,/* img */
+		bookURL_g, /*url*/
+		function() {//success
+			console.log('share ok');
+		}, 
+		function( errormsg ){ //error
+			console.log(errormsg);
+		}
+	);
+}
+
+function showDialogBookOnFacebookConnect_f() {
+	
+	facebookConnectPlugin.showDialog(
+		{
+			method:      "feed",
+			link:        bookURL_g,
+			description: bookTitle_g,
+			// 		  picture: workingDirEntry_g.toURL() + "asd.png",
+			//     caption: selectionString_g
+		}, 
+		function (response) { 
+			console.log(JSON.stringify(response)) ;
+		},
+		function (response) { 
+			console.log(JSON.stringify(response));
+		}
+	);
+	
+}
+//**********************************
 //** Guardado de fragmentos y libros
 //**********************************
 function saveFragment_f(){
@@ -1082,8 +1145,6 @@ function saveEPUBinFavorites_f(){
 		epub        : bookFavoritesElement_g.getAttribute("epub"),
 		id          : bookFavoritesElement_g.getAttribute("epubId"),
 		epubId      : bookFavoritesElement_g.getAttribute("epubId"),
-
-
 	};
 	oLibros[ bookFavoritesElement_g.getAttribute("epubId") ] =  oLibro ;
 	window.localStorage.setItem("favoritos", JSON.stringify( oLibros ));
