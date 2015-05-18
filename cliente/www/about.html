@@ -1,0 +1,67 @@
+<ons-page >
+  
+  <ons-toolbar>
+    <div class="left">
+      
+      <ons-toolbar-button ng-click="menu.toggle()">
+        <ons-icon icon="ion-navicon-round" size="28px" fixed-width="false"></ons-icon>
+        <img src="lib/onsen/css/memoria/imgs/logo.png"  class="logo"></img>
+        
+        <span ng-class="titulomemoria" class="titulo_memoria">
+          MEMORIAPP
+        </span>
+        
+      </ons-toolbar-button>
+      
+      
+    </div>
+    <div ng-class="center_toolbar" class="center"></div>
+    <div class="right" var="right" ng-class="right_toolbar"  >
+      <ons-toolbar-button ng-click="showinputsearch()" var="right">
+        
+        <ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
+        <input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value=""></input>
+        
+      </ons-toolbar-button>
+    </div>
+         
+  </ons-toolbar>
+  <div style="padding:10px">
+    <h3>Acerca de </h3>
+    
+    
+  <ons-list style="margin:10px;padding:10px">
+   <h4>Desarrollado por</h4>
+   <p>
+    Andrés fabian Corredor @afcorredor
+   </p>
+   <p>
+    Rafael Eduardo Camargo Cely
+   </p>
+<!--    <h4>Diseño Gráfico</h4>
+    <p>
+    Rafael Eduardo Camargo Cely
+   </p> -->
+
+
+  </ons-list> 
+<ons-list style="margin:10px;padding:10px">
+  <p style="text-aling:center">
+    Tenga en cuenta que esta aplicacion requiere acceso a Internet y puede consumir recursos de su plan de datos.
+  </p>
+  </ons-list> 
+  <p>
+  </p>
+  <div style="text-align:center">
+     
+    <img src="img/logosMINTIC/logoTodos.png"  ></img>
+    <img src="img/logosMINTIC/logoMINTIC.png"  ></img>
+    
+    <img src="img/logosMINTIC/logoVIVEDIGITAL.png"  ></img>
+   
+    </div>
+  <p>© Derechos reservados</p>
+  </div>
+  
+
+</ons-page>

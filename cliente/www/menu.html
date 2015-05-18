@@ -14,16 +14,21 @@
 			Mi Libreria
 			<div class="notification menu-notification" id="number_library">x</div>
 		</ons-list-item>
+				<ons-list-item class="menu-item" onclick="viewFavorites();">
+			
+			 Mis Libros Favoritos
+			<div class="notification menu-notification" id="number_favorites">x</div>
+		</ons-list-item>
 		
 		<ons-list-item class="menu-item" onclick="viewBookmark_f();">
 			
 			Mis Fragmentos
-			<div class="notification menu-notification">0</div>
+			<!-- <div class="notification menu-notification">0</div> -->
 		</ons-list-item>
-		<ons-list-item class="menu-item" onclick="viewFavorites();">
+
+		<ons-list-item class="menu-item" onclick="viewabout_f();">
 			
-			 Mis Libros Favoritos
-			<div class="notification menu-notification" id="number_favorites">x</div>
+			 Acerca de
 		</ons-list-item>
 	</ons-list>
 	<ons-list-item class="menu-item title-menu" >
@@ -39,7 +44,7 @@
 			<div class="notification menu-notification">{{node.coleccion[2]}}</div>
 			Informes de investigación
 		</ons-list-item>
-		<ons-list-item class="menu-item" onclick="viewColeccion_f(3);">
+		<ons-list-item class="menu-item" style="line-height:24px"onclick="viewColeccion_f(3);">
 			<div class="notification menu-notification">{{node.coleccion[3]}}</div>
 			Herramientas metodológicas y pedagógicas
 		</ons-list-item>

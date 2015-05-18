@@ -54,7 +54,23 @@
  		Modal.show();
 		var url;
 		if (library_g) {
-			$scope.node.books = JSON.parse( window.localStorage.getItem("libros") );
+			var oFavs = JSON.parse( window.localStorage.getItem("favoritos") );
+			if( oFavs === null) {
+				 oFavs = {};
+			}
+			
+			var books_alm = JSON.parse( window.localStorage.getItem("libros") );
+			if( books_alm === null) {
+				 books_alm = {};
+			}
+			var star_img;
+			
+
+			for (var key in books_alm) {
+				star_img = ( oFavs[key]   === undefined )? "img/estrella.png" : "img/estrella2.png";
+				books_alm[key].star_img=star_img;
+			}
+			$scope.node.books=books_alm;
 
 
 			library_g=false;
@@ -73,7 +89,7 @@
 					books_fav[key].trash=trash;
 				}
 
-				$scope.node.books
+				$scope.node.books=books_fav;
 				favorites_g=false;
 				Modal.hide();
 

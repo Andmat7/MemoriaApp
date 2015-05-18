@@ -61,6 +61,11 @@ function viewFavorites(){
 	menu.setMainPage('main.html', {closeMenu: true});
 	resetPage_f();
 }
+function viewabout_f(){
+	menu.setMainPage('about.html', {closeMenu: true});
+	resetPage_f();
+}
+
 
 function viewBook_f( element ){
 	downloadEpubUrl_g      = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
@@ -992,6 +997,7 @@ function listFragmentosDB_f(tx){
 		div.removeChild(container);
 		container = document.createElement("div");
 		container.id = "container_fragmentos";
+		$("#number_fragmentos").html(results.rows.length);
 		
 		for (var i=0; i<results.rows.length; i++){			
 			var id = results.rows.item(i).id;
@@ -1135,7 +1141,7 @@ function addBookFavorites( element ){
 
 function saveEPUBinFavorites_f(){
 	var oLibros = JSON.parse( window.localStorage.getItem("favoritos") );
-	if( oLibros === null) {
+	if( oLibros === null) {	
 		oLibros = {};
 	}
 	var oLibro = {
@@ -1145,6 +1151,7 @@ function saveEPUBinFavorites_f(){
 		epub        : bookFavoritesElement_g.getAttribute("epub"),
 		id          : bookFavoritesElement_g.getAttribute("epubId"),
 		epubId      : bookFavoritesElement_g.getAttribute("epubId"),
+		star_img    :"img/estrella2.png",
 	};
 	oLibros[ bookFavoritesElement_g.getAttribute("epubId") ] =  oLibro ;
 	window.localStorage.setItem("favoritos", JSON.stringify( oLibros ));
