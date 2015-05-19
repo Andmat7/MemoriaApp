@@ -11,16 +11,22 @@ class Books extends CI_Controller {
 		$this->db->where("category", $category);
 		$query = $this->db->get('books');
 		$result = $query->result();
-		foreach($result as $element){
-			$image = file_get_contents("./uploads/img/" . $element->img);
-			$ext = pathinfo("./uploads/img/" . $element->img, PATHINFO_EXTENSION);
-			$element->img = 'data:image/' . $ext . ';base64,' . base64_encode($image);
-		}
+		$result = $this->formatResult($result);
 		$json=json_encode($result);
 		//  	    echo $json;
 		echo isset($_GET['callback'])
 		? "{$_GET['callback']}($json)"
 		: $json;
+	}
+	public function formatResult($result_org){
+		$result = $result_org;
+		foreach($result as $element){
+			$image = file_get_contents("./uploads/img/" . $element->img);
+			$ext = pathinfo("./uploads/img/" . $element->img, PATHINFO_EXTENSION);
+			$element->img = 'data:image/' . $ext . ';base64,' . base64_encode($image);
+			$element->url = base_url() . 'index.php/landing_page/index/'. $element->id;
+		}
+		return $result;
 	}
 	public function categorias(){
 		//header('Content-type: application/json');
@@ -42,11 +48,7 @@ class Books extends CI_Controller {
 			$this->db->like('LOWER( tags )', strtolower($searchString) );
 			$query  = $this->db->get('books');
 			$result = $query->result();
-			foreach($result as $element){
-				$image = file_get_contents("./uploads/img/" . $element->img);
-				$ext = pathinfo("./uploads/img/" . $element->img, PATHINFO_EXTENSION);
-				$element->img = 'data:image/' . $ext . ';base64,' . base64_encode($image);
-			}
+			$result = $this->formatResult(result);
 			$json   = json_encode($result);
 		}else{
 			$json   = json_encode( array () );
