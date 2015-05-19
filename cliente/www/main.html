@@ -25,6 +25,7 @@
 				<input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value="" onkeydown="if (event.keyCode == 13) { search_f(this); return false; }" />
 			</div>
 		</ons-toolbar>
+		<h3>{{node.title}} </h3>
 		
 		<ons-list modifier="inset" style="margin-top: 10px" ng-repeat="book in node.books">
 			<ons-list-header>{{book.title}}</ons-list-header>

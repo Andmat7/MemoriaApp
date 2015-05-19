@@ -53,7 +53,10 @@
 		$scope.node = {};
  		Modal.show();
 		var url;
+
 		if (library_g) {
+			$scope.node.title="Mi Librería";
+
 			var oFavs = JSON.parse( window.localStorage.getItem("favoritos") );
 			if( oFavs === null) {
 				 oFavs = {};
@@ -78,6 +81,7 @@
 
 		}else{
 			if (favorites_g) {
+				$scope.node.title="Mis favoritos";
 				var oLibros = JSON.parse( window.localStorage.getItem("libros") );
 					if( oLibros === null) {
 						oLibros = {};
@@ -96,8 +100,40 @@
 			}else{
 				if( searchString_g === "" ){
 					url = urlServer_g+"index.php/books/lista/" + coleccion_g;
-				}else{
+					switch(coleccion_g) {
+					    case 1:
+					        $scope.node.title="Informe General ¡Basta Ya!";
+					        break;
+					    case 2:
+					        $scope.node.title="Informes de investigación";
+					        break;
+					    case 3:
+					        $scope.node.title="Herramientas metodológicas y pedagógicas";
+					        break;
+					    case 4:
+					        $scope.node.title="Iniciativas de memoria";
+					        break;
+					    case 5:
+					        $scope.node.title="Acuerdos de la Verdad";
+					        break;
+					    case 6:
+					        $scope.node.title="Diálogos de la memoria";
+					        break;
+					    case 7:
+					        $scope.node.title="Cartillas";
+					        break;
+					    case 8:
+					        $scope.node.title="Revistas";
+					        break;
+					    case 9:
+					        $scope.node.title="Resúmenes";
+					        break;
 
+	
+					}
+
+				}else{
+					$scope.node.title="Búsqueda de tags";
 					url = urlServer_g+"index.php/books/search/" + searchString_g;
 					searchString_g = "";
 				}
@@ -134,7 +170,7 @@
 								 star_img    : star_img
 							 });
 						 });
-						 $scope.node = {	books : books };
+						 $scope.node.books = books;
 						 $scope.$apply();
 						 Modal.hide();
 					 },
