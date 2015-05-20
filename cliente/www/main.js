@@ -1,4 +1,4 @@
-var urlServer_g = "http://190.60.250.151/MemoriaApp/servidor/";
+var urlServer_g = "http://apportaalapaz.centrodememoriahistorica.gov.co/MemoriaApp/servidor/";
 // var urlServer_g = "http://localhost/MemoriApp/servidor/";
 var DBSize_g = 200000;//bytes
 var wholeSelRectEl_g = null;
@@ -818,8 +818,13 @@ function shareTwitter() {
 	
 	// Beware: passing a base64 file as 'data:' is not supported on Android 2.x: https://code.google.com/p/android/issues/detail?id=7901#c43
 	// Hint: when sharing a base64 encoded file on Android you can set the filename by passing it as the subject (second param)
+	var footText = ". Tomado de libro vía #MemoriApp del @CentroMemoriaH";
+	// Recortar texto para el tweet 140 - 22(url) = 118
+	var maxLength = 118 - footText.length - 6; //tilde?
+	var text = '"'+selectionString_g.substring(0,maxLength)+'" '+ footText ;
+	
 	window.plugins.socialsharing.shareViaTwitter(
-		'"'+selectionString_g.substring(0,82)+'"\n ―― ' + bookTitle_g, /*texto*/
+		text, /*texto*/
 		null,/* img */
 		bookURL_g, /*url*/
 		function() {//success
@@ -951,14 +956,17 @@ function shareBookOnFacebook() {
 			}
 		);
 	}
-	//   showDialog();
 }
 
 function shareBookOnTwitter() {
+	var footText = ". Libro del @CentroMemoriaH vía #MemoriApp.";
+	// Recortar texto para el tweet 140 - 22(url) = 118
+	var maxLength = 118 - footText.length - 6; //tilde?
+	var text = '"'+bookTitle_g.substring(0,maxLength)+'" '+ footText ;
 	window.plugins.socialsharing.shareViaTwitter(
-		bookTitle_g, /*texto*/
-		null,/* img */
-		bookURL_g, /*url*/
+		text,       /*texto*/
+		null,       /* img */
+		bookURL_g,  /*url*/
 		function() {//success
 			console.log('share ok');
 		}, 
