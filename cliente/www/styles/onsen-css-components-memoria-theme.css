@@ -951,9 +951,12 @@ h6 {
      -moz-transition: none;
        -o-transition: none;
           transition: none;
+					opacity: 0.2;
+					color: #8962ed;
 }
 .button--quiet:focus {
-  outline: 0;
+	opacity: 0.2;
+	color: #8962ed;
 }
 .button--quiet:active {
   background-color: transparent;

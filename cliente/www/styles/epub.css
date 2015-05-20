@@ -75,4 +75,81 @@ font-size: 0.5in;
 .share-button {
 	margin: 0px;
 	padding: 2px 0px 0px 0px;
+
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font: inherit;
+	color: inherit;
+	background: transparent;
+	border: none;
+	line-height: normal;
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: 400;
+	font-size: 17px;
+	cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	height: auto;
+	text-decoration: none;
+	font-size: 17px;
+	line-height: 32px;
+	letter-spacing: 0;
+	color: #fff;
+	vertical-align: middle;
+	background-color: #8962ed;
+	border: 0px solid currentColor;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	transition: none;
+	background: transparent;
+	border: 1px solid transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	background: transparent;
+	color: #8962ed;
+	border: none;
 }
+.share-button:disabled,
+.share-button[disabled] {
+	opacity: 0.3;
+	cursor: default;
+	pointer-events: none;
+	border: none;
+}
+.share-button:hover {
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	transition: none;
+	opacity: 1.0;
+	background-color: #FEE6A6;
+}
+.share-button:focus {
+	opacity: 1.0;
+	background-color: #FEC62E;
+}
+.share-button:active {
+	background-color: transparent;
+	border: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	transition: none;
+	opacity: 1.0;
+	background-color: #FEC62E;
+}
+

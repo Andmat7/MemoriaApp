@@ -35,8 +35,8 @@ var PAGE_LIBRARY    = 2;
 var PAGE_FAVORITES  = 3;
 
 function backButtonHandler_f( event ){
-	event.preventDefault();
-	event.stopPropagation();
+// 	event.preventDefault();
+// 	event.stopPropagation();
 	switch( lastPage_g ){
 		case PAGE_COLLECCION:
 			viewColeccion_f(coleccion_g);
@@ -1164,7 +1164,9 @@ function addBookFavorites( element ){
 	bookFavoritesElement_g  = element;
 	saveEPUBinFavorites_f()
 	ons.notification.alert({
-		message: 'El libro se ha Agregado a favoritos'
+		title       : 'Mensaje',
+		message     : 'El libro se ha agregado a favoritos',
+		buttonLabel : 'Aceptar',
 	});
 	getnumbers()
 }
