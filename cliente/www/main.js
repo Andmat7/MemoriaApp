@@ -26,8 +26,32 @@ var coleccion_g = 1;
 var library_g = false;
 var favorites_g = false;
 var searchString_g = "";
+var lastPage_g = 0;
 var currentChapter_id="";
 
+//constantes para saber desde que pagina se abre el epub
+var PAGE_COLLECCION = 1;
+var PAGE_LIBRARY    = 2;
+var PAGE_FAVORITES  = 3;
+
+function backButtonHandler_f( event ){
+	event.preventDefault();
+	event.stopPropagation();
+	switch( lastPage_g ){
+		case PAGE_COLLECCION:
+			viewColeccion_f(coleccion_g);
+			break;
+		case PAGE_LIBRARY:
+			viewLibrary();
+			break;
+		case PAGE_FAVORITES:
+			viewFavorites();
+			break;
+		default:
+			viewMain_f();
+	}
+	return false;
+}
 
 function getnumbers() {
 	var oLibros = JSON.parse( window.localStorage.getItem("libros") );
@@ -44,18 +68,21 @@ function viewMain_f(){
 	viewColeccion_f( 1 ); 
 }
 function viewColeccion_f( coleccion ){
-	getnumbers();
+// 	getnumbers();
+	lastPage_g = PAGE_COLLECCION;
 	coleccion_g = coleccion;
 	menu.setMainPage('main.html', {closeMenu: true});
 	resetPage_f();
 }
 function viewLibrary(){
+	lastPage_g = PAGE_LIBRARY;
 	getnumbers();
 	library_g = true;
 	menu.setMainPage('main.html', {closeMenu: true});
 	resetPage_f();
 }
 function viewFavorites(){
+	lastPage_g = PAGE_FAVORITES;
 	getnumbers();
 	favorites_g = true;
 	menu.setMainPage('main.html', {closeMenu: true});
@@ -310,11 +337,14 @@ function onDeviceReady() {
 	
 	//db.transaction(eraseAllPeliculasDB, onError_f);
 	
-// 	document.addEventListener("backbutton", backButtonHandler, false);
+	ons.disableDeviceBackButtonHandler();
+	document.addEventListener("backbutton", backButtonHandler_f, false);
 	yepnope({
     	test : window.device.platform === 'iOS' && parseFloat(window.device.version) === 7.0,
     	yep  : 'styles/ios7.css',         
   	});
+	
+	// back button
 	// CREAR ESTRUCTURA DE DIRECTORIOS
 	var epubDirEntry;
 	if (device.platform == "Android"){

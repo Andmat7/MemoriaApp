@@ -21,7 +21,7 @@
 	<log level="DEBUG"/>
 	
 	<!-- Preferences for Android -->
-	<preference name="useBrowserHistory" value="true" />
+<!-- 	<preference name="useBrowserHistory" value="true" /> -->
 	<preference name="exit-on-suspend" value="true" />
 	<preference name="EnableViewportScale" value="true" />
 	<preference name="DisallowOverscroll" value="true" />
@@ -38,41 +38,37 @@
 	<access origin="*" subdomains="true"/>
 	
 	<feature name="http://api.phonegap.com/1.0/file"/>
-<!-- 	<feature name="http://api.phonegap.com/1.0/media"/> -->
 	<feature name="http://api.phonegap.com/1.0/network"/>
 	<gap:config-file platform="android" parent="/manifest">
 		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<!-- 		<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> -->
 		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
 		<uses-permission android:name="android.permission.INTERNET" />
 	</gap:config-file>
-	<!--	<gap:plugin name="mobi.autarky.audioencode" version="1.0.0" />
-	-->	
-	<icon src="img/logomemorias52px.png"          gap:platform="ios" width="57"  height="57"  />
-    <icon src="img/logomemorias72px.png"       gap:platform="ios" width="72"  height="72"  />
-    <icon src="img/logomemorias114px.png"    gap:platform="ios" width="114" height="114" />
-    <icon src="img/logomemorias144px.png" gap:platform="ios" width="144" height="144" />
-    <platform name="android">
-              <icon src="img/logomemorias52px.png" density="ldpi" />
-              <icon src="img/logomemorias72px.png" density="mdpi" />
-              <icon src="img/logomemorias114px.png" density="hdpi" />
-              <icon src="img/logomemorias144px.png" density="xhdpi" />
-     </platform>
-     <icon src="img/logomemorias144px.png" />
-    <icon gap:platform="ios" height="57" src="img/logomemorias400px" width="57" />
-    <icon gap:platform="ios" height="72" src="img/logomemorias400px" width="72" />
-    <icon gap:platform="ios" height="114" src="img/logomemorias400px" width="114" />
-    <icon gap:platform="ios" height="144" src="img/logomemorias400px" width="144" />
- 
-    <gap:splash gap:density="ldpi" gap:platform="android" src="img/splash/splash320x480.png" />
-    <gap:splash gap:density="mdpi" gap:platform="android" src="img/splash/splash320x480.png" />
-    <gap:splash gap:density="hdpi" gap:platform="android" src="img/splash/splash640x960.png" />
-    <gap:splash gap:density="xhdpi" gap:platform="android" src="img/splash/splash640x1136.png" />
-    <gap:splash gap:platform="ios" height="480" src="img/splash/splash320x480.png" width="320" />
-    <gap:splash gap:platform="ios" height="960" src="img/splash/splash640x960.png" width="640" />
-    <gap:splash gap:platform="ios" height="1024" src="img/splash/splash768x1024.png" width="768" />
-    <gap:splash gap:platform="ios" height="1136" src="img/splash/splash640x1136.png" width="640" />
-    <gap:splash gap:platform="ios" height="768" src="img/splash/splash768x1724.png" width="1024" />
+	<icon src="img/logomemorias52px.png"  gap:platform="ios" width="57"  height="57"  />
+	<icon src="img/logomemorias72px.png"  gap:platform="ios" width="72"  height="72"  />
+	<icon src="img/logomemorias114px.png" gap:platform="ios" width="114" height="114" />
+	<icon src="img/logomemorias144px.png" gap:platform="ios" width="144" height="144" />
+	<platform name="android">
+		<icon src="img/logomemorias52px.png" density="ldpi" />
+		<icon src="img/logomemorias72px.png" density="mdpi" />
+		<icon src="img/logomemorias114px.png" density="hdpi" />
+		<icon src="img/logomemorias144px.png" density="xhdpi" />
+	</platform>
+	<icon src="img/logomemorias144px.png" />
+	<icon gap:platform="ios" height="57" src="img/logomemorias400px" width="57" />
+	<icon gap:platform="ios" height="72" src="img/logomemorias400px" width="72" />
+	<icon gap:platform="ios" height="114" src="img/logomemorias400px" width="114" />
+	<icon gap:platform="ios" height="144" src="img/logomemorias400px" width="144" />
+	
+	<gap:splash gap:density="ldpi" gap:platform="android" src="img/splash/splash320x480.png" />
+	<gap:splash gap:density="mdpi" gap:platform="android" src="img/splash/splash320x480.png" />
+	<gap:splash gap:density="hdpi" gap:platform="android" src="img/splash/splash640x960.png" />
+	<gap:splash gap:density="xhdpi" gap:platform="android" src="img/splash/splash640x1136.png" />
+	<gap:splash gap:platform="ios" height="480" src="img/splash/splash320x480.png" width="320" />
+	<gap:splash gap:platform="ios" height="960" src="img/splash/splash640x960.png" width="640" />
+	<gap:splash gap:platform="ios" height="1024" src="img/splash/splash768x1024.png" width="768" />
+	<gap:splash gap:platform="ios" height="1136" src="img/splash/splash640x1136.png" width="640" />
+	<gap:splash gap:platform="ios" height="768" src="img/splash/splash768x1724.png" width="1024" />
 	
 </widget>
 
