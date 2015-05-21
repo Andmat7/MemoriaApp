@@ -67,8 +67,10 @@ INSERT INTO `usuarios` (`id`, `username`, `password`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `dictionary` (
+  `id` int(15) NOT NULL AUTO_INCREMENT,
   `palabra` varchar(300) COLLATE utf8_bin NOT NULL,
-  `definicion` varchar(300) COLLATE utf8_bin NOT NULL
+  `definicion` varchar(300) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --

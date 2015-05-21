@@ -25,7 +25,7 @@
             <a href="<?php echo site_url('epubs/agregar'); ?>">Agregar eBook</a>
         </li>
         <li <?=echoActiveClassIfRequestMatches("Diccionario")?>>
-            <a href="<?php echo site_url('Dictionary'); ?>">Diccionario</a>
+            <a href="<?php echo site_url('dictionary'); ?>">Diccionario</a>
         </li>
       </ul>
    

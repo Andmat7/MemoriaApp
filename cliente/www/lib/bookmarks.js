@@ -49,7 +49,7 @@ function showSelectionRectstomarks(selRects, element,color){
 	console.log('showSelectionRectstomarks');
 	var iframe = $("iframe")[0];
 	var iframePos = getPosition(iframe);
-	var iframeX = -10;
+	var iframeX = -20;;
 	var iframeY = 0;
 	var i = 0;
 	var rect;
