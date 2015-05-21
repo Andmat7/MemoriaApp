@@ -45,12 +45,12 @@ font-size: 0.5in;
 }
 .popover{
 	min-height: 10px;
-	width: 280px;
+	width: 300px;
 	max-width: 100%;	
 }
 .popover__content{
 	min-height: 10px;
-	width: 280px;
+	width: 300px;
 	max-width: 100%;	
 }
 #share-popover .popover-mask, #meaning-popover .popover-mask{
@@ -78,7 +78,7 @@ font-size: 0.5in;
 }
 .share-button {
 	margin: 0px;
-	padding: 2px 0px 0px 0px;
+	padding: 3px 1px;
 
 	position: relative;
 	display: inline-block;
@@ -127,6 +127,10 @@ font-size: 0.5in;
 	color: #8962ed;
 	border: none;
 }
+.share-button img{
+	height: 34px; 
+	vertical-align: bottom;
+}
 .share-button:disabled,
 .share-button[disabled] {
 	opacity: 0.3;
@@ -157,3 +161,6 @@ font-size: 0.5in;
 	background-color: #FEC62E;
 }
 
+#Dialog_copiado .dialog-mask {
+background-color: transparent !important;
+}

@@ -171,6 +171,8 @@ function starting(){
 				mask.style.zIndex = -1;
 			});
 		});
+		ons.createDialog( 'Dialog_copiado.html' );
+			
 		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
 		$(document).on('hold', '#area', function(e) {
 			startSelect_g = 1;
@@ -1472,4 +1474,19 @@ function search_f( element ){
 	searchString_g = element.value;
 	menu.setMainPage('main.html', {closeMenu: true});
 	document.removeEventListener("touchmove",preventDefaultScroll_f);
+}
+//***********************************
+//** Portapapeles
+//***********************************
+function copiar_f(){
+	window.plugins.clipboard.copy(
+		selectionString_g,
+		function(){ //success
+			Dialog_copiado.show();
+			setTimeout('Dialog_copiado.hide()', 2000);
+		},
+		function(){ //error
+			console.log("error al copiar.");
+		}
+	);
 }

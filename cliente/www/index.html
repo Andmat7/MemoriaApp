@@ -38,25 +38,27 @@
 		<script type="text/ons-template" id="share-popover.html">
 			<ons-popover id="share-popover" var="sharePopover" direction="up" mask-color="rgba(0, 0, 0, 0.0)">
 			<div style="text-align: center; opacity: 1;">
-			<a class="share-button" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebookb.png"></a>
-			<a class="share-button" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitterb.png"></a>
-			<a class="share-button" onclick="saveFragment_f();"><img style="height: 2em;" src="img/logo calificacionb.png"></a>
-			<a class="share-button" onclick="change_background('yellow_background');"><img style="height: 2em;" src="img/logocirculoamarillo.png"></a>
-			<a class="share-button" onclick="change_background('lilla_background');"><img style="height: 2em;" src="img/circulo lila.png"></a>
-			<a class="share-button" onclick="change_background('green_background');"><img style="height: 2em;" src="img/circulo verde.png"></a>
+			<a class="share-button" onclick="shareFacebook();"><img  src="img/logo facebookb.png"></a>
+			<a class="share-button" onclick="shareTwitter();"><img src="img/logo twitterb.png"></a>
+			<a class="share-button" onclick="saveFragment_f();"><img" src="img/logo calificacionb.png"></a>
+			<a class="share-button" onclick="copiar_f();"><img src="img/logo_copiar.png" /></a>
+			<a class="share-button" onclick="change_background('yellow_background');"><img  src="img/logocirculoamarillo.png"></a>
+			<a class="share-button" onclick="change_background('lilla_background');"><img src="img/circulo lila.png"></a>
+			<a class="share-button" onclick="change_background('green_background');"><img src="img/circulo verde.png"></a>
 			</div>
 			</ons-popover>
 		</script>
 		<script type="text/ons-template" id="meaning-popover.html">
 			<ons-popover id="meaning-popover" var="meaningPopover" direction="up" mask-color="rgba(0, 0, 0, 0.0)">
 			<div style="text-align: center; opacity: 1;">
-			<a class="share-button" onclick="shareFacebook();"><img style="height: 2em;" src="img/logo facebookb.png" /></a>
-			<a class="share-button" onclick="shareTwitter();"><img style="height: 2em;" src="img/logo twitterb.png" /></a>
-			<a class="share-button" onclick="saveFragment_f();"><img style="height: 2em;" src="img/logo calificacionb.png" /></a>
-			<a class="share-button" onclick="showMeaning_f();"><img style="height: 2em;" src="img/logo_diccionario.png" /></a>
-			<a class="share-button" onclick="change_background('yellow_background');"><img style="height: 2em;" src="img/logocirculoamarillo.png" /></button>
-			<a class="share-button" onclick="change_background('lilla_background');"><img style="height: 2em;" src="img/circulo lila.png" /></a>
-			<a class="share-button" onclick="change_background('green_background');"><img style="height: 2em;" src="img/circulo verde.png" /></a>
+			<a class="share-button" onclick="shareFacebook();"><img style="height: 34px; vertical-align: bottom;" src="img/logo facebookb.png" /></a>
+			<a class="share-button" onclick="shareTwitter();"><img style="height: 34px; vertical-align: bottom;" src="img/logo twitterb.png" /></a>
+			<a class="share-button" onclick="saveFragment_f();"><imgstyle="height: 34px; vertical-align: bottom;" src="img/logo calificacionb.png" /></a>
+			<a class="share-button" onclick="showMeaning_f();"><img style="height: 34px; vertical-align: bottom;" src="img/logo_diccionario.png" /></a>
+			<a class="share-button" onclick="copiar_f();"><img style="height: 34px; vertical-align: bottom;" src="img/logo_copiar.png" /></a>
+			<a class="share-button" onclick="change_background('yellow_background');"><img style="height: 34px; vertical-align: bottom;" src="img/logocirculoamarillo.png" /></button>
+			<a class="share-button" onclick="change_background('lilla_background');"><img style="height: 34px; vertical-align: bottom;" src="img/circulo lila.png" /></a>
+			<a class="share-button" onclick="change_background('green_background');"><img style="height: 34px; vertical-align: bottom;" src="img/circulo verde.png" /></a>
 			</div>
 			</ons-popover>
 		</script>
@@ -104,6 +106,12 @@
 			El libro se ha agregado a tus favoritos
       	</ons-dialog> 
 	</ons-template>
+	<ons-template id="Dialog_copiado.html">
+		<ons-dialog id="Dialog_copiado" var="Dialog_copiado" style="min-height: 40px;height: 38px;line-height: 38px;text-align:center; width:250px; background-color:#adadad;font-family: 'TitilliumWeb-Light';font-size: 0.8rem;" cancelable>
+			El texto se ha copiado al portapapeles.
+		</ons-dialog> 
+	</ons-template>
+	
 		<!-- WEINRE -->
 <!-- 		 <script src="http://192.168.0.2:8080/target/target-script-min.js#anonymous"></script>  -->
 		</body>
