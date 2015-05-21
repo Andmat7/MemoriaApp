@@ -24,6 +24,9 @@
         <li <?=echoActiveClassIfRequestMatches("agregar")?>>
             <a href="<?php echo site_url('epubs/agregar'); ?>">Agregar eBook</a>
         </li>
+        <li <?=echoActiveClassIfRequestMatches("Diccionario")?>>
+            <a href="<?php echo site_url('Dictionary'); ?>">Diccionario</a>
+        </li>
       </ul>
    
       <ul class="nav navbar-nav navbar-right">

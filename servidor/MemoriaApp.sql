@@ -59,6 +59,26 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 INSERT INTO `usuarios` (`id`, `username`, `password`) VALUES
 (1, 'admin', '3614f7b8bf42dbb37b040c9387ddc1f0');
 
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `dictionary`
+--
+
+CREATE TABLE IF NOT EXISTS `dictionary` (
+  `palabra` varchar(300) COLLATE utf8_bin NOT NULL,
+  `definicion` varchar(300) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `dictionary`
+--
+
+INSERT INTO `dictionary` (`palabra`, `definicion`) VALUES
+('Narcotraficantes', 'Persona que se dedica al comercio ilícito de drogas tóxicas en grandes cantidades.');
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
