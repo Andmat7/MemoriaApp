@@ -18,7 +18,7 @@ class Books extends CI_Controller {
 		? "{$_GET['callback']}($json)"
 		: $json;
 	}
-	public function formatResult($result_org){
+	private function formatResult($result_org){
 		$result = $result_org;
 		foreach($result as $element){
 			$image = file_get_contents("./uploads/img/" . $element->img);

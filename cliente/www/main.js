@@ -1326,36 +1326,56 @@ function removeEPUBfromLocalStorage_f( id ){
 //** POPOVER DEL DICCIONARIO
 //******************************************
 function showMeaning_f(){
+	searchDicMemoriApp_f();
+}
+
+function searchDicMemoriApp_f(){
 	meaningPopover.hide();
-// 	removeSelectionIndicators();
-	var URL = "http://es.wiktionary.org/w/api.php?action=query&titles=" + selectionString_g.toLowerCase() + "&prop=revisions&rvprop=content&format=json";
+	// 	removeSelectionIndicators();
+	var URL = urlServer_g + "index.php/dictionary/buscar/" + selectionString_g.toLowerCase().trim();
 	$.ajax({
 		url: URL,
 		dataType: "jsonp",
 		success: function (aResponse) {
 			console.log("success");
-			var maskOverlay = document.createElement("div");
-			document.body.appendChild(maskOverlay);
-			maskOverlay.id = "diccionario_overlay"
-			maskOverlay.style.position  = "absolute";
-			maskOverlay.style.top       = "0px";
-			maskOverlay.style.left      = "0px";
-			maskOverlay.style.width     = "100%";
-			maskOverlay.style.height    = "100%";
-			$(document).on('click', '#diccionario_overlay', function(e) {
-				hideMeaning_f();
+			var div = createDicPopover_f();
+			console.log(aResponse);
+			var content;
+			if ( aResponse[0] !== undefined ){
+				content = aResponse[0].definicion;
+			}else{
+				searchWiktionary_f( div );
+				return;
+			}
+			var textLines = content.split("\n");
+			var sMeaning = "";
+			var i=0;
+			textLines.every(function(line) {
+					i++;
+					sMeaning += "<br/>" + line;
+				return (i < 3); //break if i not < 3
 			});
-			var div = document.createElement("div");
-			div.style.position  = "absolute";
-// 			div.innerHTML = "diccionario: Libro donde se busca el significado de las palabras no conocidas.";
-			maskOverlay.appendChild(div);
-			div.style.bottom    = "0px";
-			div.style.left      = "0px";
-			div.style.width     = "100%";
-			div.style.top       = "70%";
-			div.style.padding   = "10px";
-			div.style.backgroundColor = "#DDDDDD";
-			
+			div.innerHTML = selectionString_g + ":<br/>" + sMeaning;
+			console.log(sMeaning);
+		},
+		error: function(e, text){
+			console.log(text);
+			var div = createDicPopover_f();
+			searchWiktionary_f( div );
+		}
+	});
+}
+	
+function searchWiktionary_f( div ){
+	meaningPopover.hide();
+	// 	removeSelectionIndicators();
+	var URL = "http://es.wiktionary.org/w/api.php?action=query&titles=" + selectionString_g.toLowerCase().trim() + "&prop=revisions&rvprop=content&format=json";
+	$.ajax({
+		url: URL,
+		dataType: "jsonp",
+		success: function (aResponse) {
+			console.log("success");
+
 			console.log(aResponse);
 			var pages = aResponse.query.pages;
 			var page  = getElement( pages );
@@ -1384,6 +1404,36 @@ function showMeaning_f(){
 			console.log(text);
 		}
 	});
+}
+
+function createDicPopover_f(){
+	//crear overlay que contiene el popover del diccionario
+	var maskOverlay = document.createElement("div");
+	document.body.appendChild(maskOverlay);
+	maskOverlay.id = "diccionario_overlay"
+	maskOverlay.style.position  = "absolute";
+	maskOverlay.style.top       = "0px";
+	maskOverlay.style.left      = "0px";
+	maskOverlay.style.width     = "100%";
+	maskOverlay.style.height    = "100%";
+	$(document).on('click', '#diccionario_overlay', function(e) {
+		hideMeaning_f();
+	});
+	//crear popover donde se muestra el significado
+	var div = document.createElement("div");
+	div.style.position  = "absolute";
+	maskOverlay.appendChild(div);
+	div.style.bottom    = "0px";
+	div.style.left      = "0px";
+	div.style.width     = "100%";
+	div.style.top       = "70%";
+// 	div.style.padding   = "10px";
+	div.style.backgroundColor = "#DDDDDD";
+	var p = document.createElement("div");
+	div.appendChild(p);
+	p.style.margin = "10px";
+	
+	return p;
 }
 
 function hideMeaning_f(){
