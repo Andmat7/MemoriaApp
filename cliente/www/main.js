@@ -836,6 +836,34 @@ function shareTwitter() {
 	);
 }
 
+function shareWhatsapp() {
+	window.plugins.socialsharing.shareViaWhatsApp(
+		'"'+selectionString_g+'"\n ―― ' + bookTitle_g + '\n ' + bookURL_g, /*texto*/
+		null,/* img */
+		null, /*url*/
+		function() {//success
+			console.log('share ok');
+		}, 
+		function( errormsg ){ //error
+			console.log(errormsg);
+		}
+	);
+}
+
+function shareEmail() {
+	window.plugins.socialsharing.shareViaEmail(
+		'"'+selectionString_g+'"\n ―― ' + bookTitle_g + '\n ' + bookURL_g, /*texto*/
+		null,/* img */
+		null, /*url*/
+		function() {//success
+			console.log('share ok');
+		}, 
+		function( errormsg ){ //error
+			console.log(errormsg);
+		}
+	);
+}
+
 function share() {//pruebas
 	var canvas = document.createElement("canvas");
 	var ctx = canvas.getContext("2d");
@@ -932,6 +960,34 @@ var drawText_f = function (canvas, textString, font, x, y, maxWidth){
 //**********************************
 //** Compartir libro
 //**********************************
+function shareBookOnWhatsapp() {
+	window.plugins.socialsharing.shareViaWhatsApp(
+		bookTitle_g + '\n ' + bookURL_g, //probar html tags si necesario
+		null /* img */,
+		null /*url*/,
+		function() {//success
+			console.log( 'share ok' );	  
+		}, 
+		function( errormsg ){//error
+			console.log( "error: " + errormsg );
+		}
+	);
+}
+
+function shareBookOnEmail() {
+	window.plugins.socialsharing.shareViaEmail(
+		bookTitle_g + '\n ' + bookURL_g, //probar html tags si necesario
+		null /* img */,
+		null /*url*/,
+		function() {//success
+			console.log( 'share ok' );	  
+		}, 
+		function( errormsg ){//error
+			console.log( "error: " + errormsg );
+		}
+	);
+}
+
 function shareBookOnFacebook() {
 	if ( device.platform == "Android" ){ //FacebookConnectPlugin
 		facebookConnectPlugin.login(

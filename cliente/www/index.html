@@ -62,7 +62,7 @@
 		</script>
 
 		<script type="text/ons-template" id="dialog-share.html">
-			<ons-dialog style="height: 94px;  min-height: 50px; color:black" var="Dialogfavorites" cancelable>
+			<ons-dialog style="height: 94px;  min-height: 50px; color:black; width:200px ; margin:0" var="Dialogfavorites" cancelable>
 
 		    <ons-navigator var="myNav">
 		      <ons-toolbar inline>
@@ -72,8 +72,10 @@
 		      </ons-toolbar>
 		      <div style="text-align: center">
 		      <div style="text-align: center; opacity: 1;">
-						<button class="button--quiet" onclick="shareBookOnFacebook();"><img style="height: 2em;" src="img/logo facebook.png"></button>
-						<button class="button--quiet" onclick="shareBookOnTwitter();"><img style="height: 2em;" src="img/logo twitter.png"></button>
+						<button class="share-button" onclick="shareBookOnFacebook();" style="max-height: 100%"><img style="height: 34px;vertical-align: bottom;" src="img/logo facebook.png" /></button>
+						<button class="share-button" onclick="shareBookOnTwitter();" style="max-height: 100%"><img style="height: 34px; vertical-align: bottom;" src="img/logo twitter.png"/></button>
+						<button class="share-button" onclick="shareBookOnWhatsapp();"><ons-icon icon="ion-social-whatsapp-outline" style="color: green;height: 34px;width:34;" size="34px"></ons-icon></button>
+						<button class="share-button" onclick="shareBookOnEmail();"><ons-icon icon="ion-android-mail" style="color: red;height: 34px;width:34;" size="34px"></ons-icon></button>
 		      </div>
 		      </div>
 		    </ons-navigator>
@@ -103,7 +105,7 @@
       	</ons-dialog> 
 	</ons-template>
 		<!-- WEINRE -->
-		<!--  // <script src="http://192.168.0.6:8080/target/target-script-min.js#anonymous"></script>  -->
+		 <script src="http://192.168.0.2:8080/target/target-script-min.js#anonymous"></script> 
 		</body>
 
 
