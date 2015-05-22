@@ -34,7 +34,7 @@ var PAGE_COLLECCION = 1;
 var PAGE_LIBRARY    = 2;
 var PAGE_FAVORITES  = 3;
 
-function backButtonHandler_f( event ){
+function backButtonHandler_f(  ){
 // 	event.preventDefault();
 // 	event.stopPropagation();
 	switch( lastPage_g ){
@@ -93,7 +93,6 @@ function viewabout_f(){
 	resetPage_f();
 }
 
-
 function viewBook_f( element ){
 	downloadEpubUrl_g      = urlServer_g + "uploads/epub/"  + element.getAttribute("epub");
 	bookElement_g          = element;
@@ -130,7 +129,6 @@ function starting(){
 			}
 		}
 	});
-	modalEpub.show();
 	if (firstRun_g){ //evitar amarrar el mismo evento varias veces
 		firstRun_g = false;
 		// declaracion de handle de comienzo de seleccion
@@ -172,6 +170,7 @@ function starting(){
 			});
 		});
 		ons.createDialog( 'Dialog_copiado.html' );
+		ons.createDialog( 'Dialog_descargando.html' );
 			
 		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
 		$(document).on('hold', '#area', function(e) {
@@ -206,6 +205,7 @@ function starting(){
 	if( oLibros !== null ){
 		var oLibro = oLibros[ epubId_g ];
 		if( oLibro !== undefined ){
+			modalEpub.show();
 			openEPUB_f( workingDirEntry_g.toURL() + "epub/" + oLibro.id + ".epub" );
 		}else{
 			downloadEPUB_f(epubId_g, downloadEpubUrl_g);
@@ -244,6 +244,7 @@ function alignEPUBRotation_f (){
 }
 
 function downloadEPUB_f(id, URI){
+	modalDownload.show();
 	var ft = new FileTransfer();
 	//   if (alertDebug == 1) alert ("begining download");
 	ft.download(
@@ -252,6 +253,8 @@ function downloadEPUB_f(id, URI){
 		function (entry) {//success download
 			console.log("download complete: " + entry.fullPath);
 			saveEPUBinStorage_f( id );
+			modalEpub.show();
+			modalDownload.hide();
 			openEPUB_f (workingDirEntry_g.toURL() + "epub/" + id + ".epub");
 		},
 		function(error) {//error download
@@ -1307,6 +1310,7 @@ function saveEPUBinStorage_f( id ){
 	};
 	oLibros[ id ] =  oLibro ;
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
+	getnumbers();
 }
 
 function removeConfirmDialog_f( element ){
@@ -1355,7 +1359,8 @@ function removeEPUBfromLocalStorage_f( id ){
 	}
 	oLibros[ id ] =  undefined ;
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
-	viewMain_f();
+	getnumbers();
+	backButtonHandler_f();
 }
 //******************************************
 //** POPOVER DEL DICCIONARIO

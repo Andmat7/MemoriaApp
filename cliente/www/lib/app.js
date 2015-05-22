@@ -70,8 +70,9 @@
 			
 
 			for (var key in books_alm) {
-				star_img = ( oFavs[key]   === undefined )? "img/estrella.png" : "img/estrella2.png";
-				books_alm[key].star_img=star_img;
+				star_img  = ( oFavs[key] === undefined )? "img/estrella.png" : "img/estrella2.png";
+				books_alm[key].star_img  = star_img;
+				books_alm[key].buttonTxt = "Abrir";
 			}
 			$scope.node.books=books_alm;
 
@@ -87,10 +88,12 @@
 						oLibros = {};
 					}
 				var books_fav = JSON.parse( window.localStorage.getItem("favoritos") );
-				var trash;
+				var trash, buttonTxt;
 				for (var key in books_fav) {
-					trash = ( oLibros[key] === undefined )? "hidden" : "visible";
-					books_fav[key].trash=trash;
+					trash     = ( oLibros[key] === undefined )? "hidden" : "visible";
+					buttonTxt = ( oLibros[key] === undefined )? "Descargar" : "Abrir";
+					books_fav[key].trash     = trash;
+					books_fav[key].buttonTxt = buttonTxt;
 				}
 
 				$scope.node.books=books_fav;
@@ -155,9 +158,9 @@
 						 var star_img;
 						 aResponse.forEach(function(element) {
 							 i++;
-							 trash    = ( oLibros[element.id] === undefined )? "hidden" : "visible";
-							 star_img = ( oFavs[element.id]   === undefined )? "img/estrella.png" : "img/estrella2.png";
-							 
+							 trash     = ( oLibros[element.id] === undefined )? "hidden" : "visible";
+							 star_img  = ( oFavs[element.id]   === undefined )? "img/estrella.png" : "img/estrella2.png";
+							 buttonTxt = ( oLibros[element.id] === undefined )? "Descargar" : "Abrir";
 							 books.push({
 								 description : element.description, 
 								 title       : element.title,
@@ -167,6 +170,7 @@
 								 epubId      : element.id,
 								 bookURL     : element.url,
 								 trash       : trash,
+								 buttonTxt   : buttonTxt,
 								 star_img    : star_img
 							 });
 						 });
