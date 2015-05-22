@@ -32,7 +32,7 @@
 			<img ng-src="{{book.img}}" class="card_image" />
 			<div class="bar_share">
 				<span class="left">
-					<button class="button_share"  id="{{book.id}}" img="{{book.img}}"  epub="{{book.epub}}" onclick="addBookFavorites(this)" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}"><img src="{{book.star_img}}" /></button>
+					<button class="button_share"  id="{{book.id}}" img="{{book.img}}"  epub="{{book.epub}}" onclick="addBookFavorites(this);" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}"><img src="{{book.star_img}}" /></button>
 					<button class="button_share" ng-click="share( book.title, book.bookURL)"><img src="lib/onsen/css/memoria/imgs/enlace.png" /></button>
 				</span>
 				

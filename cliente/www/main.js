@@ -1226,15 +1226,48 @@ function deleteFragmentoDB_f(tx) {
 //******************************************
 //** Guardado de Favoritos
 //******************************************
-function addBookFavorites( element ){	
-	bookFavoritesElement_g  = element;
-	saveEPUBinFavorites_f()
-	ons.notification.alert({
-		title       : 'Mensaje',
-		message     : 'El libro se ha agregado a favoritos',
-		buttonLabel : 'Aceptar',
-	});
-	getnumbers()
+function addBookFavorites( element ){
+	var img = element.childNodes[0];
+	console.log( img.src );
+	if ( img.getAttribute( "src" ) == "img/estrella.png" ){
+		// agregar a favoritos
+		bookFavoritesElement_g  = element;
+		saveEPUBinFavorites_f();
+		ons.notification.alert({
+			title       : 'Mensaje',
+			message     : 'El libro se ha agregado a favoritos',
+			buttonLabel : 'Aceptar',
+		});
+		getnumbers();
+		img.src = "img/estrella2.png";
+	}else{
+		//borrar de favoritos
+		ons.notification.confirm({
+			title       : '¡Alerta!',
+			message     : '¿Está seguro que desea eliminar el libro de sus favoritos?',
+			buttonLabels: ['Si', 'No'],
+			callback: function(idx) {
+				switch(idx) {
+					case 0://si
+						var oLibros = JSON.parse( window.localStorage.getItem("favoritos") );
+						var epubId      = element.getAttribute("epubId");
+						if( oLibros === null) {
+							oLibros = {};
+						}
+						oLibros[ epubId ] =  undefined ;
+						window.localStorage.setItem("favoritos", JSON.stringify( oLibros ));
+						img.src = "img/estrella.png";
+						getnumbers();
+						break;
+					case 1://no
+						break;
+				}
+			}
+		});
+		
+
+	}
+
 }
 
 function saveEPUBinFavorites_f(){
