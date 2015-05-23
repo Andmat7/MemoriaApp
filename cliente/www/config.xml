@@ -18,7 +18,7 @@
 	
 	<content src="index.html" />
 	
-	<log level="DEBUG"/>
+<!-- 	<log level="DEBUG"/> -->
 	
 	<!-- Preferences for Android -->
 <!-- 	<preference name="useBrowserHistory" value="true" /> -->
@@ -56,20 +56,28 @@
 		<icon src="img/logomemorias144px.png" density="xhdpi" />
 	</platform>
 	<icon src="img/logomemorias144px.png" />
-	<icon gap:platform="ios" height="57" src="img/logomemorias400px" width="57" />
-	<icon gap:platform="ios" height="72" src="img/logomemorias400px" width="72" />
-	<icon gap:platform="ios" height="114" src="img/logomemorias400px" width="114" />
-	<icon gap:platform="ios" height="144" src="img/logomemorias400px" width="144" />
-	
-	<gap:splash gap:density="ldpi" gap:platform="android" src="img/splash/splash320x480.png" />
-	<gap:splash gap:density="mdpi" gap:platform="android" src="img/splash/splash320x480.png" />
-	<gap:splash gap:density="hdpi" gap:platform="android" src="img/splash/splash640x960.png" />
-	<gap:splash gap:density="xhdpi" gap:platform="android" src="img/splash/splash640x1136.png" />
+	<icon gap:platform="ios" height="57" src="img/logomemorias57px" width="57" />
+	<icon gap:platform="ios" height="72" src="img/logomemorias72px" width="72" />
+	<icon gap:platform="ios" height="114" src="img/logomemorias114px" width="114" />
+	<icon gap:platform="ios" height="144" src="img/logomemorias144px" width="144" />
+
+	<gap:splash src="img/splash/splash320x480.png" />
+	<gap:splash gap:qualifier="ldpi" gap:platform="android" src="img/splash/splash320x480.png" />
+	<gap:splash gap:qualifier="mdpi" gap:platform="android" src="img/splash/splash320x480.png" />
+	<gap:splash gap:qualifier="hdpi" gap:platform="android" src="img/splash/splash640x960.png" />
+	<gap:splash gap:qualifier="xhdpi" gap:platform="android" src="img/splash/splash640x1136.png" />
 	<gap:splash gap:platform="ios" height="480" src="img/splash/splash320x480.png" width="320" />
 	<gap:splash gap:platform="ios" height="960" src="img/splash/splash640x960.png" width="640" />
 	<gap:splash gap:platform="ios" height="1024" src="img/splash/splash768x1024.png" width="768" />
 	<gap:splash gap:platform="ios" height="1136" src="img/splash/splash640x1136.png" width="640" />
-	<gap:splash gap:platform="ios" height="768" src="img/splash/splash768x1724.png" width="1024" />
+	<gap:splash gap:platform="ios" height="768" src="img/splash/splash1024x768.png" width="1024" />
+	
+	<preference name="BackgroundColor" value="0xff02D1BD"/>
+	<gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
+	<preference name="AutoHideSplashScreen" value="false" />       
+	<preference name="ShowSplashScreenSpinner" value="false" /> 
+	<preference name="SplashScreenDelay" value="100000" />
+	<preference name="SplashScreenBackgroundColor" value="#02D1BD" />
 	
 </widget>
 

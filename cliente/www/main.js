@@ -23,7 +23,7 @@ var color_background="";
 var bookElement_g;
 var bookFavoritesElement_g;
 var coleccion_g = 1;
-var library_g = false;
+var library_g = true;
 var favorites_g = false;
 var searchString_g = "";
 var lastPage_g = 0;
@@ -68,13 +68,15 @@ function viewMain_f(){
 	viewColeccion_f( 1 ); 
 }
 function viewColeccion_f( coleccion ){
-// 	getnumbers();
+ 	getnumbers();
+	Modal.show();
 	lastPage_g = PAGE_COLLECCION;
 	coleccion_g = coleccion;
 	menu.setMainPage('main.html', {closeMenu: true});
 	resetPage_f();
 }
 function viewLibrary(){
+	Modal.show();
 	lastPage_g = PAGE_LIBRARY;
 	getnumbers();
 	library_g = true;
@@ -82,6 +84,7 @@ function viewLibrary(){
 	resetPage_f();
 }
 function viewFavorites(){
+	Modal.show();
 	lastPage_g = PAGE_FAVORITES;
 	getnumbers();
 	favorites_g = true;
@@ -112,7 +115,7 @@ function viewBookmark_f(){
 	resetPage_f();
 }
 /* This code prevents users from dragging the page (IOS fix) */
-var preventDefaultScroll_f = function(event) {
+var preventDefaultScroll_f = function( event ) {
 	event.preventDefault();
 	window.scroll(0,0);
 	return false;
@@ -336,20 +339,15 @@ $( document ).ready(function() {
 	document.addEventListener("deviceready", onDeviceReady, false);
 });
 function onDeviceReady() {
-//	window.plugins.insomnia.keepAwake();
-	
-// 	var db = window.openDatabase("memoriappDB", "1.0", "citas", DBSize);
-	
-	//db.transaction(eraseAllPeliculasDB, onError_f);
-	
-	ons.disableDeviceBackButtonHandler();
-	document.addEventListener("backbutton", backButtonHandler_f, false);
+	splash_f();
 	yepnope({
     	test : window.device.platform === 'iOS' && parseFloat(window.device.version) === 7.0,
     	yep  : 'styles/ios7.css',         
   	});
 	
 	// back button
+	ons.disableDeviceBackButtonHandler();
+	document.addEventListener("backbutton", backButtonHandler_f, false);
 	// CREAR ESTRUCTURA DE DIRECTORIOS
 	var epubDirEntry;
 	if (device.platform == "Android"){
@@ -439,56 +437,53 @@ function onDeviceReady() {
 			},
 			onError_f
 		);
-// 		window.resolveLocalFileSystemURL(
-// 			workingDirEntry_g.toURL() + "tempepub",
-// 			function(dirEntry){
-// 				dirEntry.removeRecursively;
-// 				window.resolveLocalFileSystemURL(
-// 					dirEntry.toURL(),
-// 					function(dirEntry){
-// 						zip.unzip(
-// 							epubFile,
-// 							workingDirEntry_g.toURL() + "tempepub", 
-// 							function ( fail ){//zip callback
-// 								if (!fail){
-// 									Book_g = ePub(
-// 										workingDirEntry_g.toURL() + "tempepub/",
-// 																{	style: 'img { width: 100px;}',	spreads: false	}
-// 									);
-// 									Book_g.renderTo('area');
-// 								}else{
-// 									alert("Error al abrir el EPUB.");
-// 								}
-// 							},
-// 							null //progress callback
-// 						);
-// 						tempDirEntry_g = dirEntry;
-// 					},
-// 					onError_f
-// 				);
-// 				
-// 			},
-// 			onError_f
-// 		);
-		//borrar y crear de nuevo el folder temporal
-// 		window.resolveLocalFileSystemURL(
-// 			cordova.file.tempDirectory,
-// 			function(dirEntry){
-// 				tempDirEntry_g.removeRecursively;
-// 				window.resolveLocalFileSystemURL(
-// 					cordova.file.tempDirectory,
-// 					function(dirEntry){
-// 						tempDirEntry_g = dirEntry;
-// 					},
-// 					onError_f
-// 				);
-// 				
-// 			},
-// 			onError_f
-// 		);
+		
 	}
 	console.log("onDeviceReady complete");
 	
+}
+
+function splash_f(){
+	var div = document.createElement("div");
+	div.id                     = "splashDiv";
+	div.style.position         = "absolute";
+	div.style.top              = "0";
+	div.style.left             = "0";
+	div.style.width            = "100%";
+	div.style.height           = "100%";
+	div.style.backgroundColor  = "#02D1BD";
+
+	var img = document.createElement("img");
+	img.style.display     = "block";
+	img.style.marginLeft  = "auto";
+	img.style.marginRight = "auto";
+	img.style.opacity     = "0";
+	if       ( document.body.clientHeight < 960 ){
+		img.src             = "img/splash/logos/splash320x480.png";
+	}else if ( document.body.clientHeight < 1136 ){
+		img.src             = "img/splash/logos/splash640x960.png";
+	}else if ( document.body.clientHeight < 1715 ){
+		img.src             = "img/splash/logos/splash640x1136.png";
+	}else{
+		img.src             = "img/splash/logos/splash966x1715.png";
+	}
+	
+	div.appendChild(img);
+	document.body.appendChild( div );
+	setTimeout(	function(){
+		navigator.splashscreen.hide();
+		TweenMax.to(
+			img, 
+			3,
+			{opacity: 1.0, force3D: true , onComplete: 
+				function(){
+						setTimeout( function(){
+							document.body.removeChild( document.getElementById("splashDiv") );
+						}, 1000);
+				}
+			}
+		);
+	}, 1000	);
 }
 
 function onError_f(e){

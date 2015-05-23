@@ -51,7 +51,7 @@
 		};
 
 		$scope.node = {};
- 		Modal.show();
+//  		Modal.show();
 		var url;
 
 		if (library_g) {
