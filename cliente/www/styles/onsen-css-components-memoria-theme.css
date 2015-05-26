@@ -951,12 +951,13 @@ h6 {
      -moz-transition: none;
        -o-transition: none;
           transition: none;
-					opacity: 0.2;
-					color: #8962ed;
+  opacity: 0.2;
+  color: #8962ed;
 }
 .button--quiet:focus {
-	opacity: 0.2;
-	color: #8962ed;
+  outline: 0;
+  opacity: 0.2;
+  color: #8962ed;
 }
 .button--quiet:active {
   background-color: transparent;
@@ -3988,12 +3989,12 @@ input[type="search"].search-input::-webkit-search-cancel-button {
   max-width: 10% !important;
 }
 .epub-bar .navigation-bar__center {
-  max-width: 80% !important;
-  width: 80% !important;
+  max-width: 70% !important;
+  width: 70% !important;
 }
 .epub-bar .navigation-bar__right {
-  max-width: 10% !important;
-  width: 10% !important;
+  max-width: 20% !important;
+  width: 20% !important;
 }
 .epub-bar .navigation-bar__center {
   color: #000;
@@ -4029,6 +4030,9 @@ input[type="search"].search-input::-webkit-search-cancel-button {
 .green_background {
   background-color: #b0ef43 !important;
 }
+.white_background {
+  background-color: #fff !important;
+}
 #Dialog_book_save .dialog-mask {
   background-color: transparent !important;
 }
@@ -4038,7 +4042,7 @@ h3 {
   font-family: 'TitilliumWeb-Regular';
   color: #04bfa9;
   border-bottom: 1px solid;
-  width: 70%;
+  min-width: 70%;
   padding-bottom: 6px;
 }
 h3 .ons-icon--ion {
@@ -4215,6 +4219,10 @@ height-bar-share .text_bar_share,
 .page {
   font-family: 'TitilliumWeb-SemiBold';
 }
+.page p {
+  font-family: 'TitilliumWeb-Light';
+  color: #000;
+}
 .page--menu-page__content {
   color: #fff;
 }
@@ -4232,11 +4240,12 @@ height-bar-share .text_bar_share,
   color: #fff;
 }
 .menu-item {
-  line-height: 44px;
+  line-height: 2.6rem;
   text-shadow: rgba(0,0,0,0.4) 0px 1px 0px;
   margin: 0 17px;
   padding: 0 !important;
   min-height: 0;
+  font-size: 1rem;
 }
 .menu-item:active {
   background-color: rgba(255,255,255,0.1);
@@ -4244,10 +4253,10 @@ height-bar-share .text_bar_share,
 .menu-notification {
   display: inline-block;
   margin-top: 12px;
-  font-size: 14px;
-  height: 20px;
-  line-height: 20px;
-  min-width: 20px;
+  font-size: 10px;
+  height: 18px;
+  line-height: 18px;
+  min-width: 18px;
   font-weight: 600;
   float: right;
   color: #000;
@@ -4278,6 +4287,13 @@ height-bar-share .text_bar_share,
   color: #04bfa9 !important;
   border-bottom: 1px solid #04bfa9 !important;
   padding: 0;
+  font-size: 1.18rem;
+  line-height: 2.4rem;
+  margin-top: 0.3rem;
+}
+.title-menu .ons-icon--ion {
+  vertical-align: 0%;
+  font-size: 1.27rem;
 }
 .page--menu-title {
   border-left-color: #fec62e !important;
@@ -4325,9 +4341,12 @@ height-bar-share .text_bar_share,
      -moz-transition: width 0.4s;
        -o-transition: width 0.4s;
           transition: width 0.4s;
+  line-height: normal;
+  vertical-align: middle;
+  color: #fff;
 }
 .open {
-  width: 70%;
+  width: inherit;
 }
 .center {
   -webkit-transition: width 0.05s;
@@ -4342,8 +4361,8 @@ height-bar-share .text_bar_share,
   max-width: 30%;
 }
 .right.large {
-  width: 73%;
-  max-width: 50%;
+  width: 70%;
+  max-width: 70%;
 }
 .text-input--underbar::-webkit-input-placeholder {
   color: #fff;

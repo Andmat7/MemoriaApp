@@ -22,17 +22,23 @@
 					<ons-icon icon="ion-ios-search" size="28px" fixed-width="false"></ons-icon>
 					
 				</ons-toolbar-button>
-				<input ng-class="inputcontrol" type="text" class="text-input--underbar" placeholder="Buscar" value="" onkeydown="if (event.keyCode == 13) { search_f(this); return false; }" />
+				<input ng-class="inputcontrol" ng-blur="showinputsearch()" type="text" class="text-input--underbar" placeholder="Buscar" value="" onkeydown="if (event.keyCode == 13) { search_f(this); return false; }" />
 			</div>
 		</ons-toolbar>
 		<h3>{{node.title}} </h3>
-		
+
+		<p style="text-align:center"  ng-hide="true" >
+			Busca libros por palabras claves como:
+		masacres, violencia sexual, proceso de paz...			
+		</p>
+
+		<p style="text-align:justify;margin: 9px 12px"  ng-show="node.seccion_vacia" >{{node.text}}</p>
 		<ons-list modifier="inset" style="margin-top: 10px" ng-repeat="book in node.books">
 			<ons-list-header>{{book.title}}</ons-list-header>
 			<img ng-src="{{book.img}}" class="card_image" />
 			<div class="bar_share">
 				<span class="left">
-					<button class="button_share"  id="{{book.id}}" img="{{book.img}}"  epub="{{book.epub}}" onclick="addBookFavorites(this);" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}"><img src="{{book.star_img}}" /></button>
+					<button class="button_share"  id="{{book.id}}" img="{{book.img}}"  epub="{{book.epub}}" onclick="addBookFavorites(this);" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}"><img ng-src="{{book.star_img}}" /></button>
 					<button class="button_share" ng-click="share( book.title, book.bookURL)"><img src="lib/onsen/css/memoria/imgs/enlace.png" /></button>
 				</span>
 				
@@ -55,7 +61,13 @@
 				<img ng-class="{'rotate' : book.toggled, '' : !book.toggled}"  src="lib/onsen/css/memoria/imgs/flecha.png"/>
 			</div>
 		</ons-list>
-		
+
+		<p style="text-align:justify;margin: 9px 12px"  ng-show="node.search" >
+			<a href="http://memoriadocumental.centrodememoriahistorica.gov.co/" style="color: black; text-decoration: none;">
+				Sí deseas más información, te invitamos a visitar nuestro centro de documentación da click <strong>aqui</strong>
+			</a>
+			
+			</p>
 		<ons-modal var="modal">
 			<ons-icon icon="ion-load-c" spin="true"></ons-icon>
 			<br/><br/>

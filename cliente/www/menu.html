@@ -1,40 +1,41 @@
 <ons-page modifier="menu-page" ng-controller="MenuController">
 	<ons-toolbar modifier="transparent"></ons-toolbar>
-	<ons-list-item class="menu-item page--menu-title" onclick="viewMain_f()">
-		INICIO
+	<ons-list-item class="menu-item page--menu-title" onclick="viewLibrary()" style="margin-right:17px">
+		<div class="notification menu-notification" id="number_library">x</div>
+		Mi Librería
+
+	</ons-list-item>
+
+	
+	<ons-list-item class="menu-item" onclick="viewabout_f();">
+			
+		 Acerca de
 	</ons-list-item>
 	<ons-list-item class="menu-item title-menu" >
+
 		<ons-icon icon="ion-star"></ons-icon>
-		Principal
+		Favoritos
 	</ons-list-item>
 	<ons-list class="menu-list">
-		
-		<ons-list-item class="menu-item" onclick="viewLibrary()">
-			
-			Mi Libreria
-			<div class="notification menu-notification" id="number_library">x</div>
-		</ons-list-item>
-				<ons-list-item class="menu-item" onclick="viewFavorites();">
-			
-			 Mis Libros Favoritos
+		<ons-list-item class="menu-item" onclick="viewFavorites();">
+				 Libros 
 			<div class="notification menu-notification" id="number_favorites">x</div>
 		</ons-list-item>
-		
+			
 		<ons-list-item class="menu-item" onclick="viewBookmark_f();">
-			
-			Mis Fragmentos
-			<!-- <div class="notification menu-notification">0</div> -->
-		</ons-list-item>
-
-		<ons-list-item class="menu-item" onclick="viewabout_f();">
-			
-			 Acerca de
+				Fragmentos
+				<div class="notification menu-notification" id="number_fragmentos_menu">x</div>
+				<!-- <div class="notification menu-notification">0</div> -->
 		</ons-list-item>
 	</ons-list>
+
+
+	</ons-list>
 	<ons-list-item class="menu-item title-menu" >
-		<ons-icon icon="ion-star"></ons-icon>
+		<img src="img/libro_verde.png" style="height:0.9rem">
+		<!-- <ons-icon icon="ion-star"></ons-icon> -->
 		Colecciones
-	</ons-list-item>
+		</ons-list-item>
 	<ons-list class="menu-list">
 		<ons-list-item class="menu-item" onclick="viewColeccion_f(1);">
 			<div class="notification menu-notification">{{node.coleccion[1]}}</div>
@@ -42,16 +43,16 @@
 		</ons-list-item>
 		<ons-list-item class="menu-item" onclick="viewColeccion_f(2);">
 			<div class="notification menu-notification">{{node.coleccion[2]}}</div>
-			Informes de investigación
+			Informes de Investigación
 		</ons-list-item>
-		<ons-list-item class="menu-item" style="line-height:24px"onclick="viewColeccion_f(3);">
+		<ons-list-item class="menu-item" style="line-height:28px"onclick="viewColeccion_f(3);">
 			<div class="notification menu-notification">{{node.coleccion[3]}}</div>
-			Herramientas metodológicas y pedagógicas
+			Herramientas Metodológicas y Pedagógicas
 		</ons-list-item>
 
 		<ons-list-item class="menu-item" onclick="viewColeccion_f(4);">
 			<div class="notification menu-notification">{{node.coleccion[4]}}</div>
-			Iniciativas de memoria
+			Iniciativas de Memoria
 		</ons-list-item>
 		<ons-list-item class="menu-item" onclick="viewColeccion_f(5);">
 			<div class="notification menu-notification">{{node.coleccion[5]}}</div>
@@ -59,7 +60,7 @@
 		</ons-list-item>
 		<ons-list-item class="menu-item" onclick="viewColeccion_f(6);">
 			<div class="notification menu-notification">{{node.coleccion[6]}}</div>
-			Diálogos de la memoria
+			Diálogos de la Memoria
 		</ons-list-item>
 		<ons-list-item class="menu-item" onclick="viewColeccion_f(7);">
 			<div class="notification menu-notification">{{node.coleccion[7]}}</div>

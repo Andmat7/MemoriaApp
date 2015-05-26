@@ -45,7 +45,8 @@ font-size: 0.5in;
 }
 .popover{
 	min-height: 10px;
-	width: 300px;
+	
+	min-width:  258px;
 	max-width: 100%;	
 }
 .popover__content{
@@ -57,12 +58,16 @@ font-size: 0.5in;
   z-index : -1;
 }
 #share-popover .popover__content, #meaning-popover .popover__content{
-	border: solid 1px;
+	border: solid 1px #d0d0d0;
+	background-color: #f4f4f4;
 }
 #share-popover .popover__bottom-arrow, #meaning-popover .popover__bottom-arrow{
-	border-left: solid 1px;
-	border-bottom: solid 1px;
+	border-left: solid 1px #d0d0d0;
+	border-bottom: solid 1px #d0d0d0;
+
+	background-image: -webkit-linear-gradient(45deg, #f4f4f4, #f4f4f4 50%, transparent 50%);
 }
+
 #share-popover .popover__top-arrow, #meaning-popover .popover__top-arrow{
 	border-right: solid 1px;
 	border-top: solid 1px;
@@ -73,11 +78,13 @@ font-size: 0.5in;
 .popover--dic .popover__content{
 	background-color: #DDDDDD;
 }
+
 .popover--dic .popover__content p{
 	text-align: left;
 }
 .share-button {
-	margin: 0px;
+	margin: 0px -2px;
+	width: 34px;
 	padding: 3px 1px;
 
 	position: relative;
@@ -128,7 +135,7 @@ font-size: 0.5in;
 	border: none;
 }
 .share-button img{
-	height: 34px; 
+	height: 29px; 
 	vertical-align: bottom;
 }
 .share-button:disabled,
@@ -144,7 +151,7 @@ font-size: 0.5in;
 	-o-transition: none;
 	transition: none;
 	opacity: 1.0;
-	background-color: #FEE6A6;
+	background-color: #EAE7DE;
 }
 .share-button:focus {
 	opacity: 1.0;
@@ -163,4 +170,16 @@ font-size: 0.5in;
 
 #Dialog_copiado .dialog-mask {
 background-color: transparent !important;
+}
+
+#share-popover .popover__content {
+	background-color: #f4f4f4;
+}
+.share-button.share-button-color img {
+  height: 19px;
+  line-height: 12px;
+  vertical-align: middle;
+}
+a.share-button.share-button-color {
+  width: 30px;
 }

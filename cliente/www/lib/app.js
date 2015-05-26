@@ -61,7 +61,7 @@
 			if( oFavs === null) {
 				 oFavs = {};
 			}
-			
+
 			var books_alm = JSON.parse( window.localStorage.getItem("libros") );
 			if( books_alm === null) {
 				 books_alm = {};
@@ -72,11 +72,12 @@
 			for (var key in books_alm) {
 				star_img  = ( oFavs[key] === undefined )? "img/estrella.png" : "img/estrella2.png";
 				books_alm[key].star_img  = star_img;
-				books_alm[key].buttonTxt = "Abrir";
+				books_alm[key].buttonTxt = "ABRIR";
 			}
 			$scope.node.books=books_alm;
-
-
+			$scope.node.seccion_vacia=(_.size(books_alm)==0);
+			// alert(_.size(books_alm));
+			$scope.node.text="Aún no tienes libros agregados a tu librería,visita nuestras colecciones o busca palabras clave en la lupa.";
 			library_g=false;
 			Modal.hide();
 
@@ -91,13 +92,17 @@
 				var trash, buttonTxt;
 				for (var key in books_fav) {
 					trash     = ( oLibros[key] === undefined )? "hidden" : "visible";
-					buttonTxt = ( oLibros[key] === undefined )? "Descargar" : "Abrir";
+					buttonTxt = ( oLibros[key] === undefined )? "DESCARGAR" : "ABRIR";
 					books_fav[key].trash     = trash;
 					books_fav[key].buttonTxt = buttonTxt;
 				}
 
 				$scope.node.books=books_fav;
 				favorites_g=false;
+				$scope.node.seccion_vacia=(_.size(books_fav)==0);
+				// alert(_.size(books_alm));
+				$scope.node.text="Aún no tienes libros agregados a favoritos";
+				
 				Modal.hide();
 
 			}else{
@@ -137,8 +142,9 @@
 
 				}else{
 					$scope.node.title="Búsqueda de tags";
+					
 					url = urlServer_g+"index.php/books/search/" + searchString_g;
-					searchString_g = "";
+					
 				}
 				$.ajax({
 					url: url,
@@ -160,7 +166,7 @@
 							 i++;
 							 trash     = ( oLibros[element.id] === undefined )? "hidden" : "visible";
 							 star_img  = ( oFavs[element.id]   === undefined )? "img/estrella.png" : "img/estrella2.png";
-							 buttonTxt = ( oLibros[element.id] === undefined )? "Descargar" : "Abrir";
+							 buttonTxt = ( oLibros[element.id] === undefined )? "DESCARGAR" : "ABRIR";
 							 books.push({
 								 description : element.description, 
 								 title       : element.title,
@@ -174,7 +180,34 @@
 								 star_img    : star_img
 							 });
 						 });
+
 						 $scope.node.books = books;
+						 
+						 if( searchString_g === "" ){
+						 	if (_.size(books)==0) {
+						 		$scope.node.text="No se encontraron libros en esta sección";
+						 		$scope.node.seccion_vacia=true;
+
+						 	}
+
+
+						 }else{
+						 	$scope.node.search=true;
+						 	$scope.node.seccion_vacia=true;
+						 	if (_.size(books)==0) {
+						 		$scope.node.text="No se encontraron resultados de la palabra \""+searchString_g+"\".";
+
+						 	}else{
+						 		$scope.node.text="Resultados de la palabra \""+searchString_g+"\".";
+
+						 	}
+						 	
+							
+						 	
+						 	searchString_g = "";
+
+						 }
+						 
 						 $scope.$apply();
 						 Modal.hide();
 					 },
@@ -239,6 +272,7 @@
 				});
 				$scope.node.coleccion = coleccion;
 				$scope.$apply();
+				getnumbers();
 			},
 			error: function(e, text){
 				console.log(text);

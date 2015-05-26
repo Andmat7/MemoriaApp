@@ -48,7 +48,7 @@ class Books extends CI_Controller {
 			$this->db->like('LOWER( tags )', strtolower($searchString) );
 			$query  = $this->db->get('books');
 			$result = $query->result();
-			$result = $this->formatResult(result);
+			$result = $this->formatResult($result);
 			$json   = json_encode($result);
 		}else{
 			$json   = json_encode( array () );

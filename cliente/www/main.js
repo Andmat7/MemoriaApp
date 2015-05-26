@@ -28,6 +28,9 @@ var favorites_g = false;
 var searchString_g = "";
 var lastPage_g = 0;
 var currentChapter_id="";
+var load_fragmento_g=false;
+var cfi_fragmento_g="";
+var percentaje_fragmento_g="";
 
 //constantes para saber desde que pagina se abre el epub
 var PAGE_COLLECCION = 1;
@@ -58,6 +61,7 @@ function getnumbers() {
 	$("#number_library").html(_.size(oLibros));
 	var oLibros = JSON.parse( window.localStorage.getItem("favoritos") );
 	$("#number_favorites").html(_.size(oLibros));
+	getNumbersfragmentos_f();
 }
 function resetPage_f(){
 	document.removeEventListener("touchmove",preventDefaultScroll_f);
@@ -114,6 +118,21 @@ function viewBookmark_f(){
 	}});
 	resetPage_f();
 }
+
+function getNumbersfragmentos_f(){
+
+		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+		db.transaction(NumbFragmentosDB_f, onError_f);
+}
+
+function NumbFragmentosDB_f(tx){
+	createTableFragmentDB_f(tx);
+	tx.executeSql('SELECT * FROM fragmentos', [],function(tx, results){//success
+		$("#number_fragmentos_menu").html(results.rows.length);
+
+	}, onError_f);
+}
+
 /* This code prevents users from dragging the page (IOS fix) */
 var preventDefaultScroll_f = function( event ) {
 	event.preventDefault();
@@ -133,90 +152,90 @@ function starting(){
 		}
 	});
 	if (firstRun_g){ //evitar amarrar el mismo evento varias veces
-		firstRun_g = false;
-		// declaracion de handle de comienzo de seleccion
-		startSelEl_g = document.createElement("img");
-		startSelEl_g.id = "startSelection";
-		startSelEl_g.src = "img/select_handle_left.png";
-// 		startSelEl_g = document.createElement("div");
-// 		startSelEl_g.id = "startSelection";
-// 		startSelEl_g.innerHTML = "&nbsp;^&nbsp;";
-		$(document).on('touch', '#startSelection', beginHandleMove);
-		$(document).on('touchmove', '#startSelection', handleMove);
-		$(document).on('release', '#startSelection', handleRelease);
-		//declaracion de handle de final de seleccion
-		endSelEl_g = document.createElement("img");
-		endSelEl_g.id = "endSelection";
-		endSelEl_g.src = "img/select_handle_right.png";
-// 		endSelEl_g = document.createElement("div");
-// 		endSelEl_g.id = "endSelection";
-// 		endSelEl_g.innerHTML = "&nbsp;^&nbsp;";
-		$(document).on('touch', '#endSelection', beginHandleMove);
-		$(document).on('touchmove', '#endSelection', handleMove);
-		$(document).on('release', '#endSelection', handleRelease);	
-		//***************************************
-		//** POPOVERs
-		//***************************************
-		//popover para redes sociales
-		ons.createPopover('share-popover.html').then(function(){
-			sharePopover.on("postshow", function(e){
-				var pop = $('#share-popover')[0];
-				var mask = pop.children[0];
-				mask.style.zIndex = -1;
+			firstRun_g = false;
+			// declaracion de handle de comienzo de seleccion
+			startSelEl_g = document.createElement("img");
+			startSelEl_g.id = "startSelection";
+			startSelEl_g.src = "img/select_handle_left.png";
+	// 		startSelEl_g = document.createElement("div");
+	// 		startSelEl_g.id = "startSelection";
+	// 		startSelEl_g.innerHTML = "&nbsp;^&nbsp;";
+			$(document).on('touch', '#startSelection', beginHandleMove);
+			$(document).on('touchmove', '#startSelection', handleMove);
+			$(document).on('release', '#startSelection', handleRelease);
+			//declaracion de handle de final de seleccion
+			endSelEl_g = document.createElement("img");
+			endSelEl_g.id = "endSelection";
+			endSelEl_g.src = "img/select_handle_right.png";
+	// 		endSelEl_g = document.createElement("div");
+	// 		endSelEl_g.id = "endSelection";
+	// 		endSelEl_g.innerHTML = "&nbsp;^&nbsp;";
+			$(document).on('touch', '#endSelection', beginHandleMove);
+			$(document).on('touchmove', '#endSelection', handleMove);
+			$(document).on('release', '#endSelection', handleRelease);	
+			//***************************************
+			//** POPOVERs
+			//***************************************
+			//popover para redes sociales
+			ons.createPopover('share-popover.html').then(function(){
+				sharePopover.on("postshow", function(e){
+					var pop = $('#share-popover')[0];
+					var mask = pop.children[0];
+					mask.style.zIndex = -1;
+				});
 			});
-		});
-		ons.createPopover('meaning-popover.html').then(function(){
-			meaningPopover.on("preshow", function(e){
-				var pop  = $('#meaning-popover')[0];
-				var mask = pop.children[0];
-				mask.style.zIndex = -1;
+			ons.createPopover('meaning-popover.html').then(function(){
+				meaningPopover.on("preshow", function(e){
+					var pop  = $('#meaning-popover')[0];
+					var mask = pop.children[0];
+					mask.style.zIndex = -1;
+				});
 			});
-		});
-		ons.createDialog( 'Dialog_copiado.html' );
-		ons.createDialog( 'Dialog_descargando.html' );
-			
-		//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
-		$(document).on('hold', '#area', function(e) {
-			startSelect_g = 1;
-			e.preventDefault();
-			var xSelectStart = e.originalEvent.gesture.center.clientX;
-			var ySelectStart = e.originalEvent.gesture.center.clientY;
-			console.log("hold area");
-			wordSelectionFromPoint(xSelectStart, ySelectStart);
-		});
-		$(document).on('release', '#area', function(e) {
-			if ( startSelect_g === 0 ){
-				if (color_background!="") {
-					paint_bookmarks();
-				};
-				handleMoving_g = 0;
- 				sharePopover.hide();
-				meaningPopover.hide();
+			ons.createDialog( 'Dialog_copiado.html' );
+			ons.createDialog( 'Dialog_descargando.html' );
 				
- 				
-				console.log('hide');
+			//***********  DESACTIVADO DEL SWIPE Y SELECCION *******************
+			$(document).on('hold', '#area', function(e) {
+				startSelect_g = 1;
+				e.preventDefault();
+				var xSelectStart = e.originalEvent.gesture.center.clientX;
+				var ySelectStart = e.originalEvent.gesture.center.clientY;
+				console.log("hold area");
+				wordSelectionFromPoint(xSelectStart, ySelectStart);
+			});
+			$(document).on('release', '#area', function(e) {
+				if ( startSelect_g === 0 ){
+					if (color_background!="") {
+						paint_bookmarks();
+					};
+					handleMoving_g = 0;
+	 				sharePopover.hide();
+					meaningPopover.hide();
+					
+	 				
+					//console.log('hide');
+				}else{
+					//console.log('no hide');
+				}
+			});
+			ons.orientation.on('change', function( e ){
+				setTimeout(alignEPUBRotation_f, 1000);
+			});
+		}
+		//verificar si el EPUB se ha bajado antes
+		var oLibros = JSON.parse( window.localStorage.getItem( "libros" ) );
+		if( oLibros !== null ){
+			var oLibro = oLibros[ epubId_g ];
+			if( oLibro !== undefined ){
+				modalEpub.show();
+				openEPUB_f( workingDirEntry_g.toURL() + "epub/" + oLibro.id + ".epub" );
 			}else{
-				console.log('no hide');
+				downloadEPUB_f(epubId_g, downloadEpubUrl_g);
 			}
-		});
-		ons.orientation.on('change', function( e ){
-			setTimeout(alignEPUBRotation_f, 1000);
-		});
-	}
-	//verificar si el EPUB se ha bajado antes
-	var oLibros = JSON.parse( window.localStorage.getItem( "libros" ) );
-	if( oLibros !== null ){
-		var oLibro = oLibros[ epubId_g ];
-		if( oLibro !== undefined ){
-			modalEpub.show();
-			openEPUB_f( workingDirEntry_g.toURL() + "epub/" + oLibro.id + ".epub" );
 		}else{
 			downloadEPUB_f(epubId_g, downloadEpubUrl_g);
 		}
-	}else{
-		downloadEPUB_f(epubId_g, downloadEpubUrl_g);
-	}
-	console.log("starting complete");
+		console.log("starting complete");
 // 	openEPUB_f (cordova.file.applicationDirectory+"www/VIOLACIONES DE DDHH.epub");
 }
 //*******************************************
@@ -311,20 +330,28 @@ function unzip_f(epubFile, destDir){
 					{	style: 'img { width: 100px;}',	spreads: false	}
 				);
 				Book_g.renderTo('area').then(function (){
-					var iframe = $("iframe")[0];
-					var cssLink = document.createElement("link");
-					cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
-					cssLink.rel = "stylesheet"; 
-					cssLink.type = "text/css";
-					iframe.contentDocument.body.appendChild(cssLink);
-					modalEpub.hide();
+						var iframe = $("iframe")[0];
+							var cssLink = document.createElement("link");
+							cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
+							cssLink.rel = "stylesheet"; 
+							cssLink.type = "text/css";
+							iframe.contentDocument.body.appendChild(cssLink);
+							//modalEpub.hide();
+							load_last_visited_page ();
+							alignEPUBRotation_f();
+
+
 //*************************************
 //*************************************
 //* DESCOMENTAR
 //*************************************
 //*************************************					
-					alignEPUBRotation_f();
+					
 				});
+				Book_g.on("renderer:locationChanged", function(cfi) {
+  					pageChanged(cfi);
+				});
+		
 			}else{
 				alert("Error al abrir el EPUB.");
 			}
@@ -1068,11 +1095,15 @@ function saveFragmentDB_f(tx) {
 	var date = new Date();
 	//getMonth: el mes es un numero entre 0-11
 	var sDate = date.getDate()+"/" + (parseInt(date.getMonth())+1) + "/"+date.getFullYear();
-	tx.executeSql("INSERT INTO fragmentos (Libro, Fragmento, Fecha) VALUES ('"+bookTitle_g+"','"+selectionString_g+"','"+ sDate +"')");
+	percentaje
+	var cfi_fragmento=Book_g.getCurrentLocationCfi();
+	var percentaje=Book_g.renderer.currentRenderedPage()/Book_g.renderer.pagesInCurrentChapter();
+	tx.executeSql("INSERT INTO fragmentos (Libro, Fragmento, Fecha, epubid, url, percentaje, cfi) VALUES ('"+bookTitle_g+"','"+selectionString_g+"','"+ sDate +"','"+ epubId_g +"','"+ bookURL_g +"','"+ percentaje +"','"+ cfi_fragmento +"')");
 }
 //******************************************
 //** Despliegue de fragmentos
 //******************************************
+
 function viewBookmark_f(){
 	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
@@ -1080,12 +1111,14 @@ function viewBookmark_f(){
 	}});
 }
 function createTableFragmentDB_f(tx){
-	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id integer primary key, Libro, Fragmento, Fecha)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id integer primary key, Libro, Fragmento, Fecha, epubid, url, percentaje, cfi)');
 }
 
 function listFragmentosDB_f(tx){
 	createTableFragmentDB_f(tx);
 	tx.executeSql('SELECT * FROM fragmentos', [],function(tx, results){//success
+		
+
 		var div = document.getElementById("fragment_list");
 		var container = document.getElementById("container_fragmentos");
 		div.removeChild(container);
@@ -1098,37 +1131,22 @@ function listFragmentosDB_f(tx){
 			var libro = results.rows.item(i).Libro;
 			var date = results.rows.item(i).Fecha;
 			var fragmento = results.rows.item(i).Fragmento;
+
 			var item = document.createElement("div");
 			item.id = "fragmento_"+id;
-// 			var ons_list = document.createElement("ons-list");
-// 			ons_list.modifier="inset";
-// 			ons_list.class="card-bookmark";
-// 			ons_list.style="margin-top: 10px";
-// 			var ons_list_item1 = document.createElement("ons-list_item");
-// 			ons_list_item1.class="to-wrapper smallfont";
-// 			ons_list_item1.innerHTML = 'Agregado el '+ dateToString_f(date);
-// 			var p = document.createElement("p");
-// 			p.innerHTML = fragmento;
-// 			var ons_list_item2 = document.createElement("ons-list_item");
-// 			ons_list_item2.class="to-wrapper smallfont";
-// 			ons_list_item2.innerHTML = 'Tomado de libro '+ libro;
-// 			var ons_icon = document.createElement("ons-icon");
-// 			ons_icon.icon="ion-trash-a";
-// 			ons_icon.class="trash";
-// 			ons_icon.style="float:right";
-// 			ons_list_item2.appendChild(ons_icon);
-// 			
-// 			ons_list.appendChild(ons_list_item1);
-// 			ons_list.appendChild(p);
-// 			ons_list.appendChild(ons_list_item2);
-// 			item.appendChild(ons_list);
+
+			var epubid  = results.rows.item(i).epubid;
+			var bookURL = results.rows.item(i).url;
+			var title   = results.rows.item(i).Libro;
+			var percentaje =results.rows.item(i).percentaje;
+			var cfi_frag =results.rows.item(i).cfi;
 			
 			item.innerHTML = 
 			'<ons-list class="card-bookmark list ons-list-inner list--inset" style="margin-top: 10px">'+
 			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
 			'Agregado el '+ dateToString_f(date) +
 			'</ons-list-item>'+
-			'<P>'+ fragmento +'</P>'+
+			'<P onclick="load_epub_bookmark (this, \''+cfi_frag+'\')" epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'" bookURL="'+bookURL+'">'+ fragmento +'</P>'+
 			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
 			'Tomado de libro '+ libro +
 			'<span onclick="deleteFragmento_f('+ id +');">'+

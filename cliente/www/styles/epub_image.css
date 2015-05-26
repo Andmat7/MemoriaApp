@@ -28,6 +28,10 @@ img {
   background-color: #b0ef43 !important;
   z-index: -1000!important;
 }
+.white_background {
+  background-color: #fff !important;
+  z-index: -1000!important;
+}
 
 @font-face {
   font-family: Lora-Bold;

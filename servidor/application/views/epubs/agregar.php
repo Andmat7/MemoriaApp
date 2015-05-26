@@ -15,6 +15,7 @@
 					<label for="titulo">Título</label>
 					<input type="text" class="form-control" id="titulo" name="titulo" value="<?php echo set_value('titulo'); ?>" maxlength="150"/>
 				</div>
+				<p class="alert alert-info">Verifique que el ISBN sea el mismo de  KOHA, ya que esto permite la sincronización tanto  los temas y el link de descarga </p>
 				<div class="form-group" >
 					<label for="isbn">ISBN</label>
 					<input type="number" class="form-control" id="isbn" name="isbn" value="<?php echo set_value('isbn'); ?>" maxlength="15"/>
@@ -38,6 +39,7 @@
 						<option value="9" <?php echo set_select('category', '9'); ?> >Resúmenes</option>
 					</select>
 				</div>
+				<p class="alert alert-info">La imagen a cargar debe tener un tamaño de 1179 × 403 píxeles o 1174 × 405</p>
 				<div class="form-group">
 					<label for="imagen">Imagen de portada</label>
 					<input id="imagen" name="imagen" type="file" accept=".png,.jpg,.gif"/>
