@@ -35,11 +35,11 @@
 		<p style="text-align:justify;margin: 9px 12px"  ng-show="node.seccion_vacia" >{{node.text}}</p>
 		<ons-list modifier="inset" style="margin-top: 10px" ng-repeat="book in node.books">
 			<ons-list-header>{{book.title}}</ons-list-header>
-			<img ng-src="{{book.img}}" class="card_image" />
+			<img ng-src="{{book.img}}" class="card_image" id="{{book.id}}" img="{{book.img}}"  class="button-bar__button" buttonTxt="{{book.buttonTxt}}" epub="{{book.epub}}" onclick="viewBookimage_f(this)" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}" />
 			<div class="bar_share">
 				<span class="left">
 					<button class="button_share"  id="{{book.id}}" img="{{book.img}}"  epub="{{book.epub}}" onclick="addBookFavorites(this);" epubId="{{book.epubId}}" description="{{book.description}}" title="{{book.title}}" bookURL="{{book.bookURL}}"><img ng-src="{{book.star_img}}" /></button>
-					<button class="button_share" ng-click="share( book.title, book.bookURL)"><img src="lib/onsen/css/memoria/imgs/enlace.png" /></button>
+					<button class="button_share" ng-click="share( book.title, book.bookURL);"><img src="lib/onsen/css/memoria/imgs/enlace.png" /></button>
 				</span>
 				
 				<span style="float:right;  margin-bottom: -33px;">
@@ -63,7 +63,7 @@
 		</ons-list>
 
 		<p style="text-align:justify;margin: 9px 12px"  ng-show="node.search" >
-			<a href="http://memoriadocumental.centrodememoriahistorica.gov.co/" style="color: black; text-decoration: none;">
+			<a  onclick="window.open('http://memoriadocumental.centrodememoriahistorica.gov.co/', '_system');" href="#" style="color: black; text-decoration: none;">
 				Sí deseas más información, te invitamos a visitar nuestro centro de documentación da click <strong>aqui</strong>
 			</a>
 			

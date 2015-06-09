@@ -31,28 +31,38 @@ var currentChapter_id="";
 var load_fragmento_g=false;
 var cfi_fragmento_g="";
 var percentaje_fragmento_g="";
+var Historial_epub=[];
 
 //constantes para saber desde que pagina se abre el epub
 var PAGE_COLLECCION = 1;
 var PAGE_LIBRARY    = 2;
 var PAGE_FAVORITES  = 3;
+var PAGE_FRAGMENTS  = 3;
 
-function backButtonHandler_f(  ){
+function backButtonHandler_f(){
 // 	event.preventDefault();
 // 	event.stopPropagation();
-	switch( lastPage_g ){
-		case PAGE_COLLECCION:
-			viewColeccion_f(coleccion_g);
-			break;
-		case PAGE_LIBRARY:
-			viewLibrary();
-			break;
-		case PAGE_FAVORITES:
-			viewFavorites();
-			break;
-		default:
-			viewMain_f();
+	if (Historial_epub.length==0) {
+		switch( lastPage_g ){
+			case PAGE_COLLECCION:
+				viewColeccion_f(coleccion_g);
+				break;
+			case PAGE_LIBRARY:
+				viewLibrary();
+				break;
+			case PAGE_FAVORITES:
+				viewFavorites();
+				break;
+			case PAGE_FRAGMENTS:
+				viewBookmark_f();
+				break;
+			default:
+				viewMain_f();
+		}
+	}else{
+		back_history ();
 	}
+	
 	return false;
 }
 
@@ -72,32 +82,56 @@ function viewMain_f(){
 	viewColeccion_f( 1 ); 
 }
 function viewColeccion_f( coleccion ){
- 	getnumbers();
 	Modal.show();
 	lastPage_g = PAGE_COLLECCION;
 	coleccion_g = coleccion;
 	menu.setMainPage('main.html', {closeMenu: true});
 	resetPage_f();
+	getnumbers();
 }
 function viewLibrary(){
 	Modal.show();
 	lastPage_g = PAGE_LIBRARY;
-	getnumbers();
 	library_g = true;
 	menu.setMainPage('main.html', {closeMenu: true});
 	resetPage_f();
+	getnumbers();
 }
 function viewFavorites(){
 	Modal.show();
 	lastPage_g = PAGE_FAVORITES;
-	getnumbers();
 	favorites_g = true;
 	menu.setMainPage('main.html', {closeMenu: true});
 	resetPage_f();
+	getnumbers();
 }
 function viewabout_f(){
 	menu.setMainPage('about.html', {closeMenu: true});
 	resetPage_f();
+}
+
+
+function viewBookimage_f (element) {
+	var buttonTxt = element.getAttribute("buttonTxt");
+	ons.notification.confirm({
+	  message: 'Desea '+buttonTxt.toLowerCase()+' el libro',
+	  // or messageHTML: '<div>Message in HTML</div>',
+	  title: '',
+	  buttonLabels: ['Aceptar', 'Cancelar'],
+	  animation: 'default', // or 'none'
+	  primaryButtonIndex: 1,
+	  cancelable: true,
+	  callback: function(index) {
+	  	switch(index) {
+	  		case 0:
+	  			viewBook_f( element );
+
+      		case 1:
+	       
+	            break;
+    	}
+	  }
+	});
 }
 
 function viewBook_f( element ){
@@ -112,6 +146,7 @@ function viewBook_f( element ){
 }
 
 function viewBookmark_f(){
+	lastPage_g = PAGE_FRAGMENTS;
 	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
 		db.transaction(listFragmentosDB_f, onError_f);
@@ -120,7 +155,6 @@ function viewBookmark_f(){
 }
 
 function getNumbersfragmentos_f(){
-
 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
 		db.transaction(NumbFragmentosDB_f, onError_f);
 }
@@ -218,6 +252,7 @@ function starting(){
 					//console.log('no hide');
 				}
 			});
+			$(document).on('touchstart', '#area',  function(e) {click_detect (e)});
 			ons.orientation.on('change', function( e ){
 				setTimeout(alignEPUBRotation_f, 1000);
 			});
@@ -319,6 +354,27 @@ function openEPUB_f( epubFile ){
 	);
 }
 
+//open_webbrowserepub("epub/")
+//
+function open_webbrowserepub(destDir){
+	Book_g = ePub(
+		destDir,
+			{	style: 'img { width: 100px;}',	spreads: false	});
+	Book_g.renderTo('area').then(function (){
+		var iframe = $("iframe")[0];
+		var cssLink = document.createElement("link");
+		cssLink.href = "styles/epub_image.css"; 
+		cssLink.rel = "stylesheet"; 
+		cssLink.type = "text/css";
+		iframe.contentDocument.body.appendChild(cssLink);
+		load_last_visited_page ();
+		alignEPUBRotation_f();				
+	});
+	// Book_g.on("renderer:locationChanged", function(cfi) {
+ //  		pageChanged(cfi);
+	// });
+
+}
 function unzip_f(epubFile, destDir){
 	zip.unzip(
 		epubFile,
@@ -338,14 +394,7 @@ function unzip_f(epubFile, destDir){
 							iframe.contentDocument.body.appendChild(cssLink);
 							//modalEpub.hide();
 							load_last_visited_page ();
-							alignEPUBRotation_f();
-
-
-//*************************************
-//*************************************
-//* DESCOMENTAR
-//*************************************
-//*************************************					
+							alignEPUBRotation_f();				
 					
 				});
 				Book_g.on("renderer:locationChanged", function(cfi) {
@@ -485,16 +534,18 @@ function splash_f(){
 	img.style.marginLeft  = "auto";
 	img.style.marginRight = "auto";
 	img.style.opacity     = "0";
-	if       ( document.body.clientHeight < 960 ){
-		img.src             = "img/splash/logos/splash320x480.png";
-	}else if ( document.body.clientHeight < 1136 ){
-		img.src             = "img/splash/logos/splash640x960.png";
-	}else if ( document.body.clientHeight < 1715 ){
-		img.src             = "img/splash/logos/splash640x1136.png";
+	img.style.height      = "100%";
+	//img.style.width      = "100%";
+	if       ( document.body.clientHeight < 481 ){
+		img.src             = "img/splash/logos/splash230x480.png";
+	}else if ( document.body.clientHeight < 961 ){
+		img.src             = "img/splash/logos/splash480x960.png";
+	}else if ( document.body.clientHeight < 1137 ){
+		img.src             = "img/splash/logos/splash650x1136.png";
 	}else{
 		img.src             = "img/splash/logos/splash966x1715.png";
 	}
-	
+	//img.src             = "img/splash/logos/splash768x1724.png";
 	div.appendChild(img);
 	document.body.appendChild( div );
 	setTimeout(	function(){
@@ -1146,9 +1197,9 @@ function listFragmentosDB_f(tx){
 			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
 			'Agregado el '+ dateToString_f(date) +
 			'</ons-list-item>'+
-			'<P onclick="load_epub_bookmark (this, \''+cfi_frag+'\')" epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'" bookURL="'+bookURL+'">'+ fragmento +'</P>'+
-			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
-			'Tomado de libro '+ libro +
+			'<P onclick="load_epub_bookmark (this, \''+cfi_frag+'\')" epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'" style="font-family:\'TitilliumWeb-Italic\';" bookURL="'+bookURL+'">"'+ fragmento +'"</P>'+
+			'<ons-list-item epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'"  bookURL="'+bookURL+'" onclick="load_epub_bookmark (this, \''+cfi_frag+'\')" style="line-height:19px" class="to-wrapper smallfont  list__item ons-list-item-inner">'+
+			'Tomado de libro <span style="text-decoration: underline;" >'+ libro +'</span>'+
 			'<span onclick="deleteFragmento_f('+ id +');">'+
 			'&nbsp;&nbsp;&nbsp;<ons-icon icon="ion-trash-a" style="float:right" class="trash ons-icon ons-icon--ion ion-trash-a fa-lg""></ons-icon>'+
 			'</span>'+
@@ -1254,8 +1305,8 @@ function addBookFavorites( element ){
 			message     : 'El libro se ha agregado a favoritos',
 			buttonLabel : 'Aceptar',
 		});
-		getnumbers();
 		img.src = "img/estrella2.png";
+		getnumbers();
 	}else{
 		//borrar de favoritos
 		ons.notification.confirm({
@@ -1298,6 +1349,7 @@ function saveEPUBinFavorites_f(){
 		epub        : bookFavoritesElement_g.getAttribute("epub"),
 		id          : bookFavoritesElement_g.getAttribute("epubId"),
 		epubId      : bookFavoritesElement_g.getAttribute("epubId"),
+		bookURL     : bookFavoritesElement_g.getAttribute("bookURL"),
 		star_img    :"img/estrella2.png",
 	};
 	oLibros[ bookFavoritesElement_g.getAttribute("epubId") ] =  oLibro ;
@@ -1319,6 +1371,7 @@ function saveEPUBinStorage_f( id ){
 		epub        : bookElement_g.getAttribute("epub"),
 		id          : bookElement_g.getAttribute("epubId"),
 		epubId      : bookElement_g.getAttribute("epubId"),
+		bookURL     : bookElement_g.getAttribute("bookURL"),
 		trash       :'visible',
 	};
 	oLibros[ id ] =  oLibro ;
@@ -1372,8 +1425,8 @@ function removeEPUBfromLocalStorage_f( id ){
 	}
 	oLibros[ id ] =  undefined ;
 	window.localStorage.setItem("libros", JSON.stringify( oLibros ));
-	getnumbers();
 	backButtonHandler_f();
+	getnumbers();
 }
 //******************************************
 //** POPOVER DEL DICCIONARIO

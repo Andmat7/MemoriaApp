@@ -4245,7 +4245,8 @@ height-bar-share .text_bar_share,
   margin: 0 17px;
   padding: 0 !important;
   min-height: 0;
-  font-size: 1rem;
+  font-size: 18px;
+  font-family: 'TitilliumWeb-Regular';
 }
 .menu-item:active {
   background-color: rgba(255,255,255,0.1);

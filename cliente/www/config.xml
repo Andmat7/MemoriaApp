@@ -3,7 +3,7 @@
 <widget xmlns			= "http://www.w3.org/ns/widgets"
 				xmlns:gap       = "http://phonegap.com/ns/1.0"
 				xmlns:android   = "http://schemas.android.com/apk/res/android"
-				id			= "sw.xpace.memoriApp"
+				id			= "sw.afcorredor.memoriApp"
 				version			= "0.0.1">
 	<name>MEMORIAPP</name>
 	
@@ -36,6 +36,7 @@
 	</gap:plugin>
 	<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
 	<gap:plugin name="org.chromium.zip" version="2.1.0" />
+	<gap:plugin name="org.apache.cordova.inappbrowser" />
 	<access origin="*" subdomains="true"/>
 	
 	<feature name="http://api.phonegap.com/1.0/file"/>

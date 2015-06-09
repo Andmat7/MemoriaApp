@@ -1,3 +1,5 @@
+
+
 function put_marks (rangeSerialize,color) {
 	var iframe = $("iframe")[0];
 	var rangestore=rangy.deserializeRange(rangeSerialize,null,iframe.contentWindow.document )
@@ -270,7 +272,7 @@ function load_epub_bookmark (element, cfi) {
 	var percentaje =element.getAttribute("percentaje");
 	ons.notification.confirm({
 		title: 'Mensaje',
-		message: '¿Desea ir a este libro: '+titulo,
+		message: '¿Desea ir a este libro: '+titulo+'. ',
 		buttonLabels: ['Si', 'No'],
 		callback: function(idx) {
 			switch(idx) {
@@ -286,6 +288,61 @@ function load_epub_bookmark (element, cfi) {
 			}
 		}
 	});
+}
+
+
+function click_detect (e) {
+
+	e.preventDefault();
+	var iframe = $("iframe")[0];
+	var element= iframe.contentWindow.document.elementFromPoint(e.originalEvent.touches[0].pageX,e.originalEvent.touches[0].pageY-70);
+	if(element.tagName=="a"){
+		var percentaje=Book_g.renderer.currentRenderedPage()/Book_g.renderer.pagesInCurrentChapter();
+		var cfi=Book_g.getCurrentLocationCfi();
+		var object_historial={
+			chapter:Book_g.currentChapter.id,
+			percentaje:percentaje,
+			cfi:cfi,
+		}
+		Historial_epub.push(object_historial);
+		Book_g.gotoHref(element.href);
+		setTimeout(
+
+			function  () {
+				var iframe = $("iframe")[0];
+				var cssLink = document.createElement("link");
+				cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
+				cssLink.rel = "stylesheet"; 
+				cssLink.type = "text/css";
+				iframe.contentDocument.body.appendChild(cssLink);
+				modalEpub.hide();
+				Popoverbook.hide();	
+				
+			}
+		, 50)
+
+	}
+}
+function back_history () {
+	var object_history=Historial_epub.pop();
+	Book_g.goto(object_history.cfi);
+	var totalpages=Book_g.renderer.pagesInCurrentChapter();
+	var current_page=parseInt(object_history.percentaje*totalpages);
+	Book_g.renderer.page(current_page);
+	setTimeout(
+
+		function  () {
+			var iframe = $("iframe")[0];
+			var cssLink = document.createElement("link");
+			cssLink.href = cordova.file.applicationDirectory+"www/styles/epub_image.css"; 
+			cssLink.rel = "stylesheet"; 
+			cssLink.type = "text/css";
+			iframe.contentDocument.body.appendChild(cssLink);
+			modalEpub.hide();
+			Popoverbook.hide();	
+			
+		}
+	, 500)
 }
 // Book_g.goto("epubcfi(/6/6[Contenido.xhtml]");
 

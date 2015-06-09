@@ -221,6 +221,7 @@
 				$scope.dialog = dialog;
 			});
 			$scope.share=function(title, URL) {
+				console.log("share");
 				bookTitle_g =  title;
 				bookURL_g   = URL;
 				Dialogfavorites.show();
