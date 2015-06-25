@@ -44,8 +44,12 @@ class Books extends CI_Controller {
 	
 	public function search($searchString){
 		if( strlen( $searchString ) > 3 ){
+
 			header('Content-Type: application/json; charset=utf-8');
-			$this->db->like('LOWER( tags )', strtolower($searchString) );
+			$searchString=rawurldecode($searchString);
+			$this->db->where("(LOWER( `tags` ) LIKE LOWER('%$searchString%') OR  LOWER(`title`) LIKE LOWER('%$searchString%'))");
+			
+			//$this->db->like('LOWER( tags )', strtolower($searchString) );
 			$query  = $this->db->get('books');
 			$result = $query->result();
 			$result = $this->formatResult($result);
