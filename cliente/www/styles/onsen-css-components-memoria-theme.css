@@ -4093,6 +4093,7 @@ height-bar-share,
   height: 2rem;
   color: #04bfa9;
   background-color: rgba(13,22,36,0.75);
+  z-index: 1;
 }
 height-bar-share .button_share,
 .bar_share .button_share {
@@ -4155,6 +4156,9 @@ height-bar-share .text_bar_share,
   font-size: 1rem;
   padding: 1px;
   height: 2.2rem;
+}
+.list {
+  position: relative;
 }
 @font-face {
   font-family: TitilliumWeb-SemiBold;

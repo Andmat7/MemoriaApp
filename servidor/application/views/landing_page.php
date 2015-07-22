@@ -19,6 +19,7 @@
 	}
 
 	</style>
+	<meta property="og:image" content="<?php echo base_url(); ?>img/Memoriapp-CNMH.png"/>
 </head>
 <body style="text-align:center">
 	<div style="display:inline-block">

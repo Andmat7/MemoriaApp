@@ -146,9 +146,11 @@
 					url = urlServer_g+"index.php/books/search/" + searchString_g;
 					
 				}
+			
 				$.ajax({
 					url: url,
 					 dataType: "jsonp",
+					 timeout: 13000,
 					 success: function (aResponse) {
 						 var i=-1;
 						 var books = [];
@@ -212,7 +214,7 @@
 						 Modal.hide();
 					 },
 					 error: function(e, text){
-						 alert(text);
+						 alert("Error en la conección: "+text);
 						 Modal.hide();
 					 }
 				});
