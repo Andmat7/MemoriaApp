@@ -1,4 +1,5 @@
 var urlServer_g = "http://apportaalapaz.centrodememoriahistorica.gov.co/MemoriaApp/servidor/";
+var urlLandingPage_g = "http://www.centrodememoriahistorica.gov.co/memoriapp/";
 // var urlServer_g = "http://localhost/MemoriApp/servidor/";
 var DBSize_g = 200000;//bytes
 var wholeSelRectEl_g = null;
@@ -71,7 +72,9 @@ function getnumbers() {
 	$("#number_library").html(_.size(oLibros));
 	var oLibros = JSON.parse( window.localStorage.getItem("favoritos") );
 	$("#number_favorites").html(_.size(oLibros));
-	getNumbersfragmentos_f();
+	var oFragmentos = JSON.parse( window.localStorage.getItem("fragmentos") );
+	$("#number_fragmentos_menu").html(_.size(oFragmentos));
+	//getNumbersfragmentos_f();
 }
 function resetPage_f(){
 	document.removeEventListener("touchmove",preventDefaultScroll_f);
@@ -145,27 +148,27 @@ function viewBook_f( element ){
 	document.addEventListener("touchmove",preventDefaultScroll_f);
 }
 
-function viewBookmark_f(){
-	lastPage_g = PAGE_FRAGMENTS;
-	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
-		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
-		db.transaction(listFragmentosDB_f, onError_f);
-	}});
-	resetPage_f();
-}
+// function viewBookmark_f(){
+// 	lastPage_g = PAGE_FRAGMENTS;
+// 	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
+// 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+// 		db.transaction(listFragmentosDB_f, onError_f);
+// 	}});
+// 	resetPage_f();
+// }
 
-function getNumbersfragmentos_f(){
-		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
-		db.transaction(NumbFragmentosDB_f, onError_f);
-}
+// function getNumbersfragmentos_f(){
+// 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+// 		db.transaction(NumbFragmentosDB_f, onError_f);
+// }
 
-function NumbFragmentosDB_f(tx){
-	createTableFragmentDB_f(tx);
-	tx.executeSql('SELECT * FROM fragmentos', [],function(tx, results){//success
-		$("#number_fragmentos_menu").html(results.rows.length);
+// function NumbFragmentosDB_f(tx){
+// 	createTableFragmentDB_f(tx);
+// 	tx.executeSql('SELECT * FROM fragmentos', [],function(tx, results){//success
+// 		$("#number_fragmentos_menu").html(results.rows.length);
 
-	}, onError_f);
-}
+// 	}, onError_f);
+// }
 
 /* This code prevents users from dragging the page (IOS fix) */
 var preventDefaultScroll_f = function( event ) {
@@ -541,7 +544,7 @@ function splash_f(){
 	}else if ( document.body.clientHeight < 961 ){
 		img.src             = "img/splash/logos/splash480x960.png";
 	}else if ( document.body.clientHeight < 1137 ){
-		img.src             = "img/splash/logos/splash650x1136.png";
+		img.src             = "img/splash/logos/splash640x1136.png";
 	}else{
 		img.src             = "img/splash/logos/splash966x1715.png";
 	}
@@ -904,7 +907,8 @@ function shareTwitter() {
 	window.plugins.socialsharing.shareViaTwitter(
 		text, /*texto*/
 		null,/* img */
-		bookURL_g, /*url*/
+		//bookURL_g, /*url*/
+		urlLandingPage_g, /*url*/
 		function() {//success
 			console.log('share ok');
 		}, 
@@ -976,9 +980,10 @@ function showDialogFacebookConnect_f() {
 	facebookConnectPlugin.showDialog(
 		{
 			method:      "feed",
-			name:        '"'+selectionString_g+'"',
-			link:        bookURL_g,
-			description: "―― " + bookTitle_g,
+			name:        '"'+ selectionString_g+'"',
+			//link:        bookURL_g,
+			link:        urlLandingPage_g,
+			description: bookTitle_g,
 			// 		  picture: workingDirEntry_g.toURL() + "asd.png",
 			//     caption: selectionString_g
 		}, 
@@ -1040,7 +1045,8 @@ var drawText_f = function (canvas, textString, font, x, y, maxWidth){
 //**********************************
 function shareBookOnWhatsapp() {
 	window.plugins.socialsharing.shareViaWhatsApp(
-		bookTitle_g + '\n ' + bookURL_g, //probar html tags si necesario
+		//bookTitle_g + '\n ' + bookURL_g, 
+		bookTitle_g + '\n ' + urlLandingPage_g, 
 		null /* img */,
 		null /*url*/,
 		function() {//success
@@ -1054,7 +1060,8 @@ function shareBookOnWhatsapp() {
 
 function shareBookOnEmail() {
 	window.plugins.socialsharing.shareViaEmail(
-		bookTitle_g + '\n ' + bookURL_g, //probar html tags si necesario
+		//bookTitle_g + '\n ' + bookURL_g, //probar html tags si necesario
+		bookTitle_g + '\n ' + urlLandingPage_g, 
 		null /* img */,
 		null /*url*/,
 		function() {//success
@@ -1100,7 +1107,8 @@ function shareBookOnTwitter() {
 	window.plugins.socialsharing.shareViaTwitter(
 		text,       /*texto*/
 		null,       /* img */
-		bookURL_g,  /*url*/
+		// bookURL_g,  /*url*/
+		urlLandingPage_g,  /*url*/
 		function() {//success
 			console.log('share ok');
 		}, 
@@ -1115,8 +1123,9 @@ function showDialogBookOnFacebookConnect_f() {
 	facebookConnectPlugin.showDialog(
 		{
 			method:      "feed",
-			link:        bookURL_g,
-			description: bookTitle_g,
+			//link:        bookURL_g,
+			link:        urlLandingPage_g,
+			name: bookTitle_g,
 			// 		  picture: workingDirEntry_g.toURL() + "asd.png",
 			//     caption: selectionString_g
 		}, 
@@ -1132,6 +1141,40 @@ function showDialogBookOnFacebookConnect_f() {
 //**********************************
 //** Guardado de fragmentos y libros
 //**********************************
+
+function saveFragment_f(){
+	var oFragmentos = JSON.parse( window.localStorage.getItem("fragmentos") );
+	if( oFragmentos === null) {	
+		oFragmentos = {};
+		var last_id_fragmento= 1;
+	}else{
+       var last_id_fragmento= parseInt(window.localStorage.getItem("last_id_fragmento")) +1;
+	}
+	//Libro, Fragmento, Fecha, epubid, url, percentaje, cfi
+
+	var date = new Date();
+	//getMonth: el mes es un numero entre 0-11
+	var sDate = date.getDate()+"/" + (parseInt(date.getMonth())+1) + "/"+date.getFullYear();
+	var cfi_fragmento=Book_g.getCurrentLocationCfi();
+	var percentaje=Book_g.renderer.currentRenderedPage()/Book_g.renderer.pagesInCurrentChapter();
+	// bookTitle_g+"','"+selectionString_g+"','"+ sDate +"','"+ epubId_g +"','"+ bookURL_g +"','"+ percentaje +"','"+ cfi_fragmento +"')");
+	var oFragmento = {
+		id         : last_id_fragmento,
+		Libro      : bookTitle_g, 
+		Fragmento  : selectionString_g,
+		Fecha      : sDate,
+		epubid     : epubId_g,
+		url        : bookURL_g,
+		percentaje : percentaje,
+		cfi        : cfi_fragmento
+	};
+	oFragmentos[last_id_fragmento] =  oFragmento ;
+	window.localStorage.setItem("fragmentos", JSON.stringify( oFragmentos ));
+	window.localStorage.setItem("last_id_fragmento", JSON.stringify( last_id_fragmento ));
+	Dialog_fragment_save.show();
+	setTimeout('Dialog_fragment_save.hide()', 2000);
+
+}/*
 function saveFragment_f(){
 	var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
 	db.transaction(saveFragmentDB_f, onError_f, function(){ //success
@@ -1146,70 +1189,72 @@ function saveFragmentDB_f(tx) {
 	var date = new Date();
 	//getMonth: el mes es un numero entre 0-11
 	var sDate = date.getDate()+"/" + (parseInt(date.getMonth())+1) + "/"+date.getFullYear();
-	percentaje
+	
 	var cfi_fragmento=Book_g.getCurrentLocationCfi();
 	var percentaje=Book_g.renderer.currentRenderedPage()/Book_g.renderer.pagesInCurrentChapter();
 	tx.executeSql("INSERT INTO fragmentos (Libro, Fragmento, Fecha, epubid, url, percentaje, cfi) VALUES ('"+bookTitle_g+"','"+selectionString_g+"','"+ sDate +"','"+ epubId_g +"','"+ bookURL_g +"','"+ percentaje +"','"+ cfi_fragmento +"')");
-}
+}*/
 //******************************************
 //** Despliegue de fragmentos
 //******************************************
 
+
 function viewBookmark_f(){
 	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
-		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
-		db.transaction(listFragmentosDB_f, onError_f);
+		listFragmentos_f();
 	}});
 }
-function createTableFragmentDB_f(tx){
-	tx.executeSql('CREATE TABLE IF NOT EXISTS fragmentos (id integer primary key, Libro, Fragmento, Fecha, epubid, url, percentaje, cfi)');
-}
+function listFragmentos_f(){
+	var oFragmentos = JSON.parse( window.localStorage.getItem("fragmentos") );
+	if( oFragmentos === null) {	
+		oFragmentos = {};	
+	}
+	var div = document.getElementById("fragment_list");
+	var container = document.getElementById("container_fragmentos");
+	div.removeChild(container);
+	container = document.createElement("div");
+	container.id = "container_fragmentos";
+	$("#number_fragmentos").html(_.size(oFragmentos));
+	for(var index in oFragmentos) {			
+		var id = oFragmentos[index].id;
+		var libro = oFragmentos[index].Libro;
+		var date = oFragmentos[index].Fecha;
+		var fragmento = oFragmentos[index].Fragmento;
 
-function listFragmentosDB_f(tx){
-	createTableFragmentDB_f(tx);
-	tx.executeSql('SELECT * FROM fragmentos', [],function(tx, results){//success
+		var item = document.createElement("div");
+		item.id = "fragmento_"+id;
+
+		var epubid  = oFragmentos[index].epubid;
+		var bookURL = oFragmentos[index].url;
+		var title   = oFragmentos[index].Libro;
+		var percentaje =oFragmentos[index].percentaje;
+		var cfi_frag =oFragmentos[index].cfi;
 		
-
-		var div = document.getElementById("fragment_list");
-		var container = document.getElementById("container_fragmentos");
-		div.removeChild(container);
-		container = document.createElement("div");
-		container.id = "container_fragmentos";
-		$("#number_fragmentos").html(results.rows.length);
+		item.innerHTML = 
+		'<ons-list class="card-bookmark list ons-list-inner list--inset" style="margin-top: 10px">'+
+		'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
+		'Agregado el '+ dateToString_f(date) +
+		'</ons-list-item>'+
+		'<P onclick="load_epub_bookmark (this, \''+cfi_frag+'\')" epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'" style="font-family:\'TitilliumWeb-Italic\';" bookURL="'+bookURL+'">"'+ fragmento +'"</P>'+
+		'<ons-list-item epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'"  bookURL="'+bookURL+'" style="line-height:19px" class="to-wrapper smallfont  list__item ons-list-item-inner">'+
+		'Tomado de libro <span   style="text-decoration: underline;" >'+ libro +'</span>'+
+		'<span onclick="deleteFragmento_f('+ id +');">'+
+		'&nbsp;&nbsp;&nbsp;<ons-icon icon="ion-trash-a" style="float:right" class="trash ons-icon ons-icon--ion ion-trash-a fa-lg""></ons-icon>'+
+		'</span>'+
+		'</ons-list-item>'+
+		'</ons-list>';
+		container.appendChild(item);
+	}
+	div.appendChild(container);
 		
-		for (var i=0; i<results.rows.length; i++){			
-			var id = results.rows.item(i).id;
-			var libro = results.rows.item(i).Libro;
-			var date = results.rows.item(i).Fecha;
-			var fragmento = results.rows.item(i).Fragmento;
-
-			var item = document.createElement("div");
-			item.id = "fragmento_"+id;
-
-			var epubid  = results.rows.item(i).epubid;
-			var bookURL = results.rows.item(i).url;
-			var title   = results.rows.item(i).Libro;
-			var percentaje =results.rows.item(i).percentaje;
-			var cfi_frag =results.rows.item(i).cfi;
-			
-			item.innerHTML = 
-			'<ons-list class="card-bookmark list ons-list-inner list--inset" style="margin-top: 10px">'+
-			'<ons-list-item class="to-wrapper smallfont  list__item ons-list-item-inner">'+
-			'Agregado el '+ dateToString_f(date) +
-			'</ons-list-item>'+
-			'<P onclick="load_epub_bookmark (this, \''+cfi_frag+'\')" epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'" style="font-family:\'TitilliumWeb-Italic\';" bookURL="'+bookURL+'">"'+ fragmento +'"</P>'+
-			'<ons-list-item epubId="'+epubid+'" percentaje="'+percentaje+'"  title="'+title+'"  bookURL="'+bookURL+'" onclick="load_epub_bookmark (this, \''+cfi_frag+'\')" style="line-height:19px" class="to-wrapper smallfont  list__item ons-list-item-inner">'+
-			'Tomado de libro <span style="text-decoration: underline;" >'+ libro +'</span>'+
-			'<span onclick="deleteFragmento_f('+ id +');">'+
-			'&nbsp;&nbsp;&nbsp;<ons-icon icon="ion-trash-a" style="float:right" class="trash ons-icon ons-icon--ion ion-trash-a fa-lg""></ons-icon>'+
-			'</span>'+
-			'</ons-list-item>'+
-			'</ons-list>';
-			container.appendChild(item);
-		}
-		div.appendChild(container);
-	}, onError_f);
 }
+// function viewBookmark_f(){
+// 	menu.setMainPage('bookmark.html', {closeMenu: true, callback: function(){
+// 		var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+// 		db.transaction(listFragmentosDB_f, onError_f);
+// 	}});
+// }
+
 
 var dateToString_f = function (date){
 	var splitDate = date.split("/");
@@ -1247,6 +1292,46 @@ var monthToString_f = function (nMonth){
 	}
 };
 var idFragmentoDB_g;
+// function deleteFragmento2_f(idFragmento){
+// 	ons.notification.confirm({
+// 		  message: '¿Esta seguro que desea eliminar el fragmento favorito?',
+// 		  // or messageHTML: '<div>Message in HTML</div>',
+// 		  title: 'Eliminar fragmento',
+// 		  buttonLabels: ['Aceptar', 'Cancelar'],
+// 		  animation: 'default', // or 'none'
+// 		  primaryButtonIndex: 1,
+// 		  cancelable: true,
+// 		  callback: function(index) {
+// 		  	switch(index) {
+// 		  		case 0:
+// 		  			idFragmentoDB_g = idFragmento;
+
+
+// 		  			var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
+// 					db.transaction(
+// 						deleteFragmentoDB_f,
+// 						onError_f, 
+// 						function(){ //success
+// 							console.log("borrado");
+// 							var item = document.getElementById("fragmento_"+idFragmento);
+// 							var container = document.getElementById("container_fragmentos");
+// 							container.removeChild(item);
+// 						}
+// 					);
+// 		            ons.notification.alert({
+// 		              message: 'Fragmento eliminado'
+// 		            });
+//             		break;
+
+//           		case 1:
+		       
+// 		            break;
+//         	}
+// 		  }
+// 	});
+// }
+
+
 function deleteFragmento_f(idFragmento){
 	ons.notification.confirm({
 		  message: '¿Esta seguro que desea eliminar el fragmento favorito?',
@@ -1258,38 +1343,33 @@ function deleteFragmento_f(idFragmento){
 		  cancelable: true,
 		  callback: function(index) {
 		  	switch(index) {
-		  		case 0:
-		  			idFragmentoDB_g = idFragmento;
-		  			var db = window.openDatabase("memoriappDB", "1.0", "fragmentos", DBSize_g);
-					db.transaction(
-						deleteFragmentoDB_f,
-						onError_f, 
-						function(){ //success
-							console.log("borrado");
-							var item = document.getElementById("fragmento_"+idFragmento);
-							var container = document.getElementById("container_fragmentos");
-							container.removeChild(item);
-						}
-					);
+		  		case 0:		  		
+		  			removeFragmentofromLocalStorage_f( idFragmento );
+					console.log("borrado");
+					var item = document.getElementById("fragmento_"+idFragmento);
+					var container = document.getElementById("container_fragmentos");
+					container.removeChild(item);
 		            ons.notification.alert({
 		              message: 'Fragmento eliminado'
 		            });
             		break;
-
           		case 1:
 		       
 		            break;
         	}
 		  }
 	});
-	
-	
+}
+function removeFragmentofromLocalStorage_f( id ){
+	var oFragmentos = JSON.parse( window.localStorage.getItem("fragmentos") );
+	if( oFragmentos === null) {
+		oFragmentos = {};
+	}
+	oFragmentos[ id ] =  undefined ;
+	window.localStorage.setItem("fragmentos", JSON.stringify( oFragmentos ));
+	getnumbers();
 }
 
-function deleteFragmentoDB_f(tx) {
-	createTableFragmentDB_f(tx);
-	tx.executeSql("DELETE FROM fragmentos WHERE id='"+idFragmentoDB_g+"'");
-}
 //******************************************
 //** Guardado de Favoritos
 //******************************************

@@ -77,7 +77,7 @@
 			$scope.node.books=books_alm;
 			$scope.node.seccion_vacia=(_.size(books_alm)==0);
 			// alert(_.size(books_alm));
-			$scope.node.text="Aún no tienes libros agregados a tu librería,visita nuestras colecciones o busca palabras clave en la lupa.";
+			$scope.node.text="Aún no tienes libros de memoria agregados a tu librería. Visita nuestras colecciones o busca palabras clave en la lupa.";
 			library_g=false;
 			Modal.hide();
 
@@ -131,7 +131,7 @@
 					        $scope.node.title="Cartillas";
 					        break;
 					    case 8:
-					        $scope.node.title="Revistas";
+					        $scope.node.title="Revista Conmemora";
 					        break;
 					    case 9:
 					        $scope.node.title="Resúmenes";

@@ -272,7 +272,7 @@ function load_epub_bookmark (element, cfi) {
 	var percentaje =element.getAttribute("percentaje");
 	ons.notification.confirm({
 		title: 'Mensaje',
-		message: '¿Desea ir a este libro: '+titulo+'. ',
+		message: '¿Desea ir a este libro: "'+titulo+'". ',
 		buttonLabels: ['Si', 'No'],
 		callback: function(idx) {
 			switch(idx) {
